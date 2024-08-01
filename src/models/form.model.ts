@@ -12,9 +12,9 @@ export interface Form extends mongoose.Document {
   name: string;
   username: string;
   natId: string;
-  issueDate: Date;
+  issueDate: string;
   issuePlace: string;
-  dateOfBirth: Date;
+  dateOfBirth: String;
   gender:string;
   religion:string; // muslim / Christian
   landLine:string;
@@ -36,7 +36,7 @@ export interface Form extends mongoose.Document {
   publicPositions:string;
   voluntaryPositions:string;
   experienceDetails:string;
-  membershipRequestDate:Date;
+  membershipRequestDate:string;
   approverName:string;
   approverSatus:string;
   previouselections:Election[];
@@ -56,9 +56,9 @@ const formSchema = new mongoose.Schema(
     name: { type: String},
   username:  { type: String},
   natId:  { type: String},
-  issueDate: { type: Date},
+  issueDate: { type: String},
   issuePlace:  { type: String},
-  dateOfBirth: { type: Date},
+  dateOfBirth: { type: String},
   gender: { type: String},
   religion: { type: String}, // muslim / Christian
   landLine: { type: String},
@@ -79,7 +79,7 @@ const formSchema = new mongoose.Schema(
   publicPositions: { type: String},
   voluntaryPositions: { type: String},
   experienceDetails: { type: String},
-  membershipRequestDate:{ type: Date},
+  membershipRequestDate:{ type: String},
   approverName: { type: String},
   approverSatus: { type: String},
   governorate: { type: String,  enum:Governorate},
