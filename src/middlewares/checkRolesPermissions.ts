@@ -1,5 +1,6 @@
 import { AccessControl } from "accesscontrol";
 import { NextFunction, Request, Response } from "express";
+import { Governorate } from "../enums/enums";
 
 const superAdmin = {
   forms: {
@@ -15,9 +16,14 @@ const superAdmin = {
     "update:any": ["*"]
     }
 };
-
+const governorator = {
+  forms: {
+    "read:any": ["*"]
+  }, 
+}
 let grantObjects = {
-  superAdmin
+  admin:superAdmin,
+  governorator
 };
 const ac = new AccessControl(grantObjects);
 
