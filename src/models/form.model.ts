@@ -7,39 +7,35 @@ interface Election extends mongoose.Document{
   result: string,
   electionDetails: string
 }
+
 export interface Form extends mongoose.Document {
   _id:string;
-  name: string;
   username: string;
-  natId: string;
-  issueDate: string;
-  issuePlace: string;
-  dateOfBirth: String;
+  nickname: string;
+  id: string;
+  birth_date: String;
   gender:string;
   religion:string; // muslim / Christian
-  landLine:string;
-  mobilePhone:string;
+  phoneNumber:string;
   email:string;
-  residence:string;
-  governorate:string;
-  electionPlace:string;
+  government:string;
+  department:string;
+  sheyakha:string;
+  outsider:string;
   Specialization:string;
-  educationDegree:string;
-  educationDetails:string;
+  degree:string;
+  degree_description:string;
+  highest_degree:string;
   Profession:string;
-  workField:string;
-  workPlace:string;
   union:string; // نقابة
-  profissionDetails:string;
-  participationِArea:string;
-  previousMemberships:string;
-  publicPositions:string;
-  voluntaryPositions:string;
-  experienceDetails:string;
-  membershipRequestDate:string;
-  approverName:string;
-  approverSatus:string;
-  previouselections:Election[];
+  work_place:string;
+  work_sector:string;
+  position:string;
+  fields:string;
+  party_name:string;
+  election_candidate:string;
+  election_data:string;
+  other_data:string;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<Boolean>;
@@ -53,37 +49,33 @@ const electionSchema = new mongoose.Schema({
 const formSchema = new mongoose.Schema(
   {
     
-    name: { type: String},
-  username:  { type: String},
-  natId:  { type: String},
-  issueDate: { type: String},
-  issuePlace:  { type: String},
-  dateOfBirth: { type: String},
-  gender: { type: String},
-  religion: { type: String}, // muslim / Christian
-  landLine: { type: String},
-  mobilePhone: { type: String},
-  email: { type: String},
-  residence: { type: String},
-  electionPlace: { type: String},
-  Specialization: { type: String},
-  educationDegree: { type: String},
-  educationDetails: { type: String},
-  Profession: { type: String},
-  workField: { type: String},
-  workPlace: { type: String},
-  union: { type: String}, // نقابة
-  profissionDetails: { type: String},
-  participationِArea: { type: String},
-  previousMemberships: { type: String},
-  publicPositions: { type: String},
-  voluntaryPositions: { type: String},
-  experienceDetails: { type: String},
-  membershipRequestDate:{ type: String},
-  approverName: { type: String},
-  approverSatus: { type: String},
-  governorate: { type: String,  enum:Governorate},
-  previouselections:{type:[electionSchema]}
+  
+    username: {type:String, required:true},
+    nickname: {type:String, required:true},
+    id: {type:String, required:true},
+    birth_date: {type:String, required:true},
+    gender:{type:String, required:true},
+    religion:{type:String, required:true}, // muslim / Christian
+    phoneNumber:{type:String, required:true},
+    email:{type:String, required:true},
+    government:{type:String, required:true},
+    department:{type:String, required:true},
+    sheyakha:{type:String},
+    outsider:{type:String},
+    specialization:{type:String, required:true},
+    degree:{type:String, required:true},
+    degree_description:{type:String, required:true},
+    highest_degree:{type:String, required:true},
+    profession:{type:String, required:true},
+    union:{type:String, required:true}, // نقابة
+    work_place:{type:String, required:true},
+    work_sector:{type:String, required:true},
+    position:{type:String, required:true},
+    fields:{type:String, required:true},
+    party_name:{type:String},
+    election_candidate:{type:String},
+    election_data:{type:String},
+    other_data:{type:String}, 
   },
   {
     timestamps: true,
@@ -96,8 +88,8 @@ formSchema.pre("save", async function (next: any) {
     return next();
   }
   
-  let natIdEncrypted = encrypt(form.natId);
-  form.natId = natIdEncrypted.encryptedData;
+  let natIdEncrypted = encrypt(form.id);
+  form.id = natIdEncrypted.encryptedData;
 
   return next();
 });

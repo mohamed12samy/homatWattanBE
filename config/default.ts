@@ -1,5 +1,5 @@
 export default {
-  port: 1337,
+  port: 3003,
   dbURI: "mongodb+srv://ms2519299:vna0AL8EP50u70lL@homatwattancluster.h8yya1y.mongodb.net/?retryWrites=true&w=majority&appName=homatWattanCluster",
   origin: "*",
   cookieSecure: false,
