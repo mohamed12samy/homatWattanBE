@@ -19,10 +19,12 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/lodash": "^4.14.202",
     "@types/node": "^22.0.0",
+    "@types/swagger-jsdoc": "^6.0.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "@types/swagger-ui-express": "^4.1.6",
     "access-control": "^1.0.1",
     "accesscontrol": "^2.2.1",
     "bcrypt": "^5.1.1",
@@ -37,6 +39,8 @@
     "mongoose": "^8.5.1",
     "pino": "^9.3.2",
     "pino-pretty": "^11.2.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "ts-node-dev": "^2.0.0",
     "tsconfig": "^7.0.0",
     "zod": "^3.23.8"

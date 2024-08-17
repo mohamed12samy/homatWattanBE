@@ -6,12 +6,17 @@ import routes from "./routes/routes";
 import { deserializeUser } from "./middlewares/deserializeUser";
 import seedData from "../utils/seeder.util";
 import cors from "cors";
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './swagger';
 
 const port = config.get<number>("port");
 
 const app = express();
 
 app.use(express.json());
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use(
   cors({
     origin: "http://localhost:3000",

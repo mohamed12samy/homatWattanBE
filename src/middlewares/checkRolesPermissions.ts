@@ -18,12 +18,23 @@ const superAdmin = {
 };
 const governorator = {
   forms: {
-    "read:any": ["*"]
+    "read:any": ["*"],
+    "delete:any": ["*"],
+    "update:any": ["*"],
   }, 
 }
+const departmentHead = {
+  forms: {
+    "read:any": ["*"],
+    "delete:any": ["*"],
+    "update:any": ["*"]
+  }, 
+}
+
 let grantObjects = {
   admin:superAdmin,
-  governorator
+  governorator,
+  departmentHead
 };
 const ac = new AccessControl(grantObjects);
 
