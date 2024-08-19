@@ -5,7 +5,7 @@ export default {
   cookieSecure: false,
   cookieDomain: "localhost",
   saltWorkFactor: 10,
-  accessTokenExpireIn: "15m",
+  accessTokenExpireIn: "30m",
   refreshTokenExpireIn: "1y",
   privateKey: `-----BEGIN PRIVATE KEY-----
 MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDpBcDcLmvKu7bC
