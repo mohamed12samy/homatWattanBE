@@ -3,6 +3,7 @@ import FormModel, { Form } from "../models/form.model";
 import { FilterQuery } from "mongoose";
 import { findUser } from "./user.service";
 import notReadyFormModel from "../models/notReadyForm.model";
+import { Neighborhoods, UsereRoles } from "../enums/enums";
 
 export async function createForm(
   input: Omit<Form, "createdAt" | "updatedAt">
@@ -30,12 +31,38 @@ export async function getNotReadyForms(query: FilterQuery<any>, currentUserID: s
     let currentUser = await findUser({_id:currentUserID});
     if(currentUser)
     {
-        let forms = await notReadyFormModel.find({government:currentUser.governorate}).skip((page - 1) * pageSize)
+      if(currentUser.role === UsereRoles.departmentHead)
+      {
+        let markaz :string =  Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
+        console.log(markaz);
+        let forms = await notReadyFormModel.find({department: { $regex: '.*' + markaz + '.*' }}).skip((page - 1) * pageSize)
         .limit(pageSize);
         
-        let totalCounts = await notReadyFormModel.countDocuments({government: currentUser.governorate});
+        let totalCounts = await notReadyFormModel.countDocuments({department: { $regex: '.*' + markaz + '.*' }});
         let res = {forms, totalCounts}
         return res;
+      }
+        else{
+          const { department } = query;
+          if(department)
+          {
+            console.log(department)
+            let forms = await notReadyFormModel.find({department: { $regex: '.*' + department + '.*' }}).skip((page - 1) * pageSize)
+              .limit(pageSize);
+              
+              let totalCounts = await notReadyFormModel.countDocuments({department: { $regex: '.*' + department + '.*' }});
+              let res = {forms, totalCounts}
+              return res;
+          }
+          else{
+                  let forms = await notReadyFormModel.find({government:{ $regex: '.*' + currentUser.governorate + '.*' }}).skip((page - 1) * pageSize)
+              .limit(pageSize);
+              
+              let totalCounts = await notReadyFormModel.countDocuments({government:{ $regex: '.*' + currentUser.governorate + '.*' }});
+              let res = {forms, totalCounts}
+              return res;
+         }
+        }
     }else return null;
 }
 
