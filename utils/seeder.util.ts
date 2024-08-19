@@ -1584,9 +1584,1111 @@ async function seedData() {
 //   password: "N3k9mjvF1R",  // Random password
 //   governorate: "الشرقية",
 //   role: "departmentHead"
-// })
+// }),
+new UserModel({
+  email: "Ismailia@homatWattan.com",
+  name: "Ismailia",
+  username: "Ismailia",
+  password: "Xy7F3gY8N4",  // Random password
+  governorate: "الإسماعيلية",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "Ismailia1@homatWattan.com",
+  name: "Ismailia1",
+  username: "Ismailia1",
+  password: "Xy7F3gH2N4",  // Random password
+  governorate: "الإسماعيلية",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "Ismailia2@homatWattan.com",
+  name: "Ismailia2",
+  username: "Ismailia2",
+  password: "V3t9K5hJ1M",  // Random password
+  governorate: "الإسماعيلية",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "Ismailia3@homatWattan.com",
+  name: "Ismailia3",
+  username: "Ismailia3",
+  password: "G8k2P7hL3N",  // Random password
+  governorate: "الإسماعيلية",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "Ismailia4@homatWattan.com",
+  name: "Ismailia4",
+  username: "Ismailia4",
+  password: "K4m2T8hJ6R",  // Random password
+  governorate: "الإسماعيلية",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "Ismailia5@homatWattan.com",
+  name: "Ismailia5",
+  username: "Ismailia5",
+  password: "N5t3K2hM7L",  // Random password
+  governorate: "الإسماعيلية",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "Ismailia6@homatWattan.com",
+  name: "Ismailia6",
+  username: "Ismailia6",
+  password: "H7p6T3lM2R",  // Random password
+  governorate: "الإسماعيلية",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "Ismailia7@homatWattan.com",
+  name: "Ismailia7",
+  username: "Ismailia7",
+  password: "L3n8T2hK9M",  // Random password
+  governorate: "الإسماعيلية",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "Ismailia8@homatWattan.com",
+  name: "Ismailia8",
+  username: "Ismailia8",
+  password: "J4p2H6kN8T",  // Random password
+  governorate: "الإسماعيلية",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "Ismailia9@homatWattan.com",
+  name: "Ismailia9",
+  username: "Ismailia9",
+  password: "Q6t3R2m7K8",  // Random password
+  governorate: "الإسماعيلية",
+  role: "departmentHead"
+}),
 
+new UserModel({
+  email: "northsinai@homatWattan.com",
+  name: "northsinai",
+  username: "northsinai",
+  password: "Xy7F3gH2P4",  // Random password
+  governorate: "شمال سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "northsinai1@homatWattan.com",
+  name: "northsinai1",
+  username: "northsinai1",
+  password: "Xy7F3gH2N4",  // Random password
+  governorate: "شمال سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "northsinai2@homatWattan.com",
+  name: "northsinai2",
+  username: "northsinai2",
+  password: "V3t9K5hJ1M",  // Random password
+  governorate: "شمال سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "northsinai3@homatWattan.com",
+  name: "northsinai3",
+  username: "northsinai3",
+  password: "G8k2P7hL3N",  // Random password
+  governorate: "شمال سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "northsinai4@homatWattan.com",
+  name: "northsinai4",
+  username: "northsinai4",
+  password: "K4m2T8hJ6R",  // Random password
+  governorate: "شمال سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "northsinai5@homatWattan.com",
+  name: "northsinai5",
+  username: "northsinai5",
+  password: "N5t3K2hM7L",  // Random password
+  governorate: "شمال سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "northsinai6@homatWattan.com",
+  name: "northsinai6",
+  username: "northsinai6",
+  password: "H7p6T3lM2R",  // Random password
+  governorate: "شمال سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "bani_suef@homatWattan.com",
+  name: "bani_suef",
+  username: "bani_suef",
+  password: "A1s2D3f4R5",  // Random password
+  governorate: "بني سويف",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "bani_suef1@homatWattan.com",
+  name: "bani_suef1",
+  username: "bani_suef1",
+  password: "A1s2D3f4G5",  // Random password
+  governorate: "بني سويف",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "bani_suef2@homatWattan.com",
+  name: "bani_suef2",
+  username: "bani_suef2",
+  password: "B6h7J8k9L0",  // Random password
+  governorate: "بني سويف",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "bani_suef3@homatWattan.com",
+  name: "bani_suef3",
+  username: "bani_suef3",
+  password: "C1d2E3f4G5",  // Random password
+  governorate: "بني سويف",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "bani_suef4@homatWattan.com",
+  name: "bani_suef4",
+  username: "bani_suef4",
+  password: "D6j7K8l9M0",  // Random password
+  governorate: "بني سويف",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "bani_suef5@homatWattan.com",
+  name: "bani_suef5",
+  username: "bani_suef5",
+  password: "E1f2G3h4J5",  // Random password
+  governorate: "بني سويف",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "bani_suef6@homatWattan.com",
+  name: "bani_suef6",
+  username: "bani_suef6",
+  password: "F6k7L8m9N0",  // Random password
+  governorate: "بني سويف",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "bani_suef7@homatWattan.com",
+  name: "bani_suef7",
+  username: "bani_suef7",
+  password: "G1h2J3k4L5",  // Random password
+  governorate: "بني سويف",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "faiyum@homatWattan.com",
+  name: "faiyum",
+  username: "faiyum",
+  password: "A1b2C5d4E5",  // Random password
+  governorate: "الفيوم",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "faiyum1@homatWattan.com",
+  name: "faiyum1",
+  username: "faiyum1",
+  password: "A1b2C3d4E5",  // Random password
+  governorate: "الفيوم",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "faiyum2@homatWattan.com",
+  name: "faiyum2",
+  username: "faiyum2",
+  password: "F6g7H8i9J0",  // Random password
+  governorate: "الفيوم",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "faiyum3@homatWattan.com",
+  name: "faiyum3",
+  username: "faiyum3",
+  password: "K1l2M3n4O5",  // Random password
+  governorate: "الفيوم",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "faiyum4@homatWattan.com",
+  name: "faiyum4",
+  username: "faiyum4",
+  password: "P6q7R8s9T0",  // Random password
+  governorate: "الفيوم",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "faiyum5@homatWattan.com",
+  name: "faiyum5",
+  username: "faiyum5",
+  password: "U1v2W3x4Y5",  // Random password
+  governorate: "الفيوم",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "faiyum6@homatWattan.com",
+  name: "faiyum6",
+  username: "faiyum6",
+  password: "Z6a7B8c9D0",  // Random password
+  governorate: "الفيوم",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "minya@homatWattan.com",
+  name: "minya",
+  username: "minya",
+  password: "R1a2g3d4o5",  // Random password
+  governorate: "المنيا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "minya1@homatWattan.com",
+  name: "minya1",
+  username: "minya1",
+  password: "R1a2n3d4o5",  // Random password
+  governorate: "المنيا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "minya2@homatWattan.com",
+  name: "minya2",
+  username: "minya2",
+  password: "P6a7s8s9w0",  // Random password
+  governorate: "المنيا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "minya3@homatWattan.com",
+  name: "minya3",
+  username: "minya3",
+  password: "U1n2i3q4u5",  // Random password
+  governorate: "المنيا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "minya4@homatWattan.com",
+  name: "minya4",
+  username: "minya4",
+  password: "E6x7a8m9p0",  // Random password
+  governorate: "المنيا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "minya5@homatWattan.com",
+  name: "minya5",
+  username: "minya5",
+  password: "L1o2r3e4m5",  // Random password
+  governorate: "المنيا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "minya6@homatWattan.com",
+  name: "minya6",
+  username: "minya6",
+  password: "I6p7s8u9m0",  // Random password
+  governorate: "المنيا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "minya7@homatWattan.com",
+  name: "minya7",
+  username: "minya7",
+  password: "D1o2l3o4r5",  // Random password
+  governorate: "المنيا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "minya8@homatWattan.com",
+  name: "minya8",
+  username: "minya8",
+  password: "S6i7t8a9m0",  // Random password
+  governorate: "المنيا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "minya9@homatWattan.com",
+  name: "minya9",
+  username: "minya9",
+  password: "A1m2e3t4c5",  // Random password
+  governorate: "المنيا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut@homatWattan.com",
+  name: "asyut",
+  username: "asyut",
+  password: "R1a2k3d4o5",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut1@homatWattan.com",
+  name: "asyut1",
+  username: "asyut1",
+  password: "R1a2n3d4o5",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut2@homatWattan.com",
+  name: "asyut2",
+  username: "asyut2",
+  password: "P6a7s8s9w0",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut3@homatWattan.com",
+  name: "asyut3",
+  username: "asyut3",
+  password: "U1n2i3q4u5",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut4@homatWattan.com",
+  name: "asyut4",
+  username: "asyut4",
+  password: "E6x7a8m9p0",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut5@homatWattan.com",
+  name: "asyut5",
+  username: "asyut5",
+  password: "L1o2r3e4m5",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut6@homatWattan.com",
+  name: "asyut6",
+  username: "asyut6",
+  password: "I6p7s8u9m0",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut7@homatWattan.com",
+  name: "asyut7",
+  username: "asyut7",
+  password: "D1o2l3o4r5",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut8@homatWattan.com",
+  name: "asyut8",
+  username: "asyut8",
+  password: "S6i7t8a9m0",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut9@homatWattan.com",
+  name: "asyut9",
+  username: "asyut9",
+  password: "A1m2e3t4c5",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut10@homatWattan.com",
+  name: "asyut10",
+  username: "asyut10",
+  password: "J1e2n3e4r5",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut11@homatWattan.com",
+  name: "asyut11",
+  username: "asyut11",
+  password: "T6e7s8t9a0",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut12@homatWattan.com",
+  name: "asyut12",
+  username: "asyut12",
+  password: "Q1w2e3r4t5",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "asyut13@homatWattan.com",
+  name: "asyut13",
+  username: "asyut13",
+  password: "Y6u7i8o9p0",  // Random password
+  governorate: "أسيوط",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "wadi@homatWattan.com",
+  name: "wadi",
+  username: "wadi",
+  password: "H1e2l354o5",  // Random password
+  governorate: "الوادي الجديد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "wadi1@homatWattan.com",
+  name: "wadi1",
+  username: "wadi1",
+  password: "H1e2l3l4o5",  // Random password
+  governorate: "الوادي الجديد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "wadi2@homatWattan.com",
+  name: "wadi2",
+  username: "wadi2",
+  password: "W6o7r8l9d0",  // Random password
+  governorate: "الوادي الجديد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "wadi3@homatWattan.com",
+  name: "wadi3",
+  username: "wadi3",
+  password: "A1b2c3d4e5",  // Random password
+  governorate: "الوادي الجديد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "wadi4@homatWattan.com",
+  name: "wadi4",
+  username: "wadi4",
+  password: "F6g7h8i9j0",  // Random password
+  governorate: "الوادي الجديد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "wadi5@homatWattan.com",
+  name: "wadi5",
+  username: "wadi5",
+  password: "K1l2m3n4o5",  // Random password
+  governorate: "الوادي الجديد",
+  role: "departmentHead"
+}),
 
+new UserModel({
+  email: "sohag@homatWattan.com",
+  name: "sohag",
+  username: "sohag",
+  password: "R1a2n3d5o5",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag1@homatWattan.com",
+  name: "sohag1",
+  username: "sohag1",
+  password: "R1a2n3d4o5",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag2@homatWattan.com",
+  name: "sohag2",
+  username: "sohag2",
+  password: "P6a7s8s9w0",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag3@homatWattan.com",
+  name: "sohag3",
+  username: "sohag3",
+  password: "U1n2i3q4u5",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag4@homatWattan.com",
+  name: "sohag4",
+  username: "sohag4",
+  password: "E6x7a8m9p0",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag5@homatWattan.com",
+  name: "sohag5",
+  username: "sohag5",
+  password: "L1o2r3e4m5",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag6@homatWattan.com",
+  name: "sohag6",
+  username: "sohag6",
+  password: "I6p7s8u9m0",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag7@homatWattan.com",
+  name: "sohag7",
+  username: "sohag7",
+  password: "D1o2l3o4r5",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag8@homatWattan.com",
+  name: "sohag8",
+  username: "sohag8",
+  password: "S6i7t8a9m0",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag9@homatWattan.com",
+  name: "sohag9",
+  username: "sohag9",
+  password: "A1m2e3t4c5",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag10@homatWattan.com",
+  name: "sohag10",
+  username: "sohag10",
+  password: "J1e2n3e4r5",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag11@homatWattan.com",
+  name: "sohag11",
+  username: "sohag11",
+  password: "T6e7s8t9a0",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag12@homatWattan.com",
+  name: "sohag12",
+  username: "sohag12",
+  password: "Q1w2e3r4t5",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag13@homatWattan.com",
+  name: "sohag13",
+  username: "sohag13",
+  password: "Y6u7i8o9p0",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "sohag14@homatWattan.com",
+  name: "sohag14",
+  username: "sohag14",
+  password: "A1s2d3f4g5",  // Random password
+  governorate: "سوهاج",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "qena@homatWattan.com",
+  name: "qena",
+  username: "qena",
+  password: "A1b6C3d4E5",  // Random password
+  governorate: "قنا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "qena1@homatWattan.com",
+  name: "qena1",
+  username: "qena1",
+  password: "A1b2C3d4E5",  // Random password
+  governorate: "قنا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "qena2@homatWattan.com",
+  name: "qena2",
+  username: "qena2",
+  password: "F6g7H8i9J0",  // Random password
+  governorate: "قنا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "qena3@homatWattan.com",
+  name: "qena3",
+  username: "qena3",
+  password: "K1l2M3n4O5",  // Random password
+  governorate: "قنا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "qena4@homatWattan.com",
+  name: "qena4",
+  username: "qena4",
+  password: "P6q7R8s9T0",  // Random password
+  governorate: "قنا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "qena5@homatWattan.com",
+  name: "qena5",
+  username: "qena5",
+  password: "U1v2W3x4Y5",  // Random password
+  governorate: "قنا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "qena6@homatWattan.com",
+  name: "qena6",
+  username: "qena6",
+  password: "Z6a7B8c9D0",  // Random password
+  governorate: "قنا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "qena7@homatWattan.com",
+  name: "qena7",
+  username: "qena7",
+  password: "E1f2G3h4I5",  // Random password
+  governorate: "قنا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "qena8@homatWattan.com",
+  name: "qena8",
+  username: "qena8",
+  password: "J6k7L8m9N0",  // Random password
+  governorate: "قنا",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "qena9@homatWattan.com",
+  name: "qena9",
+  username: "qena9",
+  password: "O1p2Q3r4S5",  // Random password
+  governorate: "قنا",
+  role: "departmentHead"
+}),
+
+new UserModel({
+  email: "luxor@homatWattan.com",
+  name: "luxor",
+  username: "luxor",
+  password: "T3u4V5w6X7",  // Random password
+  governorate: "الأقصر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "luxor1@homatWattan.com",
+  name: "luxor1",
+  username: "luxor1",
+  password: "T3u4V5w6X7",  // Random password
+  governorate: "الأقصر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "luxor2@homatWattan.com",
+  name: "luxor2",
+  username: "luxor2",
+  password: "Y1z2A3b4C5",  // Random password
+  governorate: "الأقصر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "luxor3@homatWattan.com",
+  name: "luxor3",
+  username: "luxor3",
+  password: "N6m7P8q9R0",  // Random password
+  governorate: "الأقصر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "luxor4@homatWattan.com",
+  name: "luxor4",
+  username: "luxor4",
+  password: "Q1w2E3r4T5",  // Random password
+  governorate: "الأقصر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "luxor5@homatWattan.com",
+  name: "luxor5",
+  username: "luxor5",
+  password: "F6g7H8i9J0",  // Random password
+  governorate: "الأقصر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "luxor6@homatWattan.com",
+  name: "luxor6",
+  username: "luxor6",
+  password: "M1n2O3p4Q5",  // Random password
+  governorate: "الأقصر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "luxor7@homatWattan.com",
+  name: "luxor7",
+  username: "luxor7",
+  password: "W6x7Y8z9A0",  // Random password
+  governorate: "الأقصر",
+  role: "departmentHead"
+}),
+
+new UserModel({
+  email: "aswan@homatWattan.com",
+  name: "aswan",
+  username: "aswan",
+  password: "G7h8O9k0L1",  // Random password
+  governorate: "أسوان",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "aswan1@homatWattan.com",
+  name: "aswan1",
+  username: "aswan1",
+  password: "G7h8J9k0L1",  // Random password
+  governorate: "أسوان",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "aswan2@homatWattan.com",
+  name: "aswan2",
+  username: "aswan2",
+  password: "M2n3P4q5R6",  // Random password
+  governorate: "أسوان",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "aswan3@homatWattan.com",
+  name: "aswan3",
+  username: "aswan3",
+  password: "S1t2U3v4W5",  // Random password
+  governorate: "أسوان",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "aswan4@homatWattan.com",
+  name: "aswan4",
+  username: "aswan4",
+  password: "A6b7C8d9E0",  // Random password
+  governorate: "أسوان",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "aswan5@homatWattan.com",
+  name: "aswan5",
+  username: "aswan5",
+  password: "F3g4H5i6J7",  // Random password
+  governorate: "أسوان",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "aswan6@homatWattan.com",
+  name: "aswan6",
+  username: "aswan6",
+  password: "K8l9M0n1O2",  // Random password
+  governorate: "أسوان",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "aswan7@homatWattan.com",
+  name: "aswan7",
+  username: "aswan7",
+  password: "R1s2T3u4V5",  // Random password
+  governorate: "أسوان",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "aswan8@homatWattan.com",
+  name: "aswan8",
+  username: "aswan8",
+  password: "X6y7Z8a9B0",  // Random password
+  governorate: "أسوان",
+  role: "departmentHead"
+}),
+
+new UserModel({
+  email: "portsaid@homatWattan.com",
+  name: "portsaid",
+  username: "portsaid",
+  password: "L1m2N3o6P5",  // Random password
+  governorate: "بور سعيد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "portsaid1@homatWattan.com",
+  name: "portsaid1",
+  username: "portsaid1",
+  password: "L1m2N3o4P5",  // Random password
+  governorate: "بور سعيد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "portsaid2@homatWattan.com",
+  name: "portsaid2",
+  username: "portsaid2",
+  password: "Q6r7S8t9U0",  // Random password
+  governorate: "بور سعيد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "portsaid3@homatWattan.com",
+  name: "portsaid3",
+  username: "portsaid3",
+  password: "W1x2Y3z4A5",  // Random password
+  governorate: "بور سعيد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "portsaid4@homatWattan.com",
+  name: "portsaid4",
+  username: "portsaid4",
+  password: "B6c7D8e9F0",  // Random password
+  governorate: "بور سعيد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "portsaid5@homatWattan.com",
+  name: "portsaid5",
+  username: "portsaid5",
+  password: "G1h2I3j4K5",  // Random password
+  governorate: "بور سعيد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "portsaid6@homatWattan.com",
+  name: "portsaid6",
+  username: "portsaid6",
+  password: "M6n7O8p9Q0",  // Random password
+  governorate: "بور سعيد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "portsaid7@homatWattan.com",
+  name: "portsaid7",
+  username: "portsaid7",
+  password: "R1s2T3u4V5",  // Random password
+  governorate: "بور سعيد",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "portsaid8@homatWattan.com",
+  name: "portsaid8",
+  username: "portsaid8",
+  password: "X6y7Z8a9B0",  // Random password
+  governorate: "بور سعيد",
+  role: "departmentHead"
+}),
+
+new UserModel({
+  email: "suez@homatWattan.com",
+  name: "suez",
+  username: "suez",
+  password: "Z1K8Y3a4B5",  // Random password
+  governorate: "السويس",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "suez1@homatWattan.com",
+  name: "suez1",
+  username: "suez1",
+  password: "Z1x2Y3a4B5",  // Random password
+  governorate: "السويس",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "suez2@homatWattan.com",
+  name: "suez2",
+  username: "suez2",
+  password: "C6d7E8f9G0",  // Random password
+  governorate: "السويس",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "suez3@homatWattan.com",
+  name: "suez3",
+  username: "suez3",
+  password: "H1i2J3k4L5",  // Random password
+  governorate: "السويس",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "suez4@homatWattan.com",
+  name: "suez4",
+  username: "suez4",
+  password: "M6n7O8p9Q0",  // Random password
+  governorate: "السويس",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "suez5@homatWattan.com",
+  name: "suez5",
+  username: "suez5",
+  password: "R1s2T3u4V5",  // Random password
+  governorate: "السويس",
+  role: "departmentHead"
+}),
+
+new UserModel({
+  email: "south_sinai@homatWattan.com",
+  name: "south_sinai",
+  username: "south_sinai",
+  password: "A1b2C3d4G6",  // Random password
+  governorate: "جنوب سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "south_sinai1@homatWattan.com",
+  name: "south_sinai1",
+  username: "south_sinai1",
+  password: "A1b2C3d4E5",  // Random password
+  governorate: "جنوب سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "south_sinai2@homatWattan.com",
+  name: "south_sinai2",
+  username: "south_sinai2",
+  password: "F6g7H8i9J0",  // Random password
+  governorate: "جنوب سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "south_sinai3@homatWattan.com",
+  name: "south_sinai3",
+  username: "south_sinai3",
+  password: "K1l2M3n4O5",  // Random password
+  governorate: "جنوب سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "south_sinai4@homatWattan.com",
+  name: "south_sinai4",
+  username: "south_sinai4",
+  password: "P6q7R8s9T0",  // Random password
+  governorate: "جنوب سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "south_sinai5@homatWattan.com",
+  name: "south_sinai5",
+  username: "south_sinai5",
+  password: "U1v2W3x4Y5",  // Random password
+  governorate: "جنوب سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "south_sinai6@homatWattan.com",
+  name: "south_sinai6",
+  username: "south_sinai6",
+  password: "Z6a7B8c9D0",  // Random password
+  governorate: "جنوب سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "south_sinai7@homatWattan.com",
+  name: "south_sinai7",
+  username: "south_sinai7",
+  password: "E1f2G3h4I5",  // Random password
+  governorate: "جنوب سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "south_sinai8@homatWattan.com",
+  name: "south_sinai8",
+  username: "south_sinai8",
+  password: "J6k7L8m9N0",  // Random password
+  governorate: "جنوب سيناء",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "south_sinai9@homatWattan.com",
+  name: "south_sinai9",
+  username: "south_sinai9",
+  password: "O1p2Q3r4S5",  // Random password
+  governorate: "جنوب سيناء",
+  role: "departmentHead"
+}),
+
+new UserModel({
+  email: "red_sea@homatWattan.com",
+  name: "red_sea",
+  username: "red_sea",
+  password: "A1b2C3d4R9",  // Random password
+  governorate: "البحر الأحمر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "red_sea1@homatWattan.com",
+  name: "red_sea1",
+  username: "red_sea1",
+  password: "A1b2C3d4E5",  // Random password
+  governorate: "البحر الأحمر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "red_sea2@homatWattan.com",
+  name: "red_sea2",
+  username: "red_sea2",
+  password: "F6g7H8i9J0",  // Random password
+  governorate: "البحر الأحمر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "red_sea3@homatWattan.com",
+  name: "red_sea3",
+  username: "red_sea3",
+  password: "K1l2M3n4O5",  // Random password
+  governorate: "البحر الأحمر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "red_sea4@homatWattan.com",
+  name: "red_sea4",
+  username: "red_sea4",
+  password: "P6q7R8s9T0",  // Random password
+  governorate: "البحر الأحمر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "red_sea5@homatWattan.com",
+  name: "red_sea5",
+  username: "red_sea5",
+  password: "U1v2W3x4Y5",  // Random password
+  governorate: "البحر الأحمر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "red_sea6@homatWattan.com",
+  name: "red_sea6",
+  username: "red_sea6",
+  password: "Z6a7B8c9D0",  // Random password
+  governorate: "البحر الأحمر",
+  role: "departmentHead"
+}),
+new UserModel({
+  email: "red_sea7@homatWattan.com",
+  name: "red_sea7",
+  username: "red_sea7",
+  password: "E1f2G3h4I5",  // Random password
+  governorate: "البحر الأحمر",
+  role: "departmentHead"
+}),
 ]
 
   try {

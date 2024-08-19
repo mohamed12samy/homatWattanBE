@@ -242,6 +242,180 @@ export enum dakahliaNeighborhood
   dakahlia17 = "مركز نبروه"
 }
 
+export enum IsmailiaNeighborhood
+{
+  Ismailia1 = "مركز الإسماعيلية",
+  Ismailia2 = "فايد",
+  Ismailia3 = "القنطرة شرق",
+  Ismailia4 = "القنطرة غرب",
+  Ismailia5 = "التل الكبير",
+  Ismailia6 = "أبو صوير",
+  Ismailia7 = "القصاصين",
+  Ismailia8 = "قسم أول الإسماعيلية",
+  Ismailia9 = "قسم ثانى الإسماعيلية"
+}
+export enum ShamalSinaiNeighborhood
+{
+  northsinai1 = "العريش",
+  northsinai2 = "الشيخ زويد",
+  northsinai3 = "رفح",
+  northsinai4 = "بئر العبد",
+  northsinai5 = "الحسنة",
+  northsinai6 = "نخل"
+}
+
+export enum BaniSuefNeighborhood
+{
+  bani_suef1 = "بنى سويف",
+  bani_suef2 = "الواسطى",
+  bani_suef3 = "ناصر",
+  bani_suef4 = "أهناسيا",
+  bani_suef5 = "ببا",
+  bani_suef6 = "سمسطا",
+  bani_suef7 = "الفشن"
+}
+
+export enum FaiyumNeighborhood
+{
+  faiyum1 = "مركز الفيوم",
+  faiyum2 = "مركز طاميه",
+  faiyum3 = "مركز سنورس",
+  faiyum4 = "مركز إطسا",
+  faiyum5 = "مركز إبشواى",
+  faiyum6 = "مركز يوسف الصديق"
+}
+
+export enum MinyaNeighborhood{
+  minya1 = "مركز المنيا",
+  minya2 = "العدوة",
+  minya3 = "مغاغه",
+  minya4 = "بنى مزار",
+  minya5 = "مطاى",
+  minya6 = "سمالوط",
+  minya7 = "أبو قرقاص",
+  minya8 = "ملوى",
+  minya9 = "ديرمواس"
+}
+export enum AsyutNeighborhood
+{
+  asyut1 = "مركز أسيوط",
+  asyut2 = "ديروط",
+  asyut3 = "منفلوط",
+  asyut4 = "القوصيه",
+  asyut5 = "أبنوب",
+  asyut6 = "أبو تيج",
+  asyut7 = "الغنايم",
+  asyut8 = "ساحل سليم",
+  asyut9 = "البداري",
+  asyut10 = "صدفا",
+  asyut11 = "الفتح",
+  asyut12 = "قسم أسيوط أول",
+  asyut13 = "قسم أسيوط ثاني"
+}
+
+export enum WadiNeighborhood
+{
+  wadi1 = "الخارجه",
+  wadi2 = "باريس",
+  wadi3 = "الداخله",
+  wadi4 = "الفرافرة",
+  wadi5 = "بلاط"
+}
+
+export enum SohagNeighborhod
+{ sohag1 = "مركز سوهاج",
+  sohag2 = "أخميم",
+  sohag3 = "البلينا",
+  sohag4 = "المراغة",
+  sohag5 = "المنشأة",
+  sohag6 = "دار السلام",
+  sohag7 = "جرجا",
+  sohag8 = "جهينه",
+  sohag9 = "ساقلته",
+  sohag10 = "طما",
+  sohag11 = "طهطا",
+  sohag12 = "العسيرات",
+  sohag13 = "حي شرق",
+  sohag14 = "حي غرب"
+}
+
+export enum QenaNeighborhood
+{
+  qena1 = "قنا",
+  qena2 = "أبوتشت",
+  qena3 = "نجع حمادى",
+  qena4 = "دشنا",
+  qena5 = "الوقف",
+  qena6 = "قفط",
+  qena7 = "نقادة",
+  qena8 = "قوص",
+  qena9 = "فرشوط"
+}
+
+export enum LuxorNeighborhood
+{
+  luxor1 = "مركز الأقصر",
+  luxor2 = "الزينية",
+  luxor3 = "البياضية",
+  luxor4 = "القرنة",
+  luxor5 = "أرمنت",
+  luxor6 = "الطود",
+  luxor7 = "إسنا"
+}
+
+export enum AswanNeighborhood
+{
+  aswan1 = "أسوان",
+  aswan2 = "دراو",
+  aswan3 = "كوم أمبو",
+  aswan4 = "نصر النوبة",
+  aswan5 = "إدفو",
+  aswan6 = "أسوان الجديدة",
+  aswan7 = "توشكى الجديدة",
+  aswan8 = "أبو سمبل"
+}
+
+export enum PortSaidNeighborhood
+{
+  portsaid1 = "بور فؤاد",
+  portsaid2 = "حي الشرق",
+  portsaid3 = "حي العرب",
+  portsaid4 = "حي المناخ",
+  portsaid5 = "حي الضواحي",
+  portsaid6 = "حي الجنوب",
+  portsaid7 = "حي الزهور",
+  portsaid8 = "حي غرب"
+}
+
+export enum SuezNeighbohood{
+  suez1 = "حي السويس",
+  suez2 = "حي الأربعين",
+  suez3 = "حي عتاقة",
+  suez4 = "حي الجناين",
+  suez5 = "حي فيصل"
+}
+export enum SouthsinaiNeighborhood{
+  south_sinai1 = "أبو رديس",
+  south_sinai2 = "أبو زنيمة",
+  south_sinai3 = "نويبع",
+  south_sinai4 = "طابا",
+  south_sinai5 = "رأس سدر",
+  south_sinai6 = "دهب",
+  south_sinai7 = "شرم الشيخ",
+  south_sinai8 = "سانت كاترين",
+  south_sinai9 = "الطور"
+}
+
+export enum RedSeaNeighborhood
+{
+  red_sea1 = "رأس غارب",
+  red_sea2 = "الغردقة",
+  red_sea3 = "القصير",
+  red_sea4 = "سفاجا",
+  red_sea5 = "مرسى علم",
+  red_sea6 = "شلاتين",
+  red_sea7 = "مدينة حلايب"
+}
 export enum UsereRoles {
   admin = "admin",
   governorator = "governorator",
