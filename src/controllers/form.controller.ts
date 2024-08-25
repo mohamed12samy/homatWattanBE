@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import logger from "../../utils/logger.util";
-import { createForm, deleteForm, getAllForms, getNotReadyForms, deleteNotReadyForms, updateNotReadyForm } from "../services/form.service";
+import { createForm, deleteForm, getAllForms, getNotReadyForms, deleteNotReadyForms, updateNotReadyForm, approveForm, getNotFilledRequiredFieldsPercentage } from "../services/form.service";
 import { omit } from "lodash";
 
 export async function createFormHandler(req: Request, res: Response) {
@@ -45,4 +45,23 @@ export async function deleteNotReadyFormHandler(req:Request, res:Response)
     let query = req.query.id as string;
     let form = await deleteNotReadyForms(query);
     return res.send(form);
+}
+
+export async function approveFormHandler(req:Request, res:Response)
+{
+    let { id } = req.body;
+    let approvedForm : any = await approveForm(id,res.locals.user._id);
+    if(approvedForm)
+    {
+        if(approvedForm.error){
+            return res.status(500).send(approvedForm);
+        }
+        return res.status(201).send(approvedForm);
+    }else return res.status(500).send({"message":"form is not approved because of error"})
+}
+
+export async function getNotFilledRequiredFieldsPercentageHandler(req:Request, res:Response)
+{
+    let forms = await getNotFilledRequiredFieldsPercentage(res.locals.user._id);
+    return res.send(forms);
 }

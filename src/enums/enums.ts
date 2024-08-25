@@ -29,6 +29,36 @@ export enum Governorate {
   new_valley = "الوادي الجديد"  
 }
 
+export enum GovernoratesCodes
+{
+  qahera = "01",
+alex ="02",
+port_said = "03",
+ suez = "04",
+ damietta = "11",
+ dakahlia = "12",
+ sharqia = "13",
+ qaliobia = "14",
+ kafr_sheikh = "15",
+ gharbiya = "16",
+ menoufia = "17",
+ beheira = "18",
+ Ismailia = "19",
+ giza = "21",
+ bani_suef = "22",
+ faiyum = "23",
+ minya = "24",
+ asyut = "25",
+ sohag = "26",
+ qena = "27",
+ aswan = "28",
+ luxor = "29",
+ red_sea = "31",
+ wadi = "32",
+ matrooh = "33",
+ north_sinai = "34",
+ south_sinai = "35",
+}
 export enum QaheraNeighborhood
 {
   qahera1 = "حى السلام أول",

@@ -1,11 +1,11 @@
 export default {
   port: 3003,
   dbURI: "mongodb+srv://ms2519299:vna0AL8EP50u70lL@homatwattancluster.h8yya1y.mongodb.net/?retryWrites=true&w=majority&appName=homatWattanCluster",
-  origin: "*",
+  origin: "membersofhumatalwatan.com",
   cookieSecure: false,
   cookieDomain: "localhost",
   saltWorkFactor: 10,
-  accessTokenExpireIn: "30m",
+  accessTokenExpireIn: "30d",
   refreshTokenExpireIn: "1y",
   privateKey: `-----BEGIN PRIVATE KEY-----
 MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDpBcDcLmvKu7bC
