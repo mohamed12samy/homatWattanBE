@@ -7,7 +7,7 @@ import {
   deleteNotReadyFormHandler,
   updateNotReadyFormHandler,
   approveFormHandler,
-  getNotFilledRequiredFieldsPercentageHandler
+  getNotFilledRequiredFieldsPercentageHandler, getRegisteredMembersHandler
 } from "../controllers/form.controller";
 import { requireUser } from "../middlewares/requireUser";
 import validate from "../middlewares/validateResource";
@@ -24,6 +24,7 @@ formRoutes.put("/notReadyForm", requireUser,  checkPermission('update', 'forms')
 formRoutes.put("/form", requireUser,  checkPermission('update', 'forms'), approveFormHandler);
 
 formRoutes.get("/form", requireUser,  checkPermission('read', 'forms'), getFormHandler);
+formRoutes.get("/form/registered", requireUser,  checkPermission('read', 'forms'), getRegisteredMembersHandler);
 formRoutes.get("/notReadyForm", requireUser,  checkPermission('read', 'forms'), getNotReadyFormHandler);
 formRoutes.get("/notReadyForm/percent", requireUser,  checkPermission('read', 'forms'), getNotFilledRequiredFieldsPercentageHandler);
 

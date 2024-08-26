@@ -23,13 +23,108 @@ export async function createForm(input: Omit<Form, "createdAt" | "updatedAt">) {
 export async function getAllForms(
   query: FilterQuery<Form>,
   currentUserID: string
-) {
-  let currentUser = await findUser({ _id: currentUserID });
+) {const { page, pageSize } = query;
+let currentUser = await findUser({ _id: currentUserID });
+if (currentUser) {
+  if (currentUser.role === UsereRoles.departmentHead) {
+    let markaz: string =
+      Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
+    console.log(markaz);
+    let forms = await FormModel
+      .find({ department: { $regex: ".*" + markaz + ".*" } })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
 
-  if (currentUser) {
-    return await FormModel.find({ governorate: currentUser.governorate });
-  } else return null;
+    let totalCounts = await FormModel.countDocuments({
+      department: { $regex: ".*" + markaz + ".*" }
+    });
+    let res = { forms, totalCounts };
+    return res;
+  } else {
+    const { department } = query;
+    if (department) {
+      console.log(department);
+      let forms = await FormModel
+        .find({ department: { $regex: ".*" + department + ".*" } })
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+
+      let totalCounts = await FormModel.countDocuments({
+        department: { $regex: ".*" + department + ".*" }
+      });
+      let res = { forms, totalCounts };
+      return res;
+    } else {
+      let forms = await FormModel
+        .find({
+          government: { $regex: ".*" + currentUser.governorate + ".*" }
+        })
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+
+      let totalCounts = await FormModel.countDocuments({
+        government: { $regex: ".*" + currentUser.governorate + ".*" }
+      });
+      let res = { forms, totalCounts };
+      return res;
+    }
+  }
+} else return null;
 }
+
+
+export async function getAllRegisteredForms(
+  query: FilterQuery<Form>,
+  currentUserID: string
+) {const { page, pageSize } = query;
+let currentUser = await findUser({ _id: currentUserID });
+if (currentUser) {
+  if (currentUser.role === UsereRoles.departmentHead) {
+    let markaz: string =
+      Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
+    console.log(markaz);
+    let forms = await FormModel
+      .find({ department: { $regex: ".*" + markaz + ".*" }, isApproved:true })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    let totalCounts = await FormModel.countDocuments({
+      department: { $regex: ".*" + markaz + ".*" }, isApproved:true
+    });
+    let res = { forms, totalCounts };
+    return res;
+  } else {
+    const { department } = query;
+    if (department) {
+      console.log(department);
+      let forms = await FormModel
+        .find({ department: { $regex: ".*" + department + ".*" }, isApproved:true })
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+
+      let totalCounts = await FormModel.countDocuments({
+        department: { $regex: ".*" + department + ".*" }, isApproved:true
+      });
+      let res = { forms, totalCounts };
+      return res;
+    } else {
+      let forms = await FormModel
+        .find({
+          government: { $regex: ".*" + currentUser.governorate + ".*" }, isApproved:true
+        })
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+
+      let totalCounts = await FormModel.countDocuments({
+        government: { $regex: ".*" + currentUser.governorate + ".*" }, isApproved:true
+      });
+      let res = { forms, totalCounts };
+      return res;
+    }
+  }
+} else return null;
+}
+
 
 export async function getNotReadyForms(
   query: FilterQuery<any>,
@@ -132,7 +227,7 @@ export async function approveForm(id: string, currentUserId: string) {
     console.log("__last", lastMemeber);
     form.isApproved = true;
 
-    const newNumber: number = +lastMemeber.memberIdSuffix + 1; // For example, 1235 + 1 = 1236
+    const newNumber: number = +lastMemeber.memberIdSuffix + 1; 
     const newNumberStr: string = newNumber.toString();
     const totalLength: number = 7;
     const numberOfLeadingZeros: number = totalLength - newNumberStr.length;

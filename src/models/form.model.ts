@@ -79,7 +79,7 @@ const formSchema = new mongoose.Schema(
     election_candidate:{type:String},
     election_data:{type:String},
     other_data:{type:String}, 
-    isApproved:{type:Boolean},
+    isApproved:{type:Boolean, default: false},
     memberId:{type:String},
     memberIdSuffix:{type:Number}
   },

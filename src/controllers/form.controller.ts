@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import logger from "../../utils/logger.util";
-import { createForm, deleteForm, getAllForms, getNotReadyForms, deleteNotReadyForms, updateNotReadyForm, approveForm, getNotFilledRequiredFieldsPercentage } from "../services/form.service";
+import { createForm, deleteForm, getAllForms, getAllRegisteredForms,getNotReadyForms, deleteNotReadyForms, updateNotReadyForm, approveForm, getNotFilledRequiredFieldsPercentage } from "../services/form.service";
 import { omit } from "lodash";
 
 export async function createFormHandler(req: Request, res: Response) {
@@ -24,6 +24,11 @@ export async function updateNotReadyFormHandler(req:Request, res:Response){
 export async function getFormHandler(req: Request, res: Response) {
     let query = req.query;
     let forms = await getAllForms(query, res.locals.user._id);
+    return res.send(forms);
+}
+export async function getRegisteredMembersHandler(req: Request, res: Response) {
+    let query = req.query;
+    let forms = await getAllRegisteredForms(query, res.locals.user._id);
     return res.send(forms);
 }
 
