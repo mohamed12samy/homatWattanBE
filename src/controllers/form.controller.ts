@@ -54,8 +54,8 @@ export async function deleteNotReadyFormHandler(req:Request, res:Response)
 
 export async function approveFormHandler(req:Request, res:Response)
 {
-    let { id } = req.body;
-    let approvedForm : any = await approveForm(id,res.locals.user._id);
+    let { _id } = req.body;
+    let approvedForm : any = await approveForm(_id,res.locals.user._id);
     if(approvedForm)
     {
         if(approvedForm.error){
