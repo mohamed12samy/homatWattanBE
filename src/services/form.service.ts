@@ -209,6 +209,7 @@ export async function approveForm(id: string, currentUserId: string) {
 
   if (form) {
 
+    console.log(form)
     let formsCount = await FormModel.countDocuments({id:form.id});
     formsCount += await notReadyFormModel.countDocuments({id:form.id});
     if(formsCount > 1)
@@ -244,7 +245,7 @@ export async function approveForm(id: string, currentUserId: string) {
     console.log("__last", lastMemeber);
     form.isApproved = true;
 
-    const newNumber: number = +lastMemeber.memberIdSuffix + 1; 
+    const newNumber: number = lastMemeber?.memberIdSuffix ? +lastMemeber.memberIdSuffix + 1 : 1; 
     const newNumberStr: string = newNumber.toString();
     const totalLength: number = 7;
     const numberOfLeadingZeros: number = totalLength - newNumberStr.length;
