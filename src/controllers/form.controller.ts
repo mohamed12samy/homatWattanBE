@@ -9,7 +9,7 @@ export async function createFormHandler(req: Request, res: Response) {
         return res.status(201).send(omit(user.toJSON(), "password"));
     } catch (e: any) {
         logger.error(e);
-        return res.status(409).send(e.message); 
+        return res.status(409).send({"error":{"message":e.message}}); 
     }
 }
 
@@ -18,7 +18,7 @@ export async function updateNotReadyFormHandler(req:Request, res:Response){
     let result = updateNotReadyForm(body);
     if(result != null)
         return res.status(201).send(result); 
-    else return res.status(400).send({"message":"form is not valid"});
+    else return res.status(400).send({"error":{"message":"form is not valid"}});
 }
 
 export async function getFormHandler(req: Request, res: Response) {

@@ -6,6 +6,7 @@ import notReadyFormModel from "../models/notReadyForm.model";
 import { GovernoratesCodes, Neighborhoods, UsereRoles } from "../enums/enums";
 import validate from "../middlewares/validateResource";
 import { createFormSchema } from "../schemas/form.schema";
+import { isAborted } from "zod";
 
 export async function createForm(input: Omit<Form, "createdAt" | "updatedAt">) {
   try {
@@ -31,12 +32,12 @@ if (currentUser) {
       Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
     console.log(markaz);
     let forms = await FormModel
-      .find({ department: { $regex: ".*" + markaz + ".*" } })
+      .find({ department: { $regex: ".*" + markaz + ".*" } , isApproved:false} )
       .skip((page - 1) * pageSize)
       .limit(pageSize);
 
     let totalCounts = await FormModel.countDocuments({
-      department: { $regex: ".*" + markaz + ".*" }
+      department: { $regex: ".*" + markaz + ".*" }, isApproved:false
     });
     let res = { forms, totalCounts };
     return res;
@@ -45,25 +46,25 @@ if (currentUser) {
     if (department) {
       console.log(department);
       let forms = await FormModel
-        .find({ department: { $regex: ".*" + department + ".*" } })
+        .find({ department: { $regex: ".*" + department + ".*" }, isApproved:false })
         .skip((page - 1) * pageSize)
         .limit(pageSize);
 
       let totalCounts = await FormModel.countDocuments({
-        department: { $regex: ".*" + department + ".*" }
+        department: { $regex: ".*" + department + ".*" }, isApproved:false
       });
       let res = { forms, totalCounts };
       return res;
     } else {
       let forms = await FormModel
         .find({
-          government: { $regex: ".*" + currentUser.governorate + ".*" }
+          government: { $regex: ".*" + currentUser.governorate + ".*" }, isApproved:false
         })
         .skip((page - 1) * pageSize)
         .limit(pageSize);
 
       let totalCounts = await FormModel.countDocuments({
-        government: { $regex: ".*" + currentUser.governorate + ".*" }
+        government: { $regex: ".*" + currentUser.governorate + ".*" }, isApproved:false
       });
       let res = { forms, totalCounts };
       return res;
