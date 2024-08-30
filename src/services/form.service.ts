@@ -24,108 +24,122 @@ export async function createForm(input: Omit<Form, "createdAt" | "updatedAt">) {
 export async function getAllForms(
   query: FilterQuery<Form>,
   currentUserID: string
-) {const { page, pageSize } = query;
-let currentUser = await findUser({ _id: currentUserID });
-if (currentUser) {
-  if (currentUser.role === UsereRoles.departmentHead) {
-    let markaz: string =
-      Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
-    console.log(markaz);
-    let forms = await FormModel
-      .find({ department: { $regex: ".*" + markaz + ".*" } , isApproved:false} )
-      .skip((page - 1) * pageSize)
-      .limit(pageSize);
-
-    let totalCounts = await FormModel.countDocuments({
-      department: { $regex: ".*" + markaz + ".*" }, isApproved:false
-    });
-    let res = { forms, totalCounts };
-    return res;
-  } else {
-    const { department } = query;
-    if (department) {
-      console.log(department);
-      let forms = await FormModel
-        .find({ department: { $regex: ".*" + department + ".*" }, isApproved:false })
+) {
+  const { page, pageSize } = query;
+  let currentUser = await findUser({ _id: currentUserID });
+  if (currentUser) {
+    if (currentUser.role === UsereRoles.departmentHead) {
+      let markaz: string =
+        Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
+      console.log(markaz);
+      let forms = await FormModel.find({
+        department: { $regex: ".*" + markaz + ".*" },
+        isApproved: false
+      })
         .skip((page - 1) * pageSize)
         .limit(pageSize);
 
       let totalCounts = await FormModel.countDocuments({
-        department: { $regex: ".*" + department + ".*" }, isApproved:false
+        department: { $regex: ".*" + markaz + ".*" },
+        isApproved: false
       });
       let res = { forms, totalCounts };
       return res;
     } else {
-      let forms = await FormModel
-        .find({
-          government: { $regex: ".*" + currentUser.governorate + ".*" }, isApproved:false
+      const { department } = query;
+      if (department) {
+        console.log(department);
+        let forms = await FormModel.find({
+          department: { $regex: ".*" + department + ".*" },
+          isApproved: false
         })
-        .skip((page - 1) * pageSize)
-        .limit(pageSize);
+          .skip((page - 1) * pageSize)
+          .limit(pageSize);
 
-      let totalCounts = await FormModel.countDocuments({
-        government: { $regex: ".*" + currentUser.governorate + ".*" }, isApproved:false
-      });
-      let res = { forms, totalCounts };
-      return res;
+        let totalCounts = await FormModel.countDocuments({
+          department: { $regex: ".*" + department + ".*" },
+          isApproved: false
+        });
+        let res = { forms, totalCounts };
+        return res;
+      } else {
+        let forms = await FormModel.find({
+          government: { $regex: ".*" + currentUser.governorate + ".*" },
+          isApproved: false
+        })
+          .skip((page - 1) * pageSize)
+          .limit(pageSize);
+
+        let totalCounts = await FormModel.countDocuments({
+          government: { $regex: ".*" + currentUser.governorate + ".*" },
+          isApproved: false
+        });
+        let res = { forms, totalCounts };
+        return res;
+      }
     }
-  }
-} else return null;
+  } else return null;
 }
-
 
 export async function getAllRegisteredForms(
   query: FilterQuery<Form>,
   currentUserID: string
-) {const { page, pageSize } = query;
-let currentUser = await findUser({ _id: currentUserID });
-if (currentUser) {
-  if (currentUser.role === UsereRoles.departmentHead) {
-    let markaz: string =
-      Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
-    console.log(markaz);
-    let forms = await FormModel
-      .find({ department: { $regex: ".*" + markaz + ".*" }, isApproved:true })
-      .skip((page - 1) * pageSize)
-      .limit(pageSize);
-
-    let totalCounts = await FormModel.countDocuments({
-      department: { $regex: ".*" + markaz + ".*" }, isApproved:true
-    });
-    let res = { forms, totalCounts };
-    return res;
-  } else {
-    const { department } = query;
-    if (department) {
-      console.log(department);
-      let forms = await FormModel
-        .find({ department: { $regex: ".*" + department + ".*" }, isApproved:true })
+) {
+  const { page, pageSize } = query;
+  let currentUser = await findUser({ _id: currentUserID });
+  if (currentUser) {
+    if (currentUser.role === UsereRoles.departmentHead) {
+      let markaz: string =
+        Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
+      console.log(markaz);
+      let forms = await FormModel.find({
+        department: { $regex: ".*" + markaz + ".*" },
+        isApproved: true
+      })
         .skip((page - 1) * pageSize)
         .limit(pageSize);
 
       let totalCounts = await FormModel.countDocuments({
-        department: { $regex: ".*" + department + ".*" }, isApproved:true
+        department: { $regex: ".*" + markaz + ".*" },
+        isApproved: true
       });
       let res = { forms, totalCounts };
       return res;
     } else {
-      let forms = await FormModel
-        .find({
-          government: { $regex: ".*" + currentUser.governorate + ".*" }, isApproved:true
+      const { department } = query;
+      if (department) {
+        console.log(department);
+        let forms = await FormModel.find({
+          department: { $regex: ".*" + department + ".*" },
+          isApproved: true
         })
-        .skip((page - 1) * pageSize)
-        .limit(pageSize);
+          .skip((page - 1) * pageSize)
+          .limit(pageSize);
 
-      let totalCounts = await FormModel.countDocuments({
-        government: { $regex: ".*" + currentUser.governorate + ".*" }, isApproved:true
-      });
-      let res = { forms, totalCounts };
-      return res;
+        let totalCounts = await FormModel.countDocuments({
+          department: { $regex: ".*" + department + ".*" },
+          isApproved: true
+        });
+        let res = { forms, totalCounts };
+        return res;
+      } else {
+        let forms = await FormModel.find({
+          government: { $regex: ".*" + currentUser.governorate + ".*" },
+          isApproved: true
+        })
+          .skip((page - 1) * pageSize)
+          .limit(pageSize);
+
+        let totalCounts = await FormModel.countDocuments({
+          government: { $regex: ".*" + currentUser.governorate + ".*" },
+          isApproved: true
+        });
+        let res = { forms, totalCounts };
+        return res;
+      }
     }
-  }
-} else return null;
+  } else return null;
 }
-
 
 export async function getNotReadyForms(
   query: FilterQuery<any>,
@@ -199,30 +213,32 @@ export async function updateNotReadyForm(formBody: any) {
       await notReadyFormModel.findOneAndDelete({ _id: form._id });
       return form;
     }
-  } 
-   return {error:{message:"validation error"}};
+  }
+  return { error: { message: "validation error" } };
 }
 
-export async function approveForm(id: string, currentUserId: string) {
-  let form = await FormModel.findById(id);
-
+export async function approveForm(formBody: Form, currentUserId: string) {
+  let form = await FormModel.findById(formBody._id);
 
   if (form) {
+    console.log(form);
+    let formsCount = await FormModel.countDocuments({ id: form.id });
+    formsCount += await notReadyFormModel.countDocuments({ id: form.id });
+    if (formsCount > 1) {
+      let formToBeDeleted = await notReadyFormModel.findOneAndDelete({
+        id: form?.id
+      });
 
-    console.log(form)
-    let formsCount = await FormModel.countDocuments({id:form.id});
-    formsCount += await notReadyFormModel.countDocuments({id:form.id});
-    if(formsCount > 1)
-    {
-      let formToBeDeleted  = await notReadyFormModel.findOneAndDelete({id:form?.id});
-
-      if(!formToBeDeleted)
-      {
-        formToBeDeleted  = await FormModel.findOneAndDelete({id:form?.id, isApproved:false});
-       return { error: { message: "form is duplicated", form:formToBeDeleted } };
+      if (!formToBeDeleted) {
+        formToBeDeleted = await FormModel.findOneAndDelete({
+          id: form?.id,
+          isApproved: false
+        });
+        return {
+          error: { message: "form is duplicated", form: formToBeDeleted }
+        };
       }
     }
-
 
     if (form?.isApproved)
       return { error: { message: "form is approved already" } };
@@ -239,27 +255,28 @@ export async function approveForm(id: string, currentUserId: string) {
         memberIdSuffix: { $exists: true, $ne: null }
       },
       { memberIdSuffix: 1 }
-    )
-      .sort({ memberIdSuffix: -1 })
-      .limit(1);
-    console.log("__last", lastMemeber);
-    form.isApproved = true;
+    ).sort({ memberIdSuffix: -1 }).limit(1);
 
-    const newNumber: number = lastMemeber?.memberIdSuffix ? +lastMemeber.memberIdSuffix + 1 : 1; 
-    const newNumberStr: string = newNumber.toString();
-    const totalLength: number = 7;
-    const numberOfLeadingZeros: number = totalLength - newNumberStr.length;
-    const prefix: string =
+    const newNumber: number = lastMemeber?.memberIdSuffix ? +lastMemeber.memberIdSuffix + 1 : 1;
+      const newNumberStr: string = newNumber.toString();
+      const totalLength: number = 7;
+      const numberOfLeadingZeros: number = totalLength - newNumberStr.length;
+      const prefix: string =
       GovernoratesCodes[government as keyof typeof GovernoratesCodes] +
-      "0".repeat(numberOfLeadingZeros);
-    const newMemberId: string = prefix + newNumberStr;
+        "0".repeat(numberOfLeadingZeros);
+      const newMemberId: string = prefix + newNumberStr;
 
-    console.log("___new", newMemberId);
-    form.memberId = newMemberId;
-    form.memberIdSuffix = newNumber;
-    form.save();
-    return form;
-  } else return { error: { message: "form is not found" } };
+      let formToBeUpdated = {...formBody, isApproved:true, memberId : newMemberId, memberIdSuffix : newNumber}
+      let result = await FormModel.updateOne(
+        { _id: formToBeUpdated._id },  
+        { $set: formToBeUpdated }, 
+        { runValidators: true },
+      );
+      if(result.acknowledged && result.modifiedCount > 0)
+          return formToBeUpdated;
+        else return { error: { message: "form not updated" } };
+  } 
+  else return { error: { message: "form is not found" } };
 }
 
 export async function getNotFilledRequiredFieldsPercentage(
