@@ -206,7 +206,23 @@ export async function updateNotReadyForm(formBody: any) {
 export async function approveForm(id: string, currentUserId: string) {
   let form = await FormModel.findById(id);
 
+
   if (form) {
+
+    let formsCount = await FormModel.countDocuments({id:form.id});
+    formsCount += await notReadyFormModel.countDocuments({id:form.id});
+    if(formsCount > 1)
+    {
+      let formToBeDeleted  = await notReadyFormModel.findOneAndDelete({id:form?.id});
+
+      if(!formToBeDeleted)
+      {
+        formToBeDeleted  = await FormModel.findOneAndDelete({id:form?.id, isApproved:false});
+       return { error: { message: "form is duplicated", form:formToBeDeleted } };
+      }
+    }
+
+
     if (form?.isApproved)
       return { error: { message: "form is approved already" } };
 
