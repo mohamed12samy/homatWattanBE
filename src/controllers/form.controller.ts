@@ -5,8 +5,8 @@ import { omit } from "lodash";
 
 export async function createFormHandler(req: Request, res: Response) {
     try {
-        const user = await createForm(req.body);
-        return res.status(201).send(omit(user.toJSON(), "password"));
+        const form = await createForm(req.body);
+        return res.status(201).send(form);
     } catch (e: any) {
         logger.error(e);
         return res.status(409).send({"error":{"message":e.message}}); 
@@ -15,7 +15,11 @@ export async function createFormHandler(req: Request, res: Response) {
 
 export async function updateNotReadyFormHandler(req:Request, res:Response){
     let body = req.body;
-    let result = updateNotReadyForm(body);
+    let result : any = await updateNotReadyForm(body);
+    if(result && result.error)
+    {
+        return res.status(200).send(result); 
+    }
     if(result != null)
         return res.status(201).send(result); 
     else return res.status(400).send({"error":{"message":"form is not valid"}});

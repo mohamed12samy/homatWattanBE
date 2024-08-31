@@ -10,6 +10,13 @@ import { isAborted } from "zod";
 
 export async function createForm(input: Omit<Form, "createdAt" | "updatedAt">) {
   try {
+
+    let existForms = await FormModel.find({ id: input.id });
+    if(existForms && existForms.length > 0)
+    {
+        return {"error":{"message":"Form already exists", "forms":existForms}};
+    }
+    
     let parseResult = createFormSchema.safeParse({ body: input });
     if (parseResult.success) {
       return await FormModel.create(input);
@@ -205,6 +212,12 @@ export async function deleteNotReadyForms(formId: string) {
 }
 
 export async function updateNotReadyForm(formBody: any) {
+  let existForms = await FormModel.find({ id: formBody.id });
+  if(existForms && existForms.length > 0)
+  {
+    return {"error":{"message":"Form already exists", "forms":existForms}};
+  }
+
   let parseResult = createFormSchema.safeParse({ body: formBody });
   if (parseResult.success) {
     let formToUpdate: Form = { ...formBody };
@@ -239,42 +252,42 @@ export async function approveForm(formBody: Form, currentUserId: string) {
         };
       }
     }
+    return null;
+    // if (form?.isApproved)
+    //   return { error: { message: "form is approved already" } };
 
-    if (form?.isApproved)
-      return { error: { message: "form is approved already" } };
+    // let currentUser = await findUser({ _id: currentUserId });
+    // if (currentUser === null || currentUser === undefined)
+    //   return { error: { message: "user is not found" } };
+    // let government: string = currentUser.name.split(/[0-9]/)[0];
+    // let markaz: string = Neighborhoods[government][currentUser.name];
 
-    let currentUser = await findUser({ _id: currentUserId });
-    if (currentUser === null || currentUser === undefined)
-      return { error: { message: "user is not found" } };
-    let government: string = currentUser.name.split(/[0-9]/)[0];
-    let markaz: string = Neighborhoods[government][currentUser.name];
+    // let lastMemeber: any = await FormModel.findOne(
+    //   {
+    //     department: { $regex: ".*" + markaz + ".*" },
+    //     memberIdSuffix: { $exists: true, $ne: null }
+    //   },
+    //   { memberIdSuffix: 1 }
+    // ).sort({ memberIdSuffix: -1 }).limit(1);
 
-    let lastMemeber: any = await FormModel.findOne(
-      {
-        department: { $regex: ".*" + markaz + ".*" },
-        memberIdSuffix: { $exists: true, $ne: null }
-      },
-      { memberIdSuffix: 1 }
-    ).sort({ memberIdSuffix: -1 }).limit(1);
+    // const newNumber: number = lastMemeber?.memberIdSuffix ? +lastMemeber.memberIdSuffix + 1 : 1;
+    //   const newNumberStr: string = newNumber.toString();
+    //   const totalLength: number = 7;
+    //   const numberOfLeadingZeros: number = totalLength - newNumberStr.length;
+    //   const prefix: string =
+    //   GovernoratesCodes[government as keyof typeof GovernoratesCodes] +
+    //     "0".repeat(numberOfLeadingZeros);
+    //   const newMemberId: string = prefix + newNumberStr;
 
-    const newNumber: number = lastMemeber?.memberIdSuffix ? +lastMemeber.memberIdSuffix + 1 : 1;
-      const newNumberStr: string = newNumber.toString();
-      const totalLength: number = 7;
-      const numberOfLeadingZeros: number = totalLength - newNumberStr.length;
-      const prefix: string =
-      GovernoratesCodes[government as keyof typeof GovernoratesCodes] +
-        "0".repeat(numberOfLeadingZeros);
-      const newMemberId: string = prefix + newNumberStr;
-
-      let formToBeUpdated = {...formBody, isApproved:true, memberId : newMemberId, memberIdSuffix : newNumber}
-      let result = await FormModel.updateOne(
-        { _id: formToBeUpdated._id },  
-        { $set: formToBeUpdated }, 
-        { runValidators: true },
-      );
-      if(result.acknowledged && result.modifiedCount > 0)
-          return formToBeUpdated;
-        else return { error: { message: "form not updated" } };
+    //   let formToBeUpdated = {...formBody, isApproved:true, memberId : newMemberId, memberIdSuffix : newNumber}
+    //   let result = await FormModel.updateOne(
+    //     { _id: formToBeUpdated._id },  
+    //     { $set: formToBeUpdated }, 
+    //     { runValidators: true },
+    //   );
+    //   if(result.acknowledged && result.modifiedCount > 0)
+    //       return formToBeUpdated;
+    //     else return { error: { message: "form not updated" } };
   } 
   else return { error: { message: "form is not found" } };
 }
