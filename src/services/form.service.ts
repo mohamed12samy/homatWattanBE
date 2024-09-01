@@ -234,60 +234,61 @@ export async function approveForm(formBody: Form, currentUserId: string) {
   let form = await FormModel.findById(formBody._id);
 
   if (form) {
-    console.log(form);
-    let formsCount = await FormModel.countDocuments({ id: form.id });
-    formsCount += await notReadyFormModel.countDocuments({ id: form.id });
-    if (formsCount > 1) {
-      let formToBeDeleted = await notReadyFormModel.findOneAndDelete({
-        id: form?.id
-      });
+    
+    // let formsCount = await FormModel.countDocuments({ id: form.id });
+    // console.log(formsCount);
+    // formsCount += await notReadyFormModel.countDocuments({ id: form.id });
 
-      if (!formToBeDeleted) {
-        formToBeDeleted = await FormModel.findOneAndDelete({
-          id: form?.id,
-          isApproved: false
-        });
-        return {
-          error: { message: "form is duplicated", form: formToBeDeleted }
-        };
-      }
-    }
-    return null;
-    // if (form?.isApproved)
-    //   return { error: { message: "form is approved already" } };
+    // if (formsCount > 1) {
+    //   let formToBeDeleted = await notReadyFormModel.findOneAndDelete({
+    //     id: form?.id
+    //   });
 
-    // let currentUser = await findUser({ _id: currentUserId });
-    // if (currentUser === null || currentUser === undefined)
-    //   return { error: { message: "user is not found" } };
-    // let government: string = currentUser.name.split(/[0-9]/)[0];
-    // let markaz: string = Neighborhoods[government][currentUser.name];
+    //   if (!formToBeDeleted) {
+    //     formToBeDeleted = await FormModel.findOneAndDelete({
+    //       id: form?.id,
+    //       isApproved: false
+    //     });
+    //   }
+    //   return {
+    //     error: { message: "form is duplicated", form: formToBeDeleted }
+    //   };
+    // }
+    if (form?.isApproved)
+      return { error: { message: "form is approved already" } };
 
-    // let lastMemeber: any = await FormModel.findOne(
-    //   {
-    //     department: { $regex: ".*" + markaz + ".*" },
-    //     memberIdSuffix: { $exists: true, $ne: null }
-    //   },
-    //   { memberIdSuffix: 1 }
-    // ).sort({ memberIdSuffix: -1 }).limit(1);
+    let currentUser = await findUser({ _id: currentUserId });
+    if (currentUser === null || currentUser === undefined)
+      return { error: { message: "user is not found" } };
+    let government: string = currentUser.name.split(/[0-9]/)[0];
+    let markaz: string = Neighborhoods[government][currentUser.name];
 
-    // const newNumber: number = lastMemeber?.memberIdSuffix ? +lastMemeber.memberIdSuffix + 1 : 1;
-    //   const newNumberStr: string = newNumber.toString();
-    //   const totalLength: number = 7;
-    //   const numberOfLeadingZeros: number = totalLength - newNumberStr.length;
-    //   const prefix: string =
-    //   GovernoratesCodes[government as keyof typeof GovernoratesCodes] +
-    //     "0".repeat(numberOfLeadingZeros);
-    //   const newMemberId: string = prefix + newNumberStr;
+    let lastMemeber: any = await FormModel.findOne(
+      {
+        department: { $regex: ".*" + markaz + ".*" },
+        memberIdSuffix: { $exists: true, $ne: null }
+      },
+      { memberIdSuffix: 1 }
+    ).sort({ memberIdSuffix: -1 }).limit(1);
 
-    //   let formToBeUpdated = {...formBody, isApproved:true, memberId : newMemberId, memberIdSuffix : newNumber}
-    //   let result = await FormModel.updateOne(
-    //     { _id: formToBeUpdated._id },  
-    //     { $set: formToBeUpdated }, 
-    //     { runValidators: true },
-    //   );
-    //   if(result.acknowledged && result.modifiedCount > 0)
-    //       return formToBeUpdated;
-    //     else return { error: { message: "form not updated" } };
+    const newNumber: number = lastMemeber?.memberIdSuffix ? +lastMemeber.memberIdSuffix + 1 : 1;
+      const newNumberStr: string = newNumber.toString();
+      const totalLength: number = 7;
+      const numberOfLeadingZeros: number = totalLength - newNumberStr.length;
+      const prefix: string =
+      GovernoratesCodes[government as keyof typeof GovernoratesCodes] +
+        "0".repeat(numberOfLeadingZeros);
+      const newMemberId: string = prefix + newNumberStr;
+
+      let formToBeUpdated = {...formBody, isApproved:true, memberId : newMemberId, memberIdSuffix : newNumber}
+      let result = await FormModel.updateOne(
+        { _id: formToBeUpdated._id },  
+        { $set: formToBeUpdated }, 
+        { runValidators: true },
+      );
+      if(result.acknowledged && result.modifiedCount > 0)
+          return formToBeUpdated;
+        else return { error: { message: "form not updated" } };
   } 
   else return { error: { message: "form is not found" } };
 }
