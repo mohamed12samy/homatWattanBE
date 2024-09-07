@@ -37,8 +37,9 @@ export async function findUser(query: FilterQuery<UserDocument>) {
 }
 
 export async function getAllUsers(query: FilterQuery<any>, currentUser: any){
+  let {governorate} = query; 
   return await UserModel.find(
-    { _id: { $ne: currentUser } },
+    { _id: { $ne: currentUser }, ...query },
     { password: 0, __v: 0 }
   );
 }

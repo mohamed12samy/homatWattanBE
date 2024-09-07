@@ -41,6 +41,7 @@ export async function getAllForms(
       console.log(markaz);
       let forms = await FormModel.find({
         department: { $regex: ".*" + markaz + ".*" },
+        government: { $regex: ".*" + currentUser.governorate + ".*" },
         isApproved: false
       })
         .skip((page - 1) * pageSize)
@@ -48,6 +49,7 @@ export async function getAllForms(
 
       let totalCounts = await FormModel.countDocuments({
         department: { $regex: ".*" + markaz + ".*" },
+        government: { $regex: ".*" + currentUser.governorate + ".*" },
         isApproved: false
       });
       let res = { forms, totalCounts };
@@ -101,6 +103,7 @@ export async function getAllRegisteredForms(
       console.log(markaz);
       let forms = await FormModel.find({
         department: { $regex: ".*" + markaz + ".*" },
+        government: { $regex: ".*" + currentUser.governorate + ".*" },
         isApproved: true
       })
         .skip((page - 1) * pageSize)
@@ -108,6 +111,7 @@ export async function getAllRegisteredForms(
 
       let totalCounts = await FormModel.countDocuments({
         department: { $regex: ".*" + markaz + ".*" },
+        government: { $regex: ".*" + currentUser.governorate + ".*" },
         isApproved: true
       });
       let res = { forms, totalCounts };
@@ -160,12 +164,13 @@ export async function getNotReadyForms(
         Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
       console.log(markaz);
       let forms = await notReadyFormModel
-        .find({ department: { $regex: ".*" + markaz + ".*" } })
+        .find({ department: { $regex: ".*" + markaz + ".*" },government: { $regex: ".*" + currentUser.governorate + ".*" } })
         .skip((page - 1) * pageSize)
         .limit(pageSize);
 
       let totalCounts = await notReadyFormModel.countDocuments({
-        department: { $regex: ".*" + markaz + ".*" }
+        department: { $regex: ".*" + markaz + ".*" },
+        government: { $regex: ".*" + currentUser.governorate + ".*" }
       });
       let res = { forms, totalCounts };
       return res;

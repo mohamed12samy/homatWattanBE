@@ -325,14 +325,6 @@ async function seedData() {
 //     role: "departmentHead"
 // }),
 // new UserModel({
-//   email: "qahera39@homatWattan.com",
-//   name: "qahera39",
-//   username: "qahera39",
-//   password: "Qrs45678", // Randomly generated password
-//     governorate:"محافظة القاهرة",
-//     role: "departmentHead"
-// }),
-// new UserModel({
 //   email: "qahera40@homatWattan.com",
 //   name: "qahera40",
 //   username: "qahera40",
