@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import logger from "../../utils/logger.util";
-import { createUser, deleteUserById, findUser, getAllUsers } from "../services/user.service";
+import { changePassword, createUser, deleteUserById, findUser, getAllUsers } from "../services/user.service";
 import { omit } from "lodash";
 
 export async function createUserHandler(req: Request, res: Response) {
@@ -32,4 +32,13 @@ export const deleteUserHandler = async (req:Request, res:Response) =>{
   if(userDeleted){
   return res.status(201).send({message:"user deleted successfully"})
   }
+}
+export async function changePasswordHandler(req:Request, res:Response)
+{
+  let result : any = await changePassword(req.body);
+
+  if(result.error){
+    return res.status(400).send(result)
+  }
+  return res.status(201).send(result);
 }

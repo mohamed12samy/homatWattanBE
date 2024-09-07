@@ -4,7 +4,8 @@ import {
   createUserHandler,
   getCurrentUserHandler,
   getAllUsersHandler,
-  deleteUserHandler
+  deleteUserHandler,
+  changePasswordHandler
 } from "../controllers/user.controller";
 import { createUserSchema } from "../schemas/user.schema";
 import { requireUser } from "../middlewares/requireUser";
@@ -16,6 +17,7 @@ usersRoutes.post("/users", requireUser, checkPermission('create', 'users'), vali
 
 usersRoutes.get("/me", requireUser, getCurrentUserHandler);
 usersRoutes.get("/users", requireUser, checkPermission('read', 'users'), getAllUsersHandler);
+usersRoutes.put("/users/changePassword", requireUser, checkPermission('update', 'users'), changePasswordHandler);
 
 usersRoutes.delete("/users", requireUser, checkPermission('delete', 'users'), deleteUserHandler);
 export default usersRoutes;

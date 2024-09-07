@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import logger from "../../utils/logger.util";
-import { createForm, deleteForm, getAllForms, getAllRegisteredForms,getNotReadyForms, deleteNotReadyForms, updateNotReadyForm, approveForm, getNotFilledRequiredFieldsPercentage } from "../services/form.service";
+import { createForm, deleteForm,  deleteNotReadyForms, updateNotReadyForm, approveForm, getNotFilledRequiredFieldsPercentage, getForms, getFormsCount } from "../services/form.service";
 import { omit } from "lodash";
+import notReadyFormModel from "../models/notReadyForm.model";
+import FormModel from "../models/form.model";
 
 export async function createFormHandler(req: Request, res: Response) {
     try {
@@ -27,18 +29,18 @@ export async function updateNotReadyFormHandler(req:Request, res:Response){
 
 export async function getFormHandler(req: Request, res: Response) {
     let query = req.query;
-    let forms = await getAllForms(query, res.locals.user._id);
+    let forms = await getForms(query, res.locals.user._id, FormModel, false);
     return res.send(forms);
 }
 export async function getRegisteredMembersHandler(req: Request, res: Response) {
     let query = req.query;
-    let forms = await getAllRegisteredForms(query, res.locals.user._id);
+    let forms = await getForms(query, res.locals.user._id, FormModel, true);
     return res.send(forms);
 }
 
 export async function getNotReadyFormHandler(req: Request, res: Response) {
     let query = req.query;
-    let forms = await getNotReadyForms(query, res.locals.user._id);
+    let forms = await getForms(query, res.locals.user._id, notReadyFormModel, null);
     return res.send(forms);
 }
 
@@ -73,4 +75,10 @@ export async function getNotFilledRequiredFieldsPercentageHandler(req:Request, r
 {
     let forms = await getNotFilledRequiredFieldsPercentage(res.locals.user._id);
     return res.send(forms);
+}
+
+export async function getFormsCountHandler(req:Request, res:Response)
+{
+    let result = await getFormsCount();
+    return res.status(200).send(result);
 }

@@ -47,3 +47,22 @@ export async function deleteUserById(userId: string) {
   let user = await UserModel.findByIdAndDelete(userId);
   return user;
 }
+
+export async function changePassword(body:any){
+  let {accountId, newPassword, confirmPassword} : {accountId:string, newPassword:string, confirmPassword:string} = body;
+  console.log(newPassword !== confirmPassword, newPassword , confirmPassword)
+  if(newPassword !== confirmPassword)
+  {
+    return {error:{message:"Passwords not match"}}
+  }
+
+
+  let account = await UserModel.findById(accountId);
+  if(!account)
+  {
+    return {error:{message:"Account not found"}}
+  }
+  account.password = newPassword;
+  account.save();
+  return {account};
+}
