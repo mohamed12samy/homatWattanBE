@@ -133,11 +133,11 @@ export async function approveForm(formBody: Form, currentUserId: string) {
     if (currentUser === null || currentUser === undefined)
       return { error: { message: "user is not found" } };
     let government: string = currentUser.name.split(/[0-9]/)[0];
-    let markaz: string = Neighborhoods[government][currentUser.name];
+    //let markaz: string = Neighborhoods[government][currentUser.name];
 
     let lastMemeber: any = await FormModel.findOne(
       {
-        department: { $regex: ".*" + markaz + ".*" },
+        government: { $regex: ".*" + currentUser.governorate + ".*" },
         memberIdSuffix: { $exists: true, $ne: null }
       },
       { memberIdSuffix: 1 }
