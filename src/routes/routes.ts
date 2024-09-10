@@ -2,7 +2,7 @@ import { Express, Request, Response } from "express";
 import sessionRoutes from "./sessions.route";
 import usersRoutes from "./users.route";
 import formRoutes from "./form.route";
-import { getReport } from "../controllers/report.controller";
+import { getRegisteredReport, getReport } from "../controllers/report.controller";
 
 function routes(app: Express) {
   /**
@@ -32,6 +32,7 @@ function routes(app: Express) {
    *         description: Report data
    */
   app.get("/api/report", getReport);
+  app.get("/api/report/registered", getRegisteredReport);
 }
 
 export default routes;

@@ -4,6 +4,30 @@ import UserModel, { UserDocument } from "../src/models/user.model";
 async function seedData() {
   const users : UserDocument[] = 
   [
+// new UserModel({
+//     email: "markzia1@homatWattan.com",
+//     name: "markzia1",
+//     username: "markzia1",
+//     password: "Markzia1036971",
+//     phoneNumber: "01478523699",
+//     role: "adminViewer"
+// }),
+//     new UserModel({
+//     email: "markzia2@homatWattan.com",
+//     name: "markzia2",
+//     username: "markzia2",
+//     password: "Markzia236131",
+//     phoneNumber: "01478523699",
+//     role: "adminViewer"
+// }),
+//     new UserModel({
+//     email: "markzia3@homatWattan.com",
+//     name: "markzia3",
+//     username: "markzia3",
+//     password: "Markzia3662626",
+//     phoneNumber: "01478523699",
+//     role: "adminViewer"
+// }),
 //     new UserModel({
 //     email: "admin@homatWattan.com",
 //     name: "admin",
@@ -17,7 +41,7 @@ async function seedData() {
 //   name: "qahera",
 //   username: "qahera",
 //   password: "Abc12347", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -25,7 +49,7 @@ async function seedData() {
 //   name: "qahera1",
 //   username: "qahera1",
 //   password: "Abc12345", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -33,7 +57,7 @@ async function seedData() {
 //   name: "qahera2",
 //   username: "qahera2",
 //   password: "XyZ67890", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -41,7 +65,7 @@ async function seedData() {
 //   name: "qahera3",
 //   username: "qahera3",
 //   password: "LmN45678", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -49,7 +73,7 @@ async function seedData() {
 //   name: "qahera4",
 //   username: "qahera4",
 //   password: "QrS23456", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -57,7 +81,7 @@ async function seedData() {
 //   name: "qahera5",
 //   username: "qahera5",
 //   password: "Tuv56789", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -65,7 +89,7 @@ async function seedData() {
 //   name: "qahera6",
 //   username: "qahera6",
 //   password: "GhI89012", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -73,7 +97,7 @@ async function seedData() {
 //   name: "qahera7",
 //   username: "qahera7",
 //   password: "Opq12345", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -81,7 +105,7 @@ async function seedData() {
 //   name: "qahera8",
 //   username: "qahera8",
 //   password: "WxY67890", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -89,7 +113,7 @@ async function seedData() {
 //   name: "qahera9",
 //   username: "qahera9",
 //   password: "JkL45678", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -97,7 +121,7 @@ async function seedData() {
 //   name: "qahera10",
 //   username: "qahera10",
 //   password: "MnO23456", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -105,7 +129,7 @@ async function seedData() {
 //   name: "qahera11",
 //   username: "qahera11",
 //   password: "Efg56789", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -113,7 +137,7 @@ async function seedData() {
 //   name: "qahera12",
 //   username: "qahera12",
 //   password: "Hij89012", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -121,7 +145,7 @@ async function seedData() {
 //   name: "qahera13",
 //   username: "qahera13",
 //   password: "Stu12345", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -129,7 +153,7 @@ async function seedData() {
 //   name: "qahera14",
 //   username: "qahera14",
 //   password: "Vwx67890", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -137,7 +161,7 @@ async function seedData() {
 //   name: "qahera15",
 //   username: "qahera15",
 //   password: "Yza45678", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -145,7 +169,7 @@ async function seedData() {
 //   name: "qahera16",
 //   username: "qahera16",
 //   password: "BcD23456", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -153,7 +177,7 @@ async function seedData() {
 //   name: "qahera17",
 //   username: "qahera17",
 //   password: "EfG56789", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -161,7 +185,7 @@ async function seedData() {
 //   name: "qahera18",
 //   username: "qahera18",
 //   password: "HiJ89012", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -169,7 +193,7 @@ async function seedData() {
 //   name: "qahera19",
 //   username: "qahera19",
 //   password: "KlM12345", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -177,7 +201,7 @@ async function seedData() {
 //   name: "qahera20",
 //   username: "qahera20",
 //   password: "Nop67890", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -185,7 +209,7 @@ async function seedData() {
 //   name: "qahera21",
 //   username: "qahera21",
 //   password: "Qrs45678", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -193,7 +217,7 @@ async function seedData() {
 //   name: "qahera22",
 //   username: "qahera22",
 //   password: "Tuv23456", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -201,7 +225,7 @@ async function seedData() {
 //   name: "qahera23",
 //   username: "qahera23",
 //   password: "WxY56789", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -209,7 +233,7 @@ async function seedData() {
 //   name: "qahera24",
 //   username: "qahera24",
 //   password: "Yza89012", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -217,7 +241,7 @@ async function seedData() {
 //   name: "qahera25",
 //   username: "qahera25",
 //   password: "BcD12345", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -225,7 +249,7 @@ async function seedData() {
 //   name: "qahera26",
 //   username: "qahera26",
 //   password: "EfG67890", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -233,7 +257,7 @@ async function seedData() {
 //   name: "qahera27",
 //   username: "qahera27",
 //   password: "HiJ45678", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -241,7 +265,7 @@ async function seedData() {
 //   name: "qahera28",
 //   username: "qahera28",
 //   password: "KlM23456", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -249,7 +273,7 @@ async function seedData() {
 //   name: "qahera29",
 //   username: "qahera29",
 //   password: "Nop56789", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -257,7 +281,7 @@ async function seedData() {
 //   name: "qahera30",
 //   username: "qahera30",
 //   password: "Qrs89012", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -265,7 +289,7 @@ async function seedData() {
 //   name: "qahera31",
 //   username: "qahera31",
 //   password: "Tuv12345", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -273,7 +297,7 @@ async function seedData() {
 //   name: "qahera32",
 //   username: "qahera32",
 //   password: "WxY67890", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -281,7 +305,7 @@ async function seedData() {
 //   name: "qahera33",
 //   username: "qahera33",
 //   password: "Yza45678", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //   role: "departmentHead"
 // }),
 // new UserModel({
@@ -289,7 +313,7 @@ async function seedData() {
 //   name: "qahera34",
 //   username: "qahera34",
 //   password: "BcD23456", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -297,7 +321,7 @@ async function seedData() {
 //   name: "qahera35",
 //   username: "qahera35",
 //   password: "EfG56789", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -305,7 +329,7 @@ async function seedData() {
 //   name: "qahera36",
 //   username: "qahera36",
 //   password: "HiJ89012", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -313,7 +337,7 @@ async function seedData() {
 //   name: "qahera37",
 //   username: "qahera37",
 //   password: "KlM12345", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -321,7 +345,7 @@ async function seedData() {
 //   name: "qahera38",
 //   username: "qahera38",
 //   password: "Nop67890", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -329,7 +353,7 @@ async function seedData() {
 //   name: "qahera40",
 //   username: "qahera40",
 //   password: "Tuv23456", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -337,7 +361,7 @@ async function seedData() {
 //   name: "qahera41",
 //   username: "qahera41",
 //   password: "WxY56789", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -345,7 +369,7 @@ async function seedData() {
 //   name: "qahera42",
 //   username: "qahera42",
 //   password: "ZyX12345", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -353,7 +377,7 @@ async function seedData() {
 //   name: "qahera43",
 //   username: "qahera43",
 //   password: "MnO67890", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -361,7 +385,7 @@ async function seedData() {
 //   name: "qahera44",
 //   username: "qahera44",
 //   password: "PqR45678", // Randomly generated password
-//     governorate:"محافظة القاهرة",
+//     governorate:"القاهرة",
 //     role: "departmentHead"
 // }),
 // new UserModel({
@@ -1447,6 +1471,14 @@ async function seedData() {
 //   username: "menoufia",
 //   password: "H4855lM2R",  // Random password
 //   governorate: "المنوفية",
+//   role: "departmentHead"
+// }),
+// new UserModel({
+//   email: "sharqia@homatWattan.com",
+//   name: "sharqia",
+//   username: "sharqia",
+//   password: "K7r4T2xO3I",  // Random password
+//   governorate: "الشرقية",
 //   role: "departmentHead"
 // }),
 // new UserModel({

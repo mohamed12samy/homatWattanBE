@@ -30,11 +30,19 @@ const departmentHead = {
     "update:any": ["*"]
   }, 
 }
-
+const adminViewer = {
+  forms: {
+    "read:any": ["*"],
+  },
+  users:{
+    "read:any": ["*"],
+    }
+}
 let grantObjects = {
   admin:superAdmin,
   governorator,
-  departmentHead
+  departmentHead,
+  adminViewer
 };
 const ac = new AccessControl(grantObjects);
 

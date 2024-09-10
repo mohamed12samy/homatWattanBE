@@ -1,22 +1,22 @@
 export enum Governorate {
-  cairo = "القاهرة",
+  qahera = "القاهرة",
   giza = "الجيزة",
-  alexandria = "الأسكندرية",
+  alex = "الأسكندرية",
   dakahlia = "الدقهلية",
   sharqia = "الشرقية",
   menoufia = "المنوفية",
   qaliobia = "القليوبية",
   beheira = "البحيرة",
   gharbiya = "الغربية",
-  port_said = "بور سعيد",
+  portsaid = "بور سعيد",
   damietta = "دمياط",
-  ismailia = "الإسماعلية",
+  Ismailia = "الإسماعلية",
   suez = "السويس",
   kafr_sheikh = "كفر الشيخ",
   faiyum = "الفيوم",
   bani_suef = "بني سويف",
   matrouh = "مطروح",
-  north_sinai = "شمال سيناء",
+  northsinai = "شمال سيناء",
   south_sinai = "جنوب سيناء",
   minya = "المنيا",
   asyut = "أسيوط",
@@ -26,13 +26,47 @@ export enum Governorate {
   luxor = "الأقصر",
   aswan = "أسوان",
   oases = "الواحات",
-  new_valley = "الوادي الجديد"
+  wadi = "الوادي الجديد"
 }
+type GovernmentsMappingType = {
+  [key: string]: string;
+};
+export const GovernmentsMapping : GovernmentsMappingType  =
+{
+    "القاهرة": "qahera",
+    "الجيزة": "giza",
+    "الأسكندرية": "alex",
+    "الدقهلية": "dakahlia",
+    "الشرقية": "sharqia",
+    "المنوفية": "menoufia",
+    "القليوبية": "qaliobia",
+    "البحيرة": "beheira",
+    "الغربية": "gharbiya",
+    "بور سعيد": "portsaid",
+    "دمياط": "damietta",
+    "الإسماعلية": "Ismailia",
+    "السويس": "suez",
+    "كفر الشيخ": "kafr_sheikh",
+    "الفيوم": "faiyum",
+    "بني سويف": "bani_suef",
+    "مطروح": "matrouh",
+    "شمال سيناء": "northsinai",
+    "جنوب سيناء": "south_sinai",
+    "المنيا": "minya",
+    "أسيوط": "asyut",
+    "سوهاج": "sohag",
+    "قنا": "qena",
+    "البحر الأحمر": "red_sea",
+    "الأقصر": "luxor",
+    "أسوان": "aswan",
+    "الواحات": "oases",
+    "الوادي الجديد": "wadi"
 
+};
 export enum GovernoratesCodes {
   qahera = "01",
   alex = "02",
-  port_said = "03",
+  portsaid = "03",
   suez = "04",
   damietta = "11",
   dakahlia = "12",
@@ -55,7 +89,7 @@ export enum GovernoratesCodes {
   red_sea = "31",
   wadi = "32",
   matrooh = "33",
-  north_sinai = "34",
+  northsinai = "34",
   south_sinai = "35"
 }
 export enum QaheraNeighborhood {
@@ -772,5 +806,6 @@ export const Neighborhoods: any = {
 export enum UsereRoles {
   admin = "admin",
   governorator = "governorator",
-  departmentHead = "departmentHead"
+  departmentHead = "departmentHead",
+  adminViewer = "adminViewer" 
 }
