@@ -15,7 +15,7 @@ export enum Governorate {
   kafr_sheikh = "كفر الشيخ",
   faiyum = "الفيوم",
   bani_suef = "بني سويف",
-  matrouh = "مطروح",
+  matrooh = "مطروح",
   northsinai = "شمال سيناء",
   south_sinai = "جنوب سيناء",
   minya = "المنيا",
@@ -49,7 +49,7 @@ export const GovernmentsMapping : GovernmentsMappingType  =
     "كفر الشيخ": "kafr_sheikh",
     "الفيوم": "faiyum",
     "بني سويف": "bani_suef",
-    "مطروح": "matrouh",
+    "مطروح": "matrooh",
     "شمال سيناء": "northsinai",
     "جنوب سيناء": "south_sinai",
     "المنيا": "minya",
@@ -800,7 +800,25 @@ export const Neighborhoods: any = {
     red_sea5 : "مرسى علم",
     red_sea6 : "شلاتين",
     red_sea7 : "مدينة حلايب"
-  }
+  },
+  damietta:{
+    damietta1:"مركز دمياط",
+    damietta2:"مركز فارسكور",
+    damietta3:"مركز كفر سعد",
+    damietta4:"مركز الزرقا",
+    damietta5:"مركز كفر البطيخ"
+  },
+  matrooh: {
+    matrooh1:"مركز مرسى مطروح",
+    matrooh2:"مركز الحمام",
+    matrooh3:"مركز العلمين",
+    matrooh4:"مركز الضبعة",
+    matrooh5:"مركز النجيلة",
+    matrooh6:"مركز سيدى برانى",
+    matrooh7:"مركز السلوم",
+    matrooh8:"مركز سيوة"
+  },
+  
 };
 
 export enum UsereRoles {
