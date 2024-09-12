@@ -177,57 +177,300 @@ export async function getReligionReport(req:Request, res:Response)
 export async function getOutsiderReport(req:Request, res:Response)
 {
     try {
-        let data : any = await FormModel.aggregate([
+       
+
+        let result : any= await FormModel.aggregate([
+            {
+              // Match only documents where "outsider" is not null
+              "$match": {
+                "outsider": { "$ne": null }
+              }
+            },
+            {
+              // Group by outsider and count the occurrences
+              "$group": {
+                "_id": "$outsider",
+                "count": { "$sum": 1 }
+              }
+            },
+            {
+              // Sort by count in descending order
+              "$sort": { "count": -1 }
+            },
+            {
+              // Split into two pipelines
+              "$facet": {
+                "top10": [
+                  { "$limit": 10 },
+                  { "$project": { "_id": 0, "name": "$_id", "count": 1 } }
+                ],
+                "others": [
+                  { "$skip": 10 },
+                  { "$group": { "_id": null, "count": { "$sum": "$count" } } },
+                  { "$project": { "_id": 0, "count": 1 } }
+                ]
+              }
+            },
+            {
+              // Merge the top10 and others into a single result
+              "$project": {
+                "top10": 1,
+                "others": {
+                  "$arrayElemAt": ["$others.count", 0]
+                }
+              }
+            }
+          ])
+
+          const top10 = result[0].top10;
+          const othersCount = result[0].others;
+          
+          const formattedResult = [...top10, { "others": { "count": othersCount } }];
+    // const result = mapOutsidersData(data);
+         return res.status(200).send(formattedResult);
+       } catch (e: any) {}
+}
+
+export async function getUnionReport(req:Request, res:Response)
+{
+    try {
+      
+        let result : any= await FormModel.aggregate([
+            {
+              // Match only documents where "outsider" is not null
+              "$match": {
+                "union": { "$ne": null }
+              }
+            },
+            {
+              // Group by outsider and count the occurrences
+              "$group": {
+                "_id": "$union",
+                "count": { "$sum": 1 }
+              }
+            },
+            {
+              // Sort by count in descending order
+              "$sort": { "count": -1 }
+            },
+            {
+              // Split into two pipelines
+              "$facet": {
+                "top10": [
+                  { "$limit": 10 },
+                  { "$project": { "_id": 0, "name": "$_id", "count": 1 } }
+                ],
+                "others": [
+                  { "$skip": 10 },
+                  { "$group": { "_id": null, "count": { "$sum": "$count" } } },
+                  { "$project": { "_id": 0, "count": 1 } }
+                ]
+              }
+            },
+            {
+              // Merge the top10 and others into a single result
+              "$project": {
+                "top10": 1,
+                "others": {
+                  "$arrayElemAt": ["$others.count", 0]
+                }
+              }
+            }
+          ])
+
+          const top10 = result[0].top10;
+          const othersCount = result[0].others;
+          
+          const formattedResult = [...top10, { "others": { "count": othersCount } }];
+    // const result = mapOutsidersData(data);
+         return res.status(200).send(formattedResult);
+       } catch (e: any) {}
+}
+
+// المشاركة الحزبية 
+export async function getFieldsReport(req:Request, res:Response)
+{
+    try {
+      let x : string = "fields"
+        let result : any= await FormModel.aggregate([
+            {
+              // Match only documents where "outsider" is not null
+              "$match": {
+                "fields": { "$ne": null }
+              }
+            },
+            {
+              // Group by outsider and count the occurrences
+              "$group": {
+                "_id": "$fields",
+                "count": { "$sum": 1 }
+              }
+            },
+            {
+              // Sort by count in descending order
+              "$sort": { "count": -1 }
+            },
+            {
+              // Split into two pipelines
+              "$facet": {
+                "top10": [
+                  { "$limit": 10 },
+                  { "$project": { "_id": 0, "name": "$_id", "count": 1 } }
+                ],
+                "others": [
+                  { "$skip": 10 },
+                  { "$group": { "_id": null, "count": { "$sum": "$count" } } },
+                  { "$project": { "_id": 0, "count": 1 } }
+                ]
+              }
+            },
+            {
+              // Merge the top10 and others into a single result
+              "$project": {
+                "top10": 1,
+                "others": {
+                  "$arrayElemAt": ["$others.count", 0]
+                }
+              }
+            }
+          ])
+
+          const top10 = result[0].top10;
+          const othersCount = result[0].others;
+          
+          const formattedResult = [...top10, { "others": { "count": othersCount } }];
+    // const result = mapOutsidersData(data);
+         return res.status(200).send(formattedResult);
+       } catch (e: any) {}
+}
+
+
+export async function getAgesReport(req:Request, res:Response)
+{
+    try {
+        let result : any= await FormModel.aggregate( [
+            {
+              // Calculate the age based on birth_date
+              "$addFields": {
+                "age": {
+                  "$subtract": [
+                    { "$year": new Date() },
+                    { "$year": { "$dateFromString": { "dateString": "$birth_date" } } }
+                  ]
+                }
+              }
+            },
+            {
+              // Add a field to classify age into ranges
+              "$addFields": {
+                "ageRange": {
+                  "$switch": {
+                    "branches": [
+                      { "case": { "$and": [{ "$gte": ["$age", 20] }, { "$lte": ["$age", 35] }] }, "then": "20-35" },
+                      { "case": { "$and": [{ "$gte": ["$age", 36] }, { "$lte": ["$age", 45] }] }, "then": "36-45" },
+                      { "case": { "$and": [{ "$gte": ["$age", 46] }, { "$lte": ["$age", 60] }] }, "then": "46-60" },
+                      { "case": { "$gte": ["$age", 61] }, "then": ">60" }
+                    ],
+                    "default": "Unknown"
+                  }
+                }
+              }
+            },
+            {
+              // Group by government, department, and age range
+              "$group": {
+                "_id": {
+                  "government": "$government",
+                  "district": "$department",
+                  "ageRange": "$ageRange"
+                },
+                "count": { "$sum": 1 }
+              }
+            },
+            {
+              // Group by government and aggregate department age ranges
+              "$group": {
+                "_id": {
+                  "government": "$_id.government",
+                  "district": "$_id.district"
+                },
+                "ageRanges": {
+                  "$push": {
+                    "k": "$_id.ageRange",
+                    "v": "$count"
+                  }
+                }
+              }
+            },
+            {
+              // Transform department ageRanges array into objects
+              "$group": {
+                "_id": "$_id.government",
+                "districts": {
+                  "$push": {
+                    "district": "$_id.district",
+                    "ageRanges": { "$arrayToObject": "$ageRanges" }
+                  }
+                }
+              }
+            },
+           
+            {
+              // Format the final output
+              "$project": {
+                "_id": 0,
+                "government": "$_id",
+                "totalAgeRanges": 1,
+                "districts": 1
+              }
+            }
+          ])
+
+
+
+        /*
+        */
+         return res.status(200).send(result);
+       } catch (e: any) {}
+}
+
+
+export async function getDegreeReport(req:Request, res:Response)
+{
+    try {
+        let result : any= await FormModel.aggregate( [
             {
               $group: {
                 _id: {
-                  government: "$government",
+                  degree: "$degree",
                   department: "$department",
-                  outsider: "$outsider"
+                  government: "$government"
                 },
                 count: { $sum: 1 }
               }
             },
-            {
-              $group: {
-                _id: {
-                  government: "$_id.government",
-                  department: "$_id.department"
-                },
-                outsiders: {
-                  $sum: {
-                    $cond: [ { $ifNull: ["$_id.outsider", false] }, "$count", 0]
-                  }
-                }
-              }
-            },
-            {
-              $group: {
-                _id: "$_id.government",
-                outsiders: { $sum: "$outsiders" },
-                districts: {
-                  $push: {
-                    name: "$_id.department",
-                    outsiders: "$outsiders"
-                  }
-                }
-              }
-            },
+          
             {
               $project: {
                 _id: 0,
-                government: "$_id",
-                outsiders: 1,
-                districts:1
-                
+                degree: "$_id.degree",
+                department: "$_id.department",
+                government: "$_id.government",
+                count: 1
               }
             }
-          ]
-          );
-     const result = mapOutsidersData(data);
+          ])
+
+
+
+        /*
+        */
          return res.status(200).send(result);
        } catch (e: any) {}
 }
+
+
+
 
 
 function mapGenderData(rawData: any[]): MappedData {
@@ -329,47 +572,6 @@ function mapGenderData(rawData: any[]): MappedData {
   }
 
 
-  function mapOutsidersData(rawData: any[]): any {
-    let totalOutsiders = 0;
-
-    const governments: { [key: string]: any } = {};
-  
-    rawData.forEach((govData) => {
-      const governmentKey  = GovernmentsMapping[govData.government]
-      if (!governmentKey) return; // Skip if government not found in Neighborhoods
-      
-      if (!governments[governmentKey]) {
-        governments[governmentKey] = {
-            outsiders: 0,
-          districts: {},
-        };
-      }
-  
-      let govOutsiders = 0;
-  
-      govData.districts.forEach((districtData: any) => {
-        const districtKey = Object.keys(Neighborhoods[governmentKey]).find(
-          (key) => Neighborhoods[governmentKey][key] === districtData.name
-        );
-        
-        if (districtKey) {
-          governments[governmentKey].districts[districtKey] = {
-            outsiders: districtData.outsiders,
-          };
-          govOutsiders += districtData.outsiders;
-        }
-      });
-  
-      governments[governmentKey].outsiders += govOutsiders;
-  
-      totalOutsiders += govData.outsiders;
-    });
-  
-    return {
-        outsiders: totalOutsiders,
-      governments,
-    };
-  }
 /**
    * 
    * 
