@@ -2,7 +2,7 @@ import { Express, Request, Response } from "express";
 import sessionRoutes from "./sessions.route";
 import usersRoutes from "./users.route";
 import formRoutes from "./form.route";
-import { getRegisteredReport, getReport } from "../controllers/report.controller";
+import { getGenderReport, getOutsiderReport, getRegisteredReport, getReligionReport, getReport } from "../controllers/report.controller";
 
 function routes(app: Express) {
   /**
@@ -33,6 +33,9 @@ function routes(app: Express) {
    */
   app.get("/api/report", getReport);
   app.get("/api/report/registered", getRegisteredReport);
+  app.get("/api/report/gender", getGenderReport);
+  app.get("/api/report/religion", getReligionReport);
+  app.get("/api/report/outsider", getOutsiderReport);
 }
 
 export default routes;
