@@ -438,34 +438,102 @@ export async function getAgesReport(req:Request, res:Response)
 export async function getDegreeReport(req:Request, res:Response)
 {
     try {
-        let result : any= await FormModel.aggregate( [
+        let result : any= await FormModel.aggregate([
+            // Ensure documents with valid government, department, and degree are used
+            {
+              $match: {
+                government: { $exists: true, $ne: null },
+                department: { $exists: true, $ne: null },
+                degree: { $exists: true, $ne: null }
+              }
+            },
+            // Group by government and department (district), counting degrees
             {
               $group: {
                 _id: {
-                  degree: "$degree",
+                  government: "$government",
                   department: "$department",
-                  government: "$government"
+                  degree: "$degree"
                 },
                 count: { $sum: 1 }
               }
             },
-          
+            // Group again to organize by government and department, pushing degrees
+            {
+              $group: {
+                _id: {
+                  government: "$_id.government",
+                  department: "$_id.department"
+                },
+                degrees: {
+                  $push: {
+                    name: "$_id.degree",
+                    count: "$count"
+                  }
+                }
+              }
+            },
+            // Group by government and gather all districts with their degrees
+            {
+              $group: {
+                _id: "$_id.government",
+                districts: {
+                  $push: {
+                    name: "$_id.department",
+                    degrees: "$degrees"
+                  }
+                }
+              }
+            },
+            // Final projection to structure the output
             {
               $project: {
                 _id: 0,
-                degree: "$_id.degree",
-                department: "$_id.department",
-                government: "$_id.government",
-                count: 1
+                name: "$_id",
+                districts: "$districts"
+              }
+            },
+            // Create a facet for the degrees and governments
+            {
+              $facet: {
+                governments: [
+                  {
+                    $project: {
+                      name: "$name",
+                      districts: "$districts"
+                    }
+                  }
+                ]
               }
             }
           ])
 
+        let degreesCount :any =  await FormModel.aggregate([
+            {
+                $match: {
+                  government: { $exists: true, $ne: null },
+                  department: { $exists: true, $ne: null },
+                  degree: { $exists: true, $ne: null }
+                }
+              },
+              // Group by degree to get the total count of each degree across all documents
+              {
+                $group: {
+                  _id: "$degree",
+                  count: { $sum: 1 }
+                }
+              },
+              {
+                $project: {
+                  _id: 0,
+                  name: "$_id",
+                  count: "$count"
+                }
+              }
+        ])
 
-
-        /*
-        */
-         return res.status(200).send(result);
+        let finalResult :any = {degrees:degreesCount, ...result[0]}
+         return res.status(200).send(finalResult);
        } catch (e: any) {}
 }
 
