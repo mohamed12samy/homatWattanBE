@@ -14,6 +14,9 @@ const superAdmin = {
     "create:any": ["*"],
     "delete:any": ["*"],
     "update:any": ["*"]
+    },
+    reports:{
+    "read:any": ["*"],
     }
 };
 const governorator = {
@@ -35,6 +38,9 @@ const adminViewer = {
     "read:any": ["*"],
   },
   users:{
+    "read:any": ["*"],
+    },
+    reports:{
     "read:any": ["*"],
     }
 }

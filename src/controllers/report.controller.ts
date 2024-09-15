@@ -1,6 +1,6 @@
 import { GovernmentReligionDto, MappedReligionData } from "../constants/religionReportDtos";
 import { FormsReportDto, Government, MappedData } from "../constants/responses";
-import { GovernmentsMapping, Governorate, Neighborhoods } from "../enums/enums";
+import { GovernmentsMapping, Governorate, Knew, Neighborhoods } from "../enums/enums";
 import FormModel from "../models/form.model";
 import UserModel from "../models/user.model";
 import { Request, Response } from "express";
@@ -538,7 +538,161 @@ export async function getDegreeReport(req:Request, res:Response)
 }
 
 
+export async function getElectionsReport(req:Request, res:Response) {
+    try {
+        let result : any= await FormModel.aggregate([
+            // Match documents where `election_candidate` exists and is not empty
+            {
+              $match: {
+                election_candidate: { $exists: true, $ne: "" }
+              }
+            },
+            // Group by `government`, and collect all candidates
+            {
+              $group: {
+                _id: "$government",
+                count: { $sum: 1 }, // Count number of documents per government
+                candidates: { 
+                  $push: {
+                    _id:"$_id",
+                    username: "$username", 
+                    id: "$id", 
+                    birth_date: "$birth_date", 
+                    gender: "$gender", 
+                    religion: "$religion",
+                    phoneNumber: "$phoneNumber",
+                    election_candidate: "$election_candidate",
+                    election_data:"$election_data",
+                    department: "$department",
+                    fields:"$fields",
+                    degree:"$degree"
+                  } 
+                }
+              }
+            },
+            // Project the final structure, rename `_id` to `name`
+            {
+              $project: {
+                _id: 0,
+                name: "$_id",
+                count: "$count",
+                candidates: "$candidates"
+              }
+            }
+          ])
 
+        
+         return res.status(200).send(result);
+       } catch (e: any) {}
+}
+
+export async function getKnewReport(req:Request, res:Response) {
+    try {
+        let result : any= await FormModel.aggregate([
+            // Match documents where `knew` is not empty
+            {
+                $match: {
+                    knew: { $exists: true, $ne: "" }
+                  }
+            },
+            // Group by government, department, and knew to count occurrences
+            {
+              $group: {
+                _id: {
+                  government: "$government",
+                  department: "$department",
+                  knew: "$knew"
+                },
+                count: { $sum: 1 }
+              }
+            },
+            // Group by government and department, aggregating knew counts
+            {
+              $group: {
+                _id: {
+                  government: "$_id.government",
+                  department: "$_id.department"
+                },
+                knew: {
+                  $push: {
+                    name: "$_id.knew",
+                    count: "$count"
+                  }
+                }
+              }
+            },
+            // Group by government to gather all departments
+            {
+              $group: {
+                _id: "$_id.government",
+                departments: {
+                  $push: {
+                    name: "$_id.department",
+                    knew: "$knew"
+                  }
+                }
+              }
+            },
+            // Project the final structure
+            {
+              $project: {
+                _id: 0,
+                name: "$_id",
+                departments: {
+                  $map: {
+                    input: "$departments",
+                    as: "dept",
+                    in: {
+                      name: "$$dept.name",
+                      knew: [
+                        {
+                          name: Knew.socialMedia,
+                          count: {
+                            $let: {
+                              vars: { count: { $arrayElemAt: [{ $filter: { input: "$$dept.knew", as: "k", cond: { $eq: ["$$k.name", Knew.socialMedia] } } }, 0] } },
+                              in: { $ifNull: ["$$count.count", 0] }
+                            }
+                          }
+                        },
+                        {
+                          name: Knew.friends,
+                          count: {
+                            $let: {
+                              vars: { count: { $arrayElemAt: [{ $filter: { input: "$$dept.knew", as: "k", cond: { $eq: ["$$k.name", Knew.friends] } } }, 0] } },
+                              in: { $ifNull: ["$$count.count", 0] }
+                            }
+                          }
+                        },
+                        {
+                          name: Knew.activities,
+                          count: {
+                            $let: {
+                              vars: { count: { $arrayElemAt: [{ $filter: { input: "$$dept.knew", as: "k", cond: { $eq: ["$$k.name", Knew.activities] } } }, 0] } },
+                              in: { $ifNull: ["$$count.count", 0] }
+                            }
+                          }
+                        },
+                        {
+                          name: "اخرى",
+                          count: {
+                            $let: {
+                              vars: { count: { $arrayElemAt: [{ $filter: { input: "$$dept.knew", as: "k", cond: { $not: { $in: ["$$k.name", [Knew.socialMedia, Knew.friends, Knew.activities]] } } } }, 0] } },
+                              in: { $ifNull: ["$$count.count", 0] }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ])
+
+        
+         return res.status(200).send(result);
+       } catch (e: any) {}
+}
 
 
 function mapGenderData(rawData: any[]): MappedData {

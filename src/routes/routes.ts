@@ -2,7 +2,8 @@ import { Express, Request, Response } from "express";
 import sessionRoutes from "./sessions.route";
 import usersRoutes from "./users.route";
 import formRoutes from "./form.route";
-import { getAgesReport, getDegreeReport, getFieldsReport, getGenderReport, getOutsiderReport, getRegisteredReport, getReligionReport, getReport, getUnionReport } from "../controllers/report.controller";
+import reportRoutes from "./report.route";
+import { checkPermission } from "../middlewares/checkRolesPermissions";
 
 function routes(app: Express) {
   /**
@@ -21,6 +22,7 @@ function routes(app: Express) {
   app.use("/api", usersRoutes);
   app.use("/api", sessionRoutes);
   app.use("/api", formRoutes);
+  app.use("/api", checkPermission('read', 'reports'), reportRoutes);
 
   /**
    * @swagger
@@ -31,15 +33,6 @@ function routes(app: Express) {
    *       200:
    *         description: Report data
    */
-  app.get("/api/report", getReport);
-  app.get("/api/report/registered", getRegisteredReport);
-  app.get("/api/report/gender", getGenderReport);
-  app.get("/api/report/religion", getReligionReport);
-  app.get("/api/report/outsider", getOutsiderReport);
-  app.get("/api/report/union", getUnionReport);
-  app.get("/api/report/fields", getFieldsReport);
-  app.get("/api/report/ages", getAgesReport);
-  app.get("/api/report/degree", getDegreeReport);
-}
 
+}
 export default routes;

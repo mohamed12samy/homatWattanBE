@@ -463,3 +463,9 @@ export enum UsereRoles {
   departmentHead = "departmentHead",
   adminViewer = "adminViewer" 
 }
+
+export const enum Knew {
+  socialMedia  = "وسائل التواصل الاجتماعي والميديا",
+  friends = "الاصدقاء والمعارف",
+  activities = "انشطته ومبادراته وخدماته"
+}
