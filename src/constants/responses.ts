@@ -245,15 +245,15 @@ export const FormsReportDto: any = {
           suez5: 0
         }
       },
-      port_said: {
+      portsaid: {
         membersCount: 0,
         districts: {
-          port_said1: 0,
-          port_said2: 0,
-          port_said3: 0,
-          port_said4: 0,
-          port_said5: 0,
-          port_said6: 0
+          portsaid1: 0,
+          portsaid2: 0,
+          portsaid3: 0,
+          portsaid4: 0,
+          portsaid5: 0,
+          portsaid6: 0
         }
       },
       red_sea: {
@@ -267,7 +267,152 @@ export const FormsReportDto: any = {
           red_sea6: 0,
           red_sea7: 0
         }
-      }
+      },
+      northsinai: {
+        membersCount: 0,
+        northsinai1 : 0,
+        northsinai2 : 0,
+        northsinai3 : 0,
+        northsinai4 : 0,
+        northsinai5 : 0,
+        northsinai6 : 0
+      },
+      bani_suef: {
+        membersCount: 0,
+        bani_suef1 : 0,
+        bani_suef2 : 0,
+        bani_suef3 :0,
+        bani_suef4 : 0,
+        bani_suef5 : 0,
+        bani_suef6 : 0,
+        bani_suef7 : 0
+      },
+      faiyum: {
+        membersCount: 0,
+        faiyum1 :0,
+        faiyum2 :0,
+        faiyum3 :0,
+        faiyum4 :0,
+        faiyum5 :0,
+        faiyum6 :0,
+      },
+      minya: {
+        membersCount: 0,
+        minya1 : 0,
+        minya2 : 0,
+        minya3 : 0,
+        minya4 : 0,
+        minya5 : 0,
+        minya6 : 0,
+        minya7 : 0,
+        minya8 : 0,
+        minya9 : 0,
+      },
+      asyut: {
+        membersCount: 0,
+        asyut1 : 0,
+        asyut2 : 0,
+        asyut3 : 0,
+        asyut4 : 0,
+        asyut5 : 0,
+        asyut6 : 0,
+        asyut7 : 0,
+        asyut8 : 0,
+        asyut9 : 0,
+        asyut10 :0,
+        asyut11 :0,
+        asyut12 :0,
+        asyut13 :0,
+      },
+      wadi: {
+        membersCount: 0,
+        wadi1 : 0,
+        wadi2 : 0,
+        wadi3 : 0,
+        wadi4 : 0,
+        wadi5 : 0,
+      },
+      sohag: {
+        membersCount: 0,
+        sohag1 : 0,
+        sohag2 : 0,
+        sohag3 : 0,
+        sohag4 : 0,
+        sohag5 : 0,
+        sohag6 : 0,
+        sohag7 : 0,
+        sohag8 : 0,
+        sohag9 : 0,
+        sohag10 :0,
+        sohag11 :0,
+        sohag12 :0,
+        sohag13 :0,
+        sohag14 :0,
+      },
+      qena: {
+        membersCount: 0,
+        qena1 :0,
+        qena2 :0,
+        qena3 :0,
+        qena4 :0,
+        qena5 :0,
+        qena6 :0,
+        qena7 :0,
+        qena8 :0,
+        qena9 :0,
+      },
+      luxor: {
+        membersCount: 0,
+        luxor1 : 0,
+        luxor2 : 0,
+        luxor3 : 0,
+        luxor4 : 0,
+        luxor5 : 0,
+        luxor6 : 0,
+        luxor7 : 0,
+      },
+      aswan: {
+        membersCount: 0,
+        aswan1 : 0,
+        aswan2 : 0,
+        aswan3 :0,
+        aswan4 :0,
+        aswan5 :0,
+        aswan6 :0,
+        aswan7 :0,
+        aswan8 :0,
+      },
+      south_sinai: {
+        membersCount: 0,
+        south_sinai1 : 0,
+        south_sinai2 : 0,
+        south_sinai3 : 0,
+        south_sinai4 : 0,
+        south_sinai5 : 0,
+        south_sinai6 : 0,
+        south_sinai7 : 0,
+        south_sinai8 : 0,
+        south_sinai9 : 0,
+      },
+      damietta:{
+        membersCount: 0,
+        damietta1:0,
+        damietta2:0,
+        damietta3:0,
+        damietta4:0,
+        damietta5:0,
+      },
+      matrooh: {
+        membersCount: 0,
+        matrooh1:0,
+        matrooh2:0,
+        matrooh3:0,
+        matrooh4:0,
+        matrooh5:0,
+        matrooh6:0,
+        matrooh7:0,
+        matrooh8:0,
+      },
     }
   };
 
@@ -518,15 +663,15 @@ export const FormsReportDto: any = {
           suez5: 0
         }
       },
-      port_said: {
+      portsaid: {
         membersCount: 0,
         districts: {
-          port_said1: 0,
-          port_said2: 0,
-          port_said3: 0,
-          port_said4: 0,
-          port_said5: 0,
-          port_said6: 0
+          portsaid1: 0,
+          portsaid2: 0,
+          portsaid3: 0,
+          portsaid4: 0,
+          portsaid5: 0,
+          portsaid6: 0
         }
       },
       red_sea: {
@@ -540,7 +685,8 @@ export const FormsReportDto: any = {
           red_sea6: 0,
           red_sea7: 0
         }
-      }
+      },
+      
     }
   };
 
