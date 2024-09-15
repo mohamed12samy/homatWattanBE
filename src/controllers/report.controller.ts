@@ -2,7 +2,7 @@ import {
   GovernmentReligionDto,
   MappedReligionData
 } from "../constants/religionReportDtos";
-import { FormsReportDto, Government, MappedData } from "../constants/responses";
+import { FormsGenderReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
 import {
   GovernmentsMapping,
   Governorate,
@@ -23,14 +23,7 @@ export async function getReport(req: Request, res: Response) {
     return res.status(200).send({ usersCount, formsCount });
   } catch (e: any) {}
 }
-function findKeyByValue(object: any, value: any) {
-  for (let key in object) {
-    if (object[key] === value) {
-      return key;
-    }
-  }
-  return null;
-}
+
 export async function getRegisteredReport(req: Request, res: Response) {
   try {
     const result: any = FormsReportDto;
@@ -832,52 +825,80 @@ export async function getKnewReport(req: Request, res: Response) {
 }
 
 function mapGenderData(rawData: any[]): MappedData {
+    
+
   let totalMales = 0;
   let totalFemales = 0;
-  const governments: { [key: string]: Government } = {};
+    let result  :any = FormsGenderReportDto;
+    rawData.forEach((govData) => {
 
-  rawData.forEach((govData) => {
-    const governmentKey = GovernmentsMapping[govData.government];
-    if (!governmentKey) return; // Skip if government not found in Neighborhoods
+        const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
+        result["governments"][govKey]["males"] = govData["males"]
+        result["governments"][govKey]["females"] = govData["females"]
+        totalMales += govData["males"];
+        totalFemales += govData["females"];
 
-    if (!governments[governmentKey]) {
-      governments[governmentKey] = {
-        males: 0,
-        females: 0,
-        districts: {}
-      };
-    }
+        const districts : any[] = govData["districts"];
+        
+        districts.forEach(dist => {
+            const distKey : string | null = findKeyByValue(Neighborhoods[govKey], dist["name"]);
+            if(distKey){
+                result["governments"][govKey]["districts"][distKey]["males"] = dist["males"]
+            result["governments"][govKey]["districts"][distKey]["females"] =  dist["females"]}
+        });
 
-    let govMales = 0;
-    let govFemales = 0;
 
-    govData.districts.forEach((districtData: any) => {
-      const districtKey = Object.keys(Neighborhoods[governmentKey]).find(
-        (key) => Neighborhoods[governmentKey][key] === districtData.name
-      );
+    })
+    result["males"] = totalMales;
+    result["females"] = totalFemales;
+return result;
+   
+//   let totalMales = 0;
+//   let totalFemales = 0;
+//   const governments: { [key: string]: Government } = {};
 
-      if (districtKey) {
-        governments[governmentKey].districts[districtKey] = {
-          males: districtData.males,
-          females: districtData.females
-        };
-        govMales += districtData.males;
-        govFemales += districtData.females;
-      }
-    });
+//   rawData.forEach((govData) => {
+//     const governmentKey = GovernmentsMapping[govData.government];
+//     if (!governmentKey) return; // Skip if government not found in Neighborhoods
 
-    governments[governmentKey].males += govMales;
-    governments[governmentKey].females += govFemales;
+//     if (!governments[governmentKey]) {
+//       governments[governmentKey] = {
+//         males: 0,
+//         females: 0,
+//         districts: {}
+//       };
+//     }
 
-    totalMales += govData.males;
-    totalFemales += govData.females;
-  });
+//     let govMales = 0;
+//     let govFemales = 0;
 
-  return {
-    males: totalMales,
-    females: totalFemales,
-    governments
-  };
+//     govData.districts.forEach((districtData: any) => {
+//       const districtKey = Object.keys(Neighborhoods[governmentKey]).find(
+//         (key) => Neighborhoods[governmentKey][key] === districtData.name
+//       );
+
+//       if (districtKey) {
+//         governments[governmentKey].districts[districtKey] = {
+//           males: districtData.males,
+//           females: districtData.females
+//         };
+//         govMales += districtData.males;
+//         govFemales += districtData.females;
+//       }
+//     });
+
+//     governments[governmentKey].males += govMales;
+//     governments[governmentKey].females += govFemales;
+
+//     totalMales += govData.males;
+//     totalFemales += govData.females;
+//   });
+
+//   return {
+//     males: totalMales,
+//     females: totalFemales,
+//     governments
+//   };
 }
 
 function mapReligionData(rawData: any[]): MappedReligionData {
@@ -928,7 +949,14 @@ function mapReligionData(rawData: any[]): MappedReligionData {
     governments
   };
 }
-
+function findKeyByValue(object: any, value: any) {
+    for (let key in object) {
+      if (object[key] === value) {
+        return key;
+      }
+    }
+    return null;
+  }
 /**
    * 
    * 
