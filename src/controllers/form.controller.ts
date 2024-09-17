@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import logger from "../../utils/logger.util";
-import { createForm, deleteForm,  deleteNotReadyForms, updateNotReadyForm, approveForm, getNotFilledRequiredFieldsPercentage, getForms, getFormsCount } from "../services/form.service";
+import { createForm, deleteForm,  deleteNotReadyForms, updateNotReadyForm, approveForm, getNotFilledRequiredFieldsPercentage,checkIdExistence, getForms, getFormsCount } from "../services/form.service";
 import { omit } from "lodash";
 import notReadyFormModel from "../models/notReadyForm.model";
 import FormModel from "../models/form.model";
@@ -80,5 +80,12 @@ export async function getNotFilledRequiredFieldsPercentageHandler(req:Request, r
 export async function getFormsCountHandler(req:Request, res:Response)
 {
     let result = await getFormsCount();
+    return res.status(200).send(result);
+}
+
+export async function checkIdExistenceHandler(req:Request, res:Response)
+{
+    const {id}  = req.query as { id: string };
+    let result = await checkIdExistence(id);
     return res.status(200).send(result);
 }

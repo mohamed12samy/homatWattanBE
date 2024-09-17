@@ -245,6 +245,15 @@ export async function getFormsCount ()
   return {notReadyForms, registeredForms, forms}
 }
 
+export async function checkIdExistence(id:string){
+  let form = await FormModel.findOne({id:id});
+if(form)
+{
+  return {exist:true}
+}
+return {exist:false}
+}
+
 async function filterDataWithCount(
   Model: mongoose.Model<any>,
   queryFilter: any,
@@ -258,3 +267,4 @@ async function filterDataWithCount(
 
   return { forms, totalCounts };
 }
+
