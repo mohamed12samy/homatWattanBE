@@ -2,7 +2,7 @@ import {
   GovernmentReligionDto,
   MappedReligionData
 } from "../constants/religionReportDtos";
-import { FormsGenderReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
+import { FormsAgeReportDto, FormsGenderReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
 import {
   GovernmentsMapping,
   Governorate,
@@ -407,7 +407,7 @@ export async function getFieldsReport(req: Request, res: Response) {
 
 export async function getAgesReport(req: Request, res: Response) {
   try {
-    let result: any = await FormModel.aggregate([
+    let data: any = await FormModel.aggregate([
       {
         // Calculate the age based on birth_date
         $addFields: {
@@ -482,7 +482,7 @@ export async function getAgesReport(req: Request, res: Response) {
           _id: "$_id.government",
           districts: {
             $push: {
-              district: "$_id.district",
+              name: "$_id.district",
               ageRanges: { $arrayToObject: "$ageRanges" }
             }
           }
@@ -500,8 +500,7 @@ export async function getAgesReport(req: Request, res: Response) {
       }
     ]);
 
-    /*
-     */
+    let result = mapAgesReport(data)
     return res.status(200).send(result);
   } catch (e: any) {}
 }
@@ -974,6 +973,33 @@ return result;
 //     governments
 //   };
 }
+
+function mapAgesReport(rawData:any[]) : any {
+      let result  :any = FormsAgeReportDto;
+      rawData.forEach((govData) => {
+          const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
+          const districts : any[] = govData["districts"];
+          districts.forEach(dist => {
+              const distKey : string | null = findKeyByValue(Neighborhoods[govKey], dist["name"]);
+              if(distKey){
+                 
+                  result["governments"][govKey]["districts"][distKey]["ageRanges"]["20-35"] = dist["ageRanges"]["20-35"] ?? 0; 
+                  result["governments"][govKey]["districts"][distKey]["ageRanges"]["36-45"] = dist["ageRanges"]["36-45"] ?? 0; 
+                  result["governments"][govKey]["districts"][distKey]["ageRanges"]["46-60"] = dist["ageRanges"]["46-60"] ?? 0; 
+                  result["governments"][govKey]["districts"][distKey]["ageRanges"][">60"] = dist["ageRanges"][">60"] ?? 0; 
+
+                  result["governments"][govKey]["ageRanges"]["20-35"] += result["governments"][govKey]["districts"][distKey]["ageRanges"]["20-35"];
+                  result["governments"][govKey]["ageRanges"]["36-45"] += result["governments"][govKey]["districts"][distKey]["ageRanges"]["36-45"];
+                  result["governments"][govKey]["ageRanges"]["46-60"] += result["governments"][govKey]["districts"][distKey]["ageRanges"]["46-60"];
+                  result["governments"][govKey]["ageRanges"][">60"] += result["governments"][govKey]["districts"][distKey]["ageRanges"][">60"];
+                }
+       } );
+      })
+      
+  return result;
+}
+
+
 function findKeyByValue(object: any, value: any) {
     for (let key in object) {
       if (object[key] === value) {

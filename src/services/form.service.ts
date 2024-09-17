@@ -26,18 +26,17 @@ export async function createForm(input: Omit<Form, "createdAt" | "updatedAt">) {
   }
 }
 
-
 export async function getForms(
   query: FilterQuery<Form>,
   currentUserID: string,
-  model :mongoose.Model<any>,
-  isApproved : boolean|null
+  model: mongoose.Model<any>,
+  isApproved: boolean | null
 ) {
   const { page, pageSize } = query;
   let currentUser = await findUser({ _id: currentUserID });
-  
+
   if (currentUser) {
-    let filterQuery: any = {} ;
+    let filterQuery: any = {};
     switch (currentUser.role) {
       case UsereRoles.departmentHead:
         let markaz: string =
@@ -54,10 +53,10 @@ export async function getForms(
           department && government
             ? { department, government, isApproved }
             : department
-            ? { department , isApproved}
+            ? { department, isApproved }
             : government
             ? { government, isApproved }
-            : {isApproved};
+            : { isApproved };
         break;
       case UsereRoles.governorator:
         filterQuery = {
@@ -236,22 +235,20 @@ export async function getNotFilledRequiredFieldsPercentage(
   } else return null;
 }
 
-export async function getFormsCount ()
-{
+export async function getFormsCount() {
   let notReadyForms = await notReadyFormModel.countDocuments();
-  let registeredForms = await FormModel.countDocuments({isApproved:true});
-  let forms = await FormModel.countDocuments({isApproved:false});
+  let registeredForms = await FormModel.countDocuments({ isApproved: true });
+  let forms = await FormModel.countDocuments({ isApproved: false });
 
-  return {notReadyForms, registeredForms, forms}
+  return { notReadyForms, registeredForms, forms };
 }
 
-export async function checkIdExistence(id:string){
-  let form = await FormModel.findOne({id:id});
-if(form)
-{
-  return {exist:true}
-}
-return {exist:false}
+export async function checkIdExistence(id: string) {
+  let form = await FormModel.findOne({ id: id });
+  if (form) {
+    return { exist: true };
+  }
+  return { exist: false };
 }
 
 async function filterDataWithCount(
@@ -267,4 +264,3 @@ async function filterDataWithCount(
 
   return { forms, totalCounts };
 }
-
