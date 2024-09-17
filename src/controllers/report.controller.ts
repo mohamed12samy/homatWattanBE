@@ -2,7 +2,7 @@ import {
   GovernmentReligionDto,
   MappedReligionData
 } from "../constants/religionReportDtos";
-import { FormsGenderReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
+import { FormsGenderReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
 import {
   GovernmentsMapping,
   Governorate,
@@ -824,7 +824,7 @@ export async function getKnewReport(req: Request, res: Response) {
   } catch (e: any) {}
 }
 
-function mapGenderData(rawData: any[]): MappedData {
+function mapGenderData(rawData: any[]): any {
     
 
   let totalMales = 0;
@@ -901,53 +901,78 @@ return result;
 //   };
 }
 
-function mapReligionData(rawData: any[]): MappedReligionData {
+function mapReligionData(rawData: any[]): any {
   let totalMuslims = 0;
   let totalChristians = 0;
-  const governments: { [key: string]: GovernmentReligionDto } = {};
 
-  rawData.forEach((govData) => {
-    const governmentKey = GovernmentsMapping[govData.government];
-    if (!governmentKey) return; // Skip if government not found in Neighborhoods
+    let result  :any = FormsReligionReportDto;
+    rawData.forEach((govData) => {
 
-    if (!governments[governmentKey]) {
-      governments[governmentKey] = {
-        muslims: 0,
-        christians: 0,
-        districts: {}
-      };
-    }
+        const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
+        result["governments"][govKey]["muslims"] = govData["muslims"]
+        result["governments"][govKey]["christians"] = govData["christians"]
+        totalMuslims += govData["muslims"];
+        totalChristians += govData["christians"];
 
-    let govMuslims = 0;
-    let govChristians = 0;
+        const districts : any[] = govData["districts"];
+        
+        districts.forEach(dist => {
+            const distKey : string | null = findKeyByValue(Neighborhoods[govKey], dist["name"]);
+            if(distKey){
+                result["governments"][govKey]["districts"][distKey]["muslims"] = dist["muslims"]
+            result["governments"][govKey]["districts"][distKey]["christians"] =  dist["christians"]}
+        });
 
-    govData.districts.forEach((districtData: any) => {
-      const districtKey = Object.keys(Neighborhoods[governmentKey]).find(
-        (key) => Neighborhoods[governmentKey][key] === districtData.name
-      );
 
-      if (districtKey) {
-        governments[governmentKey].districts[districtKey] = {
-          muslims: districtData.muslims,
-          christians: districtData.christians
-        };
-        govMuslims += districtData.muslims;
-        govChristians += districtData.christians;
-      }
-    });
+    })
+    result["muslims"] = totalMuslims;
+    result["christians"] = totalChristians;
+return result;
 
-    governments[governmentKey].muslims += govMuslims;
-    governments[governmentKey].christians += govChristians;
+//   const governments: { [key: string]: GovernmentReligionDto } = {};
 
-    totalMuslims += govData.muslims;
-    totalChristians += govData.christians;
-  });
+//   rawData.forEach((govData) => {
+//     const governmentKey = GovernmentsMapping[govData.government];
+//     if (!governmentKey) return; // Skip if government not found in Neighborhoods
 
-  return {
-    muslims: totalMuslims,
-    christians: totalChristians,
-    governments
-  };
+//     if (!governments[governmentKey]) {
+//       governments[governmentKey] = {
+//         muslims: 0,
+//         christians: 0,
+//         districts: {}
+//       };
+//     }
+
+//     let govMuslims = 0;
+//     let govChristians = 0;
+
+//     govData.districts.forEach((districtData: any) => {
+//       const districtKey = Object.keys(Neighborhoods[governmentKey]).find(
+//         (key) => Neighborhoods[governmentKey][key] === districtData.name
+//       );
+
+//       if (districtKey) {
+//         governments[governmentKey].districts[districtKey] = {
+//           muslims: districtData.muslims,
+//           christians: districtData.christians
+//         };
+//         govMuslims += districtData.muslims;
+//         govChristians += districtData.christians;
+//       }
+//     });
+
+//     governments[governmentKey].muslims += govMuslims;
+//     governments[governmentKey].christians += govChristians;
+
+//     totalMuslims += govData.muslims;
+//     totalChristians += govData.christians;
+//   });
+
+//   return {
+//     muslims: totalMuslims,
+//     christians: totalChristians,
+//     governments
+//   };
 }
 function findKeyByValue(object: any, value: any) {
     for (let key in object) {

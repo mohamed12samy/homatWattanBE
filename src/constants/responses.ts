@@ -928,3 +928,474 @@ export const FormsGenderReportDto: any = {
   }
 };
 
+
+export const FormsReligionReportDto: any = {
+  "muslims": 0,
+  "christians": 0,
+  "governments": {
+     "damietta": {
+      "muslims": 0,
+      "christians": 0,
+      "districts": {
+        "damietta4": { "muslims": 0, "christians": 0 },
+        "damietta1": { "muslims": 0, "christians": 0 },
+        "damietta2": { "muslims": 0, "christians": 0 },
+        "damietta5": { "muslims": 0, "christians": 0 },
+        "damietta3": { "muslims": 0, "christians": 0 }
+      }
+    },
+    "sharqia": {
+      "muslims": 0,
+      "christians": 0,
+      "districts": {
+        "sharqia11": { "muslims": 0, "christians": 0 },
+        "sharqia14": { "muslims": 0, "christians": 0 },
+        "sharqia16": { "muslims": 0, "christians": 0 },
+        "sharqia9": { "muslims": 0, "christians": 0 },
+        "sharqia1": { "muslims": 0, "christians": 0 },
+        "sharqia6": { "muslims": 0, "christians": 0 },
+        "sharqia2": { "muslims": 0, "christians": 0 },
+        "sharqia4": { "muslims": 0, "christians": 0 },
+        "sharqia13": { "muslims": 0, "christians": 0 },
+        "sharqia3": { "muslims": 0, "christians": 0 },
+        "sharqia15": { "muslims": 0, "christians": 0 },
+        "sharqia12": { "muslims": 0, "christians": 0 },
+        "sharqia8": { "muslims": 0, "christians": 0 },
+        "sharqia10": { "muslims": 0, "christians": 0 },
+        "sharqia5": { "muslims": 0, "christians": 0 },
+        "sharqia7": { "muslims": 0, "christians": 0 }
+      }
+    },
+      "qahera": {
+        "muslims": 0,
+        "christians": 0,
+        "districts": {
+          "qahera1": { "muslims": 0, "christians": 0 },
+          "qahera2": { "muslims": 0, "christians": 0 },
+          "qahera3": { "muslims": 0, "christians": 0 },
+          "qahera4": { "muslims": 0, "christians": 0 },
+          "qahera5": { "muslims": 0, "christians": 0 },
+          "qahera6": { "muslims": 0, "christians": 0 },
+          "qahera7": { "muslims": 0, "christians": 0 },
+          "qahera8": { "muslims": 0, "christians": 0 },
+          "qahera9": { "muslims": 0, "christians": 0 },
+          "qahera10": { "muslims": 0, "christians": 0 },
+          "qahera11": { "muslims": 0, "christians": 0 },
+          "qahera12": { "muslims": 0, "christians": 0 },
+          "qahera13": { "muslims": 0, "christians": 0 },
+          "qahera14": { "muslims": 0, "christians": 0 },
+          "qahera15": { "muslims": 0, "christians": 0 },
+          "qahera16": { "muslims": 0, "christians": 0 },
+          "qahera17": { "muslims": 0, "christians": 0 },
+          "qahera18": { "muslims": 0, "christians": 0 },
+          "qahera19": { "muslims": 0, "christians": 0 },
+          "qahera20": { "muslims": 0, "christians": 0 },
+          "qahera21": { "muslims": 0, "christians": 0 },
+          "qahera22": { "muslims": 0, "christians": 0 },
+          "qahera23": { "muslims": 0, "christians": 0 },
+          "qahera24": { "muslims": 0, "christians": 0 },
+          "qahera25": { "muslims": 0, "christians": 0 },
+          "qahera26": { "muslims": 0, "christians": 0 },
+          "qahera27": { "muslims": 0, "christians": 0 },
+          "qahera28": { "muslims": 0, "christians": 0 },
+          "qahera29": { "muslims": 0, "christians": 0 },
+          "qahera30": { "muslims": 0, "christians": 0 },
+          "qahera31": { "muslims": 0, "christians": 0 },
+          "qahera32": { "muslims": 0, "christians": 0 },
+          "qahera33": { "muslims": 0, "christians": 0 },
+          "qahera34": { "muslims": 0, "christians": 0 },
+          "qahera35": { "muslims": 0, "christians": 0 },
+          "qahera36": { "muslims": 0, "christians": 0 },
+          "qahera37": { "muslims": 0, "christians": 0 },
+          "qahera38": { "muslims": 0, "christians": 0 },
+          "qahera39": { "muslims": 0, "christians": 0 },
+          "qahera40": { "muslims": 0, "christians": 0 },
+          "qahera41": { "muslims": 0, "christians": 0 },
+          "qahera42": { "muslims": 0, "christians": 0 },
+          "qahera43": { "muslims": 0, "christians": 0 },
+          "qahera44": { "muslims": 0, "christians": 0 }
+        }
+      },
+      "giza": {
+        "muslims": 0,
+        "christians": 0,
+        "districts": {
+          "giza1": { "muslims": 0, "christians": 0 },
+          "giza2": { "muslims": 0, "christians": 0 },
+          "giza3": { "muslims": 0, "christians": 0 },
+          "giza4": { "muslims": 0, "christians": 0 },
+          "giza5": { "muslims": 0, "christians": 0 },
+          "giza6": { "muslims": 0, "christians": 0 },
+          "giza7": { "muslims": 0, "christians": 0 },
+          "giza8": { "muslims": 0, "christians": 0 },
+          "giza9": { "muslims": 0, "christians": 0 },
+          "giza10": { "muslims": 0, "christians": 0 },
+          "giza11": { "muslims": 0, "christians": 0 },
+          "giza12": { "muslims": 0, "christians": 0 },
+          "giza13": { "muslims": 0, "christians": 0 },
+          "giza14": { "muslims": 0, "christians": 0 },
+          "giza15": { "muslims": 0, "christians": 0 },
+          "giza16": { "muslims": 0, "christians": 0 },
+          "giza17": { "muslims": 0, "christians": 0 },
+          "giza18": { "muslims": 0, "christians": 0 },
+          "giza19": { "muslims": 0, "christians": 0 },
+          "giza20": { "muslims": 0, "christians": 0 },
+          "giza21": { "muslims": 0, "christians": 0 },
+          "giza22": { "muslims": 0, "christians": 0 },
+          "giza23": { "muslims": 0, "christians": 0 },
+          "giza24": { "muslims": 0, "christians": 0 },
+          "giza25": { "muslims": 0, "christians": 0 },
+          "giza26": { "muslims": 0, "christians": 0 },
+          "giza27": { "muslims": 0, "christians": 0 }
+        }
+      },
+      "qaliobia": {
+        "muslims": 0,
+        "christians": 0,
+        "districts": {
+          "qaliobia1": { "muslims": 0, "christians": 0 },
+          "qaliobia2": { "muslims": 0, "christians": 0 },
+          "qaliobia3": { "muslims": 0, "christians": 0 },
+          "qaliobia4": { "muslims": 0, "christians": 0 },
+          "qaliobia5": { "muslims": 0, "christians": 0 },
+          "qaliobia6": { "muslims": 0, "christians": 0 },
+          "qaliobia7": { "muslims": 0, "christians": 0 },
+          "qaliobia8": { "muslims": 0, "christians": 0 },
+          "qaliobia9": { "muslims": 0, "christians": 0 },
+          "qaliobia10": { "muslims": 0, "christians": 0 }
+        }
+      },
+      "alex": {
+        "muslims": 0,
+        "christians": 0,
+        "districts": {
+          "alex1": { "muslims": 0, "christians": 0 },
+          "alex2": { "muslims": 0, "christians": 0 },
+          "alex3": { "muslims": 0, "christians": 0 },
+          "alex4": { "muslims": 0, "christians": 0 },
+          "alex5": { "muslims": 0, "christians": 0 },
+          "alex6": { "muslims": 0, "christians": 0 },
+          "alex7": { "muslims": 0, "christians": 0 },
+          "alex8": { "muslims": 0, "christians": 0 },
+          "alex9": { "muslims": 0, "christians": 0 },
+          "alex10": { "muslims": 0, "christians": 0 },
+          "alex11": { "muslims": 0, "christians": 0 },
+          "alex12": { "muslims": 0, "christians": 0 },
+          "alex13": { "muslims": 0, "christians": 0 },
+          "alex14": { "muslims": 0, "christians": 0 },
+          "alex15": { "muslims": 0, "christians": 0 },
+          "alex16": { "muslims": 0, "christians": 0 },
+          "alex17": { "muslims": 0, "christians": 0 }
+        }
+      },
+      "gharbiya": {
+    "muslims": 0,
+    "christians": 0,
+    "districts": {
+      "gharbiya1": {
+        "muslims": 0,
+        "christians": 0
+      },
+      "gharbiya8": {
+        "muslims": 0,
+        "christians": 0
+      },
+      "gharbiya6": {
+        "muslims": 0,
+        "christians": 0
+      },
+      "gharbiya5": {
+        "muslims": 0,
+        "christians": 0
+      },
+      "gharbiya3": {
+        "muslims": 0,
+        "christians": 0
+      },
+      "gharbiya7": {
+        "muslims": 0,
+        "christians": 0
+      },
+      "gharbiya4": {
+        "muslims": 0,
+        "christians": 0
+      },
+      "gharbiya2": {
+        "muslims": 0,
+        "christians": 0
+      }
+    }
+  },
+  "matrooh": {
+  "muslims": 8,
+  "christians": 0,
+  "districts": {"matrooh1":{ "muslims": 0, "christians": 0 },
+  "matrooh2":{ "muslims": 0, "christians": 0 },
+  "matrooh3":{ "muslims": 0, "christians": 0 },
+  "matrooh4":{ "muslims": 0, "christians": 0 },
+  "matrooh5":{ "muslims": 0, "christians": 0 },
+  "matrooh6":{ "muslims": 0, "christians": 0 },
+  "matrooh7":{ "muslims": 0, "christians": 0 },
+  "matrooh8":{ "muslims": 0, "christians": 0 },}
+},
+"red_sea": {
+  "muslims": 0, "christians": 0 ,
+  "districts": {"red_sea1" : { "muslims": 0, "christians": 0 },    
+  "red_sea2" : { "muslims": 0, "christians": 0 },    
+  "red_sea3" : { "muslims": 0, "christians": 0 },    
+  "red_sea4" : { "muslims": 0, "christians": 0 },    
+  "red_sea5" : { "muslims": 0, "christians": 0 },    
+  "red_sea6" : { "muslims": 0, "christians": 0 },    
+  "red_sea7" : { "muslims": 0, "christians": 0 },}
+},
+"south_sinai": {
+   "muslims": 0, "christians": 0 ,
+  "districts": {"south_sinai1" : { "muslims": 0, "christians": 0 },
+  "south_sinai2" : { "muslims": 0, "christians": 0 },
+  "south_sinai3" : { "muslims": 0, "christians": 0 },
+  "south_sinai4" : { "muslims": 0, "christians": 0 },
+  "south_sinai5" : { "muslims": 0, "christians": 0 },
+  "south_sinai6" : { "muslims": 0, "christians": 0 },
+  "south_sinai7" : { "muslims": 0, "christians": 0 },
+  "south_sinai8" : { "muslims": 0, "christians": 0 },
+  "south_sinai9" : { "muslims": 0, "christians": 0 },}
+},
+"suez": {
+   "muslims": 0, "christians": 0 ,
+  "districts": {"suez1" : { "muslims": 0, "christians": 0 },
+  "suez2" : { "muslims": 0, "christians": 0 },
+  "suez3" : { "muslims": 0, "christians": 0 },
+  "suez4" : { "muslims": 0, "christians": 0 },
+  "suez5" : { "muslims": 0, "christians": 0 },}
+},
+
+"portsaid": {
+  "muslims": 0, "christians": 0 ,
+ "districts": {"portsaid1" : { "muslims": 0, "christians": 0 },
+ "portsaid2" : { "muslims": 0, "christians": 0 },
+ "portsaid3" : { "muslims": 0, "christians": 0 },
+ "portsaid4" : { "muslims": 0, "christians": 0 },
+ "portsaid5" : { "muslims": 0, "christians": 0 },
+ "portsaid6" : { "muslims": 0, "christians": 0 },
+ "portsaid7" : { "muslims": 0, "christians": 0 },
+ "portsaid8" : { "muslims": 0, "christians": 0 },}
+},
+"aswan": {
+  "muslims": 0, "christians": 0 ,
+"districts": { "aswan1" :{ "muslims": 0, "christians": 0 },
+ "aswan2" :{ "muslims": 0, "christians": 0 },
+ "aswan3" :{ "muslims": 0, "christians": 0 },
+ "aswan4" :{ "muslims": 0, "christians": 0 },
+ "aswan5" :{ "muslims": 0, "christians": 0 },
+ "aswan6" :{ "muslims": 0, "christians": 0 },
+ "aswan7" :{ "muslims": 0, "christians": 0 },
+ "aswan8" :{ "muslims": 0, "christians": 0 },}
+},
+"luxor": {
+  "muslims": 0, "christians": 0 ,
+"districts": { "luxor1" : { "muslims": 0, "christians": 0 },
+ "luxor2" : { "muslims": 0, "christians": 0 },
+ "luxor3" : { "muslims": 0, "christians": 0 },
+ "luxor4" : { "muslims": 0, "christians": 0 },
+ "luxor5" : { "muslims": 0, "christians": 0 },
+ "luxor6" : { "muslims": 0, "christians": 0 },
+ "luxor7" : { "muslims": 0, "christians": 0 }}
+},
+"qena": {
+  "muslims": 0, "christians": 0 ,
+ "districts": {"qena1" : { "muslims": 0, "christians": 0 },
+ "qena2" : { "muslims": 0, "christians": 0 },
+ "qena3" : { "muslims": 0, "christians": 0 },
+ "qena4" : { "muslims": 0, "christians": 0 },
+ "qena5" : { "muslims": 0, "christians": 0 },
+ "qena6" : { "muslims": 0, "christians": 0 },
+ "qena7" : { "muslims": 0, "christians": 0 },
+ "qena8" : { "muslims": 0, "christians": 0 },
+ "qena9" : { "muslims": 0, "christians": 0 },}
+},
+"sohag": {
+ "muslims": 0, "christians": 0 ,
+ "districts": {"sohag1" : { "muslims": 0, "christians": 0 },
+ "sohag2" : { "muslims": 0, "christians": 0 },
+ "sohag3" : { "muslims": 0, "christians": 0 },
+ "sohag4" : { "muslims": 0, "christians": 0 },
+ "sohag5" : { "muslims": 0, "christians": 0 },
+ "sohag6" : { "muslims": 0, "christians": 0 },
+ "sohag7" : { "muslims": 0, "christians": 0 },
+ "sohag8" : { "muslims": 0, "christians": 0 },
+ "sohag9" : { "muslims": 0, "christians": 0 },
+ "sohag10" :{ "muslims": 0, "christians": 0 },
+ "sohag11" :{ "muslims": 0, "christians": 0 },
+ "sohag12" :{ "muslims": 0, "christians": 0 },
+ "sohag13" :{ "muslims": 0, "christians": 0 },
+ "sohag14" :{ "muslims": 0, "christians": 0 },}
+},
+
+"wadi": {
+  "muslims": 0, "christians": 0 ,
+  "districts": {"wadi1" : { "muslims": 0, "christians": 0 },
+  "wadi2" : { "muslims": 0, "christians": 0 },
+  "wadi3" : { "muslims": 0, "christians": 0 },
+  "wadi4" : { "muslims": 0, "christians": 0 },
+  "wadi5" : { "muslims": 0, "christians": 0 },}
+},
+"asyut": {
+  "muslims": 0, "christians": 0,
+  "districts" :{
+  "asyut1" : { "muslims": 0, "christians": 0 },
+  "asyut2" : { "muslims": 0, "christians": 0 },
+  "asyut3" : { "muslims": 0, "christians": 0 },
+  "asyut4" : { "muslims": 0, "christians": 0 },
+  "asyut5" : { "muslims": 0, "christians": 0 },
+  "asyut6" : { "muslims": 0, "christians": 0 },
+  "asyut7" : { "muslims": 0, "christians": 0 },
+  "asyut8" : { "muslims": 0, "christians": 0 },
+  "asyut9" : { "muslims": 0, "christians": 0 },
+  "asyut10" :{ "muslims": 0, "christians": 0 },
+  "asyut11" :{ "muslims": 0, "christians": 0 },
+  "asyut12" :{ "muslims": 0, "christians": 0 },
+  "asyut13" :{ "muslims": 0, "christians": 0 },
+}
+},
+"minya": {
+  "muslims": 0, "christians": 0,
+  "districts":{
+  "minya1" : { "muslims": 0, "christians": 0 },
+  "minya2" : { "muslims": 0, "christians": 0 },
+  "minya3" : { "muslims": 0, "christians": 0 },
+  "minya4" : { "muslims": 0, "christians": 0 },
+  "minya5" : { "muslims": 0, "christians": 0 },
+  "minya6" : { "muslims": 0, "christians": 0 },
+  "minya7" : { "muslims": 0, "christians": 0 },
+  "minya8" : { "muslims": 0, "christians": 0 },
+  "minya9" : { "muslims": 0, "christians": 0 },
+  }
+},
+"faiyum": {
+  "muslims": 0, "christians": 0,
+  "districts":{
+    "faiyum1" : { "muslims": 0, "christians": 0 },
+  "faiyum2" : { "muslims": 0, "christians": 0 },
+  "faiyum3" : { "muslims": 0, "christians": 0 },
+  "faiyum4" : { "muslims": 0, "christians": 0 },
+  "faiyum5" : { "muslims": 0, "christians": 0 },
+  "faiyum6" : { "muslims": 0, "christians": 0 },
+  }
+},
+
+"bani_suef": {
+  "muslims": 0, "christians": 0,
+  "districts":{
+    "bani_suef1" : { "muslims": 0, "christians": 0 },
+  "bani_suef2" : { "muslims": 0, "christians": 0 },
+  "bani_suef3" : { "muslims": 0, "christians": 0 },
+  "bani_suef4" : { "muslims": 0, "christians": 0 },
+  "bani_suef5" : { "muslims": 0, "christians": 0 },
+  "bani_suef6" : { "muslims": 0, "christians": 0 },
+  "bani_suef7" : { "muslims": 0, "christians": 0 },
+}
+},
+"northsinai": {
+  "muslims": 0, "christians": 0,
+  "districts":{
+  "northsinai1" : { "muslims": 0, "christians": 0 },
+  "northsinai2" : { "muslims": 0, "christians": 0 },
+  "northsinai3" : { "muslims": 0, "christians": 0 },
+  "northsinai4" : { "muslims": 0, "christians": 0 },
+  "northsinai5" : { "muslims": 0, "christians": 0 },
+  "northsinai6" : { "muslims": 0, "christians": 0 },
+  }
+},
+
+"Ismailia": {
+  "muslims": 0, "christians": 0,
+  "districts":{
+  "Ismailia1" : { "muslims": 0, "christians": 0 },
+  "Ismailia2" : { "muslims": 0, "christians": 0 },
+  "Ismailia3" : { "muslims": 0, "christians": 0 },
+  "Ismailia4" : { "muslims": 0, "christians": 0 },
+  "Ismailia5" : { "muslims": 0, "christians": 0 },
+  "Ismailia6" : { "muslims": 0, "christians": 0 },
+  "Ismailia7" : { "muslims": 0, "christians": 0 },
+  "Ismailia8" : { "muslims": 0, "christians": 0 },
+  "Ismailia9" : { "muslims": 0, "christians": 0 },}
+},
+
+"dakahlia": {
+  "muslims": 0, "christians": 0,
+  "districts":{
+  "dakahlia1" : { "muslims": 0, "christians": 0 },
+  "dakahlia2" : { "muslims": 0, "christians": 0 },
+  "dakahlia3" : { "muslims": 0, "christians": 0 },
+  "dakahlia4" : { "muslims": 0, "christians": 0 },
+  "dakahlia5" : { "muslims": 0, "christians": 0 },
+  "dakahlia6" : { "muslims": 0, "christians": 0 },
+  "dakahlia7" : { "muslims": 0, "christians": 0 },
+  "dakahlia8" : { "muslims": 0, "christians": 0 },
+  "dakahlia9" : { "muslims": 0, "christians": 0 },
+  "dakahlia10" :{ "muslims": 0, "christians": 0 },
+  "dakahlia11" :{ "muslims": 0, "christians": 0 },
+  "dakahlia12" :{ "muslims": 0, "christians": 0 },
+  "dakahlia13" :{ "muslims": 0, "christians": 0 },
+  "dakahlia14" :{ "muslims": 0, "christians": 0 },
+  "dakahlia15" :{ "muslims": 0, "christians": 0 },
+  "dakahlia16" :{ "muslims": 0, "christians": 0 },
+  "dakahlia17" :{ "muslims": 0, "christians": 0 },
+  }
+},
+
+
+"kafr_sheikh": {
+  "muslims": 0, "christians": 0,
+  "districts":{
+  "kafr_sheikh1" : { "muslims": 0, "christians": 0 },
+  "kafr_sheikh2" : { "muslims": 0, "christians": 0 },
+  "kafr_sheikh3" : { "muslims": 0, "christians": 0 },
+  "kafr_sheikh4" : { "muslims": 0, "christians": 0 },
+  "kafr_sheikh5" : { "muslims": 0, "christians": 0 },
+  "kafr_sheikh6" : { "muslims": 0, "christians": 0 },
+  "kafr_sheikh7" : { "muslims": 0, "christians": 0 },
+  "kafr_sheikh8" : { "muslims": 0, "christians": 0 },
+  "kafr_sheikh9" : { "muslims": 0, "christians": 0 },
+  "kafr_sheikh10" :{ "muslims": 0, "christians": 0 },
+  }
+},
+
+"menoufia": {
+  "muslims": 0, "christians": 0,
+  "districts":{
+  "menoufia1" : { "muslims": 0, "christians": 0 },
+  "menoufia2" : { "muslims": 0, "christians": 0 },
+  "menoufia3" : { "muslims": 0, "christians": 0 },
+  "menoufia4" : { "muslims": 0, "christians": 0 },
+  "menoufia5" : { "muslims": 0, "christians": 0 },
+  "menoufia6" : { "muslims": 0, "christians": 0 },
+  "menoufia7" : { "muslims": 0, "christians": 0 },
+  "menoufia8" : { "muslims": 0, "christians": 0 },
+  "menoufia9" : { "muslims": 0, "christians": 0 },
+  "menoufia10" :{ "muslims": 0, "christians": 0 },
+  }
+},
+"beheira": {
+  "muslims": 0, "christians": 0,
+  "districts":{
+  "beheira1" : { "muslims": 0, "christians": 0 },
+  "beheira2" : { "muslims": 0, "christians": 0 },
+  "beheira3" : { "muslims": 0, "christians": 0 },
+  "beheira4" : { "muslims": 0, "christians": 0 },
+  "beheira5" : { "muslims": 0, "christians": 0 },
+  "beheira6" : { "muslims": 0, "christians": 0 },
+  "beheira7" : { "muslims": 0, "christians": 0 },
+  "beheira8" : { "muslims": 0, "christians": 0 },
+  "beheira9" : { "muslims": 0, "christians": 0 },
+  "beheira10" :{ "muslims": 0, "christians": 0 },
+  "beheira11" :{ "muslims": 0, "christians": 0 },
+  "beheira12" :{ "muslims": 0, "christians": 0 },
+  "beheira13" :{ "muslims": 0, "christians": 0 },
+  "beheira14" :{ "muslims": 0, "christians": 0 },
+  "beheira15" :{ "muslims": 0, "christians": 0 },
+}
+},
+  }
+};
+
