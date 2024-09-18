@@ -2,7 +2,7 @@ import {
   GovernmentReligionDto,
   MappedReligionData
 } from "../constants/religionReportDtos";
-import { FormsAgeReportDto, FormsElectionReportDto, FormsGenderReportDto, FormsKewReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
+import { FormsAgeReportDto, FormsDegreeReportDto, FormsElectionReportDto, FormsGenderReportDto, FormsKewReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
 import {
   GovernmentsMapping,
   Governorate,
@@ -568,7 +568,7 @@ export async function getDegreeReport(req: Request, res: Response) {
           governments: [
             {
               $project: {
-                name: "$name",
+                government: "$name",
                 districts: "$districts"
               }
             }
@@ -601,7 +601,8 @@ export async function getDegreeReport(req: Request, res: Response) {
       }
     ]);
 
-    let finalResult: any = { degrees: degreesCount, ...result[0] };
+   // let finalResult: any = { degrees: degreesCount, result };
+    let finalResult  = mapDegreeReport({ degrees: degreesCount, result : result[0] });
     return res.status(200).send(finalResult);
   } catch (e: any) {}
 }
@@ -985,6 +986,44 @@ function mapElectionReport(rawData:any[]) : any {
         result["governments"][govKey]["count"] = govData["count"];
         result["governments"][govKey]["candidates"] = govData["candidates"];
     });
+    
+return result;
+}
+
+function mapDegreeReport(rawData:any) : any {
+    let result  :any = FormsDegreeReportDto;
+    rawData["result"]["governments"].forEach((govData : any) => {
+        const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
+        const degreesTotal:any[] = rawData["degrees"]
+        degreesTotal.forEach(degree => {
+            result["degrees"].map((item : any) =>{
+                item["count"] = item["name"] === degree["name"] ?  degree["count"] : item["count"]
+                 return item;
+                }); 
+                
+            });
+
+        const districts : any[] = govData["districts"];
+        districts.forEach(dist => {
+            const distKey : string | null = findKeyByValue(Neighborhoods[govKey], dist["name"]);
+            if(distKey){
+               const degrees : any[] = dist["degrees"];
+               degrees.forEach(degree => {
+                result["governments"][govKey]["districts"][distKey]["degrees"].map((item : any) =>{
+                    item["count"] = item["name"] === degree["name"] ?  degree["count"] : item["count"]
+                     return item;
+                    }); 
+
+                    result["governments"][govKey]["degrees"].map((item : any) =>{
+                        item["count"] = item["name"] === degree["name"] ?   item["count"]+degree["count"] : item["count"]
+                         return item;
+                        }); 
+                    
+                });
+               
+              }
+     } );
+    })
     
 return result;
 }
