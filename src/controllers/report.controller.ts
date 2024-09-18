@@ -2,7 +2,7 @@ import {
   GovernmentReligionDto,
   MappedReligionData
 } from "../constants/religionReportDtos";
-import { FormsAgeReportDto, FormsGenderReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
+import { FormsAgeReportDto, FormsGenderReportDto, FormsKewReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
 import {
   GovernmentsMapping,
   Governorate,
@@ -655,7 +655,7 @@ export async function getElectionsReport(req: Request, res: Response) {
 
 export async function getKnewReport(req: Request, res: Response) {
   try {
-    let result: any = await FormModel.aggregate([
+    let data: any = await FormModel.aggregate([
       // Match documents where `knew` is not empty
       {
         $match: {
@@ -704,7 +704,7 @@ export async function getKnewReport(req: Request, res: Response) {
       {
         $project: {
           _id: 0,
-          name: "$_id",
+          government: "$_id",
           departments: {
             $map: {
               input: "$departments",
@@ -818,7 +818,7 @@ export async function getKnewReport(req: Request, res: Response) {
         }
       }
     ]);
-
+    let result  = mapKnewReport(data);
     return res.status(200).send(result);
   } catch (e: any) {}
 }
@@ -851,54 +851,7 @@ function mapGenderData(rawData: any[]): any {
     result["males"] = totalMales;
     result["females"] = totalFemales;
 return result;
-   
-//   let totalMales = 0;
-//   let totalFemales = 0;
-//   const governments: { [key: string]: Government } = {};
-
-//   rawData.forEach((govData) => {
-//     const governmentKey = GovernmentsMapping[govData.government];
-//     if (!governmentKey) return; // Skip if government not found in Neighborhoods
-
-//     if (!governments[governmentKey]) {
-//       governments[governmentKey] = {
-//         males: 0,
-//         females: 0,
-//         districts: {}
-//       };
-//     }
-
-//     let govMales = 0;
-//     let govFemales = 0;
-
-//     govData.districts.forEach((districtData: any) => {
-//       const districtKey = Object.keys(Neighborhoods[governmentKey]).find(
-//         (key) => Neighborhoods[governmentKey][key] === districtData.name
-//       );
-
-//       if (districtKey) {
-//         governments[governmentKey].districts[districtKey] = {
-//           males: districtData.males,
-//           females: districtData.females
-//         };
-//         govMales += districtData.males;
-//         govFemales += districtData.females;
-//       }
-//     });
-
-//     governments[governmentKey].males += govMales;
-//     governments[governmentKey].females += govFemales;
-
-//     totalMales += govData.males;
-//     totalFemales += govData.females;
-//   });
-
-//   return {
-//     males: totalMales,
-//     females: totalFemales,
-//     governments
-//   };
-}
+   }
 
 function mapReligionData(rawData: any[]): any {
   let totalMuslims = 0;
@@ -999,6 +952,28 @@ function mapAgesReport(rawData:any[]) : any {
   return result;
 }
 
+function mapKnewReport(rawData:any[]) : any {
+    let result  :any = FormsKewReportDto;
+    rawData.forEach((govData) => {
+        const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
+        const districts : any[] = govData["departments"];
+        districts.forEach(dist => {
+            const distKey : string | null = findKeyByValue(Neighborhoods[govKey], dist["name"]);
+            if(distKey){
+               
+                result["governments"][govKey]["districts"][distKey]["knew"] = dist["knew"]
+
+                result["governments"][govKey]["knew"][0]["count"] += result["governments"][govKey]["districts"][distKey]["knew"][0]["count"];
+                result["governments"][govKey]["knew"][1]["count"] += result["governments"][govKey]["districts"][distKey]["knew"][1]["count"];
+                result["governments"][govKey]["knew"][2]["count"] += result["governments"][govKey]["districts"][distKey]["knew"][2]["count"];
+                result["governments"][govKey]["knew"][3]["count"] += result["governments"][govKey]["districts"][distKey]["knew"][3]["count"];
+               
+              }
+     } );
+    })
+    
+return result;
+}
 
 function findKeyByValue(object: any, value: any) {
     for (let key in object) {
