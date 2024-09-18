@@ -2,7 +2,7 @@ import {
   GovernmentReligionDto,
   MappedReligionData
 } from "../constants/religionReportDtos";
-import { FormsAgeReportDto, FormsGenderReportDto, FormsKewReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
+import { FormsAgeReportDto, FormsElectionReportDto, FormsGenderReportDto, FormsKewReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
 import {
   GovernmentsMapping,
   Governorate,
@@ -608,7 +608,7 @@ export async function getDegreeReport(req: Request, res: Response) {
 
 export async function getElectionsReport(req: Request, res: Response) {
   try {
-    let result: any = await FormModel.aggregate([
+    let data: any = await FormModel.aggregate([
       // Match documents where `election_candidate` exists and is not empty
       {
         $match: {
@@ -642,13 +642,13 @@ export async function getElectionsReport(req: Request, res: Response) {
       {
         $project: {
           _id: 0,
-          name: "$_id",
+          government: "$_id",
           count: "$count",
           candidates: "$candidates"
         }
       }
     ]);
-
+    let result = mapElectionReport(data);
     return res.status(200).send(result);
   } catch (e: any) {}
 }
@@ -823,6 +823,8 @@ export async function getKnewReport(req: Request, res: Response) {
   } catch (e: any) {}
 }
 
+
+
 function mapGenderData(rawData: any[]): any {
     
 
@@ -971,6 +973,18 @@ function mapKnewReport(rawData:any[]) : any {
               }
      } );
     })
+    
+return result;
+}
+
+
+function mapElectionReport(rawData:any[]) : any {
+    let result  :any = FormsElectionReportDto;
+    rawData.forEach((govData) => {
+        const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
+        result["governments"][govKey]["count"] = govData["count"];
+        result["governments"][govKey]["candidates"] = govData["candidates"];
+    });
     
 return result;
 }

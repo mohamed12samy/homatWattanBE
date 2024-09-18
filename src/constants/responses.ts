@@ -5755,3 +5755,36 @@ export const FormsKewReportDto: any = {
     }
   }
 };
+
+export const FormsElectionReportDto : any = 
+{
+  "governments":{
+      "qahera":{"count":0,"candidates": []},
+      "giza":{"count":0, "candidates": [] },
+      "qaliobia":{"count":0, "candidates": [] },
+      "alex":{"count":0, "candidates": [] },
+      "beheira":{"count":0, "candidates": [] },
+      "sharqia":{"count":0, "candidates": [] },
+      "menoufia":{"count":0, "candidates": [] },
+      "gharbiya":{"count":0, "candidates": [] },
+      "kafr_sheikh":{"count":0, "candidates": [] },
+      "dakahlia":{"count":0, "candidates": [] },
+      "Ismailia":{"count":0, "candidates": [] },
+      "northsinai":{"count":0, "candidates": [] },
+      "bani_suef":{"count":0, "candidates": [] },
+      "faiyum":{"count":0, "candidates": [] },
+      "minya":{"count":0, "candidates": [] },
+      "asyut":{"count":0, "candidates": [] },
+      "wadi":{"count":0, "candidates": [] },
+      "sohag":{"count":0, "candidates": [] },
+      "qena":{"count":0, "candidates": [] },
+      "luxor":{"count":0, "candidates": [] },
+      "aswan":{"count":0, "candidates": [] },
+      "portsaid":{"count":0, "candidates": [] },
+      "suez":{"count":0, "candidates": [] },
+      "south_sinai":{"count":0, "candidates": [] },
+      "red_sea":{"count":0, "candidates": [] },
+      "damietta":{"count":0, "candidates": [] },
+      "matrooh":{"count":0, "candidates": [] },
+  }
+}
