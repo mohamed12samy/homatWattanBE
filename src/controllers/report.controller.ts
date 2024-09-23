@@ -1211,7 +1211,98 @@ export async function getKnewReport(req: Request, res: Response) {
   } catch (e: any) {}
 }
 
-
+export async function getWeeklyReport(req:Request, res:Response)
+{
+   
+  const weekDates = getWeekStartAndEndDates();
+  console.log("This Week Start: ", weekDates.thisWeekStart);
+  console.log("This Week End: ", weekDates.thisWeekEnd);
+  console.log("Last Week Start: ", weekDates.lastWeekStart);
+  console.log("Last Week End: ", weekDates.lastWeekEnd);
+let result = await FormModel.aggregate([
+    // Match documents created in the last two weeks (Saturday to Friday)
+    {
+      $match: {
+        createdAt: {
+          $gte: new Date(weekDates.lastWeekStart),
+          $lte: new Date(weekDates.thisWeekEnd)
+        }
+      }
+    },
+    // Group by day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    {
+      $group: {
+        _id: {
+          dayOfWeek: { $dayOfWeek: "$createdAt" }, // Get the day of the week
+          week: {
+            $cond: [
+              { $gte: ["$createdAt", new Date(weekDates.thisWeekStart)] },
+              "this_week", // Documents from this week
+              "last_week"  // Documents from last week
+            ]
+          }
+        },
+        count: { $sum: 1 }
+      }
+    },
+    // Project the day of the week and map it from 1=Sunday...7=Saturday
+    {
+        $project: {
+            dayOfWeek: {
+              $cond: {
+                if: { $eq: ["$_id.dayOfWeek", 1] }, then: "Sunday",
+                else: {
+                  $cond: {
+                    if: { $eq: ["$_id.dayOfWeek", 2] }, then: "Monday",
+                    else: {
+                      $cond: {
+                        if: { $eq: ["$_id.dayOfWeek", 3] }, then: "Tuesday",
+                        else: {
+                          $cond: {
+                            if: { $eq: ["$_id.dayOfWeek", 4] }, then: "Wednesday",
+                            else: {
+                              $cond: {
+                                if: { $eq: ["$_id.dayOfWeek", 5] }, then: "Thursday",
+                                else: {
+                                  $cond: {
+                                    if: { $eq: ["$_id.dayOfWeek", 6] }, then: "Friday",
+                                    else: "Saturday"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            count: 1,
+            week:"$_id.week"
+          }
+    },
+    // Group by week (this week/last week) and return the count for each day
+    {
+      $group: {
+        _id: "$week",
+        days: {
+          $push: {
+            day: "$dayOfWeek",
+            count: "$count"
+          }
+        }
+      }
+    },
+    {$project:{
+        _id:0,
+        week:"$_id",
+        days:1
+    }}
+  ])
+return res.status(200).send(result);
+}
 
 function mapGenderData(rawData: any[]): any {
     
@@ -1448,3 +1539,36 @@ function findKeyByValue(object: any, value: any) {
     }
     return null;
   }
+
+
+
+  function getWeekStartAndEndDates() {
+    const today = new Date();
+  
+    function getPreviousSaturday(date:any) {
+      const day = date.getDay();
+      const diff = (day + 1) % 7;
+      return new Date(date.setDate(date.getDate() - diff));
+    }
+  
+    function getNextFriday(date:any) {
+      const day = date.getDay();
+      const diff = (5 - day + 7) % 7; 
+      return new Date(date.setDate(date.getDate() + diff));
+    }
+  
+    const thisWeekStart = getPreviousSaturday(new Date(today)); 
+    const thisWeekEnd = getNextFriday(new Date(today)); 
+
+    const lastWeekEnd = new Date(thisWeekStart); 
+    const lastWeekStart = new Date(lastWeekEnd);
+    lastWeekStart.setDate(lastWeekStart.getDate() - 7); 
+  
+    return {
+      thisWeekStart: thisWeekStart.toISOString(),
+      thisWeekEnd: thisWeekEnd.toISOString(),
+      lastWeekStart: lastWeekStart.toISOString(),
+      lastWeekEnd: lastWeekEnd.toISOString()
+    };
+  }
+  

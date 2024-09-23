@@ -1,5 +1,5 @@
 import express from "express";
-import { getAgesReport, getDegreeReport, getElectionsReport, getFieldsReport, getGenderReport, getKnewReport, getOutsiderReport, getRegisteredReport, getReligionReport, getReport, getUnionReport } from "../controllers/report.controller";
+import { getAgesReport, getDegreeReport, getElectionsReport, getFieldsReport, getGenderReport, getKnewReport, getOutsiderReport, getRegisteredReport, getReligionReport, getReport, getUnionReport, getWeeklyReport } from "../controllers/report.controller";
 import { requireUser } from "../middlewares/requireUser";
 import { checkPermission } from "../middlewares/checkRolesPermissions";
 
@@ -19,6 +19,7 @@ reportRoutes.get("/report/ages", getAgesReport);
 reportRoutes.get("/report/degree", getDegreeReport);
 reportRoutes.get("/report/election", getElectionsReport);
 reportRoutes.get("/report/knew", getKnewReport);
+reportRoutes.get("/report/weeklyReport", getWeeklyReport);
 
 export default reportRoutes;
 
