@@ -8887,7 +8887,7 @@ export const FormsDegreeReportDto: any = {
 };
 
 
-export const FormsOutsiderReportDto: any = {
+export const FormsTop10ReportDto: any = {
   top10: [],
   governments: {
     qahera: {

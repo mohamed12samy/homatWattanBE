@@ -2,7 +2,7 @@ import {
   GovernmentReligionDto,
   MappedReligionData
 } from "../constants/religionReportDtos";
-import { FormsAgeReportDto, FormsDegreeReportDto, FormsElectionReportDto, FormsGenderReportDto, FormsKewReportDto, FormsOutsiderReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
+import { FormsAgeReportDto, FormsDegreeReportDto, FormsElectionReportDto, FormsGenderReportDto, FormsKewReportDto, FormsTop10ReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
 import {
   GovernmentsMapping,
   Governorate,
@@ -425,120 +425,371 @@ let governmentsTotal : any = await FormModel.aggregate([
     }
   ]) 
 
-    const result = mapOutsidersData(data, governmentsTotal);
+    const result = mapTop10Data(data, governmentsTotal);
     //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
     return res.status(200).send({...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]??0}]});
   } catch (e: any) {}
 }
 
 export async function getUnionReport(req: Request, res: Response) {
-  try {
-    let result: any = await FormModel.aggregate([
-      {
-        // Match only documents where "outsider" is not null
-        $match: {
-          union: { $ne: null }
-        }
-      },
-      {
-        // Group by outsider and count the occurrences
-        $group: {
-          _id: "$union",
-          count: { $sum: 1 }
-        }
-      },
-      {
-        // Sort by count in descending order
-        $sort: { count: -1 }
-      },
-      {
-        // Split into two pipelines
-        $facet: {
-          top10: [
-            { $limit: 10 },
-            { $project: { _id: 0, name: "$_id", count: 1 } }
-          ],
-          others: [
-            { $skip: 10 },
-            { $group: { _id: null, count: { $sum: "$count" } } },
-            { $project: { _id: 0, count: 1 } }
-          ]
-        }
-      },
-      {
-        // Merge the top10 and others into a single result
-        $project: {
-          top10: 1,
-          others: {
-            $arrayElemAt: ["$others.count", 0]
+    try {
+        let total: any = await FormModel.aggregate([
+          {
+            // Match only documents where "outsider" is not null
+            $match: {
+                union: { $ne: null }
+            }
+          },
+          {
+            $group: {
+              _id: "$union",
+              count: { $sum: 1 }
+            }
+          },
+          {
+            $sort: { count: -1 }
+          },
+          {
+            $facet: {
+              top10: [
+                { $limit: 10 },
+                { $project: { _id: 0, name: "$_id", count: 1 } }
+              ],
+              others: [
+                { $skip: 10 },
+                { $group: { _id: null, count: { $sum: "$count" } } },
+                { $project: { _id: 0, count: 1 } }
+              ]
+            }
+          },
+          {
+            $project: {
+              top10: 1,
+              others: {
+                $arrayElemAt: ["$others.count", 0]
+              }
+            }
+          }
+        ]);
+    
+        let data: any = await FormModel.aggregate([
+            {
+                $match: {
+                    union: { $ne: null }
+                }
+              },
+            {
+              $group: {
+                _id: {
+                  government: "$government",
+                  department: "$department",
+                  union: "$union"
+                },
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $sort: { "count": -1 }
+            },
+            {
+              $group: {
+                _id: {
+                  government: "$_id.government",
+                  department: "$_id.department"
+                },
+                unions: {
+                  $push: {
+                    name: "$_id.union",
+                    count: "$count"
+                  }
+                }
+              }
+            },
+            {
+              $project: {
+                _id: 0,
+                government: "$_id.government",
+                department: "$_id.department",
+                top10: { $slice: ["$unions", 10] },
+                othersCount: {
+                  $cond: {
+                    if: { $gt: [{ $size: "$unions" }, 10] },
+                    then: {
+                      $sum: {
+                        $slice: ["$unions.count", 10, { $size: "$unions" }]
+                      }
+                    },
+                    else: 0
+                  }
+                }
+              }
+            },
+            {
+              $group: {
+                _id: "$government",
+                departments: {
+                  $push: {
+                    name: "$department",
+                    top10: "$top10",
+                    others: { count: "$othersCount" }
+                  }
+                }
+              }
+            },
+            {
+              $project: {
+                _id: 0,
+                government: "$_id",
+                departments: 1
+              }
+            }
+          ]);
+    
+    let governmentsTotal : any = await FormModel.aggregate([
+        {
+            $match: {
+                union: { $ne: null }
+            }
+          },
+        {
+          $group: {
+            _id: { government: "$government", union: "$union" },
+            count: { $sum: 1 }
+          }
+        },
+        {
+          $group: {
+            _id: "$_id.government",
+            unions: {
+              $push: { name: "$_id.union", count: "$count" }
+            }
+          }
+        },
+        
+        {
+          $project: {
+            _id: 1,
+            unions: {
+              $slice: [ { $sortArray: { input: "$unions", sortBy: { count: -1 } } }, 10 ]
+            },
+            allUnions: "$unions"
+          }
+        },
+       
+        {
+          $project: {
+            _id: 1,
+            top10: "$unions",
+            others: {
+              $cond: {
+                if: { $gt: [{ $size: "$allUnions" }, 10] }, 
+                then: {
+                  count: {
+                    $sum: {
+                      $slice: ["$allUnions", 1, { $size: "$allUnions" }]
+                    }
+                  }
+                },
+                else: null
+              }
+            }
+          }
+        },
+        {
+          $project: {
+            _id:0,
+            government: "$_id",
+            top10: 1,
+            others: { count: "$others.count" }
           }
         }
-      }
-    ]);
-
-    const top10 = result[0].top10;
-    const othersCount = result[0].others;
-
-    const formattedResult = [...top10, { others: { count: othersCount } }];
-    // const result = mapOutsidersData(data);
-    return res.status(200).send(formattedResult);
-  } catch (e: any) {}
+      ]) 
+    
+        const result = mapTop10Data(data, governmentsTotal);
+        //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
+        return res.status(200).send({...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]??0}]});
+      } catch (e: any) {}
 }
 
 // المشاركة الحزبية
 export async function getFieldsReport(req: Request, res: Response) {
-  try {
-    let x: string = "fields";
-    let result: any = await FormModel.aggregate([
-      {
-        // Match only documents where "outsider" is not null
-        $match: {
-          fields: { $ne: null }
-        }
-      },
-      {
-        // Group by outsider and count the occurrences
-        $group: {
-          _id: "$fields",
-          count: { $sum: 1 }
-        }
-      },
-      {
-        // Sort by count in descending order
-        $sort: { count: -1 }
-      },
-      {
-        // Split into two pipelines
-        $facet: {
-          top10: [
-            { $limit: 10 },
-            { $project: { _id: 0, name: "$_id", count: 1 } }
-          ],
-          others: [
-            { $skip: 10 },
-            { $group: { _id: null, count: { $sum: "$count" } } },
-            { $project: { _id: 0, count: 1 } }
-          ]
-        }
-      },
-      {
-        // Merge the top10 and others into a single result
-        $project: {
-          top10: 1,
-          others: {
-            $arrayElemAt: ["$others.count", 0]
+    try {
+        let total: any = await FormModel.aggregate([
+          {
+            // Match only documents where "outsider" is not null
+            $match: {
+                fields: { $ne: null }
+            }
+          },
+          {
+            $group: {
+              _id: "$fields",
+              count: { $sum: 1 }
+            }
+          },
+          {
+            $sort: { count: -1 }
+          },
+          {
+            $facet: {
+              top10: [
+                { $limit: 10 },
+                { $project: { _id: 0, name: "$_id", count: 1 } }
+              ],
+              others: [
+                { $skip: 10 },
+                { $group: { _id: null, count: { $sum: "$count" } } },
+                { $project: { _id: 0, count: 1 } }
+              ]
+            }
+          },
+          {
+            $project: {
+              top10: 1,
+              others: {
+                $arrayElemAt: ["$others.count", 0]
+              }
+            }
+          }
+        ]);
+    
+        let data: any = await FormModel.aggregate([
+            {
+                $match: {
+                    fields: { $ne: null }
+                }
+              },
+            {
+              $group: {
+                _id: {
+                  government: "$government",
+                  department: "$department",
+                  fields: "$fields"
+                },
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $sort: { "count": -1 }
+            },
+            {
+              $group: {
+                _id: {
+                  government: "$_id.government",
+                  department: "$_id.department"
+                },
+                fields: {
+                  $push: {
+                    name: "$_id.fields",
+                    count: "$count"
+                  }
+                }
+              }
+            },
+            {
+              $project: {
+                _id: 0,
+                government: "$_id.government",
+                department: "$_id.department",
+                top10: { $slice: ["$fields", 10] },
+                othersCount: {
+                  $cond: {
+                    if: { $gt: [{ $size: "$fields" }, 10] },
+                    then: {
+                      $sum: {
+                        $slice: ["$fields.count", 10, { $size: "$fields" }]
+                      }
+                    },
+                    else: 0
+                  }
+                }
+              }
+            },
+            {
+              $group: {
+                _id: "$government",
+                departments: {
+                  $push: {
+                    name: "$department",
+                    top10: "$top10",
+                    others: { count: "$othersCount" }
+                  }
+                }
+              }
+            },
+            {
+              $project: {
+                _id: 0,
+                government: "$_id",
+                departments: 1
+              }
+            }
+          ]);
+    
+    let governmentsTotal : any = await FormModel.aggregate([
+        {
+            $match: {
+                fields: { $ne: null }
+            }
+          },
+        {
+          $group: {
+            _id: { government: "$government", fields: "$fields" },
+            count: { $sum: 1 }
+          }
+        },
+        {
+          $group: {
+            _id: "$_id.government",
+            fields: {
+              $push: { name: "$_id.fields", count: "$count" }
+            }
+          }
+        },
+        
+        {
+          $project: {
+            _id: 1,
+            fields: {
+              $slice: [ { $sortArray: { input: "$fields", sortBy: { count: -1 } } }, 10 ]
+            },
+            allFields: "$fields"
+          }
+        },
+       
+        {
+          $project: {
+            _id: 1,
+            top10: "$fields",
+            others: {
+              $cond: {
+                if: { $gt: [{ $size: "$allFields" }, 10] }, 
+                then: {
+                  count: {
+                    $sum: {
+                      $slice: ["$allFields", 1, { $size: "$allFields" }]
+                    }
+                  }
+                },
+                else: null
+              }
+            }
+          }
+        },
+        {
+          $project: {
+            _id:0,
+            government: "$_id",
+            top10: 1,
+            others: { count: "$others.count" }
           }
         }
-      }
-    ]);
-
-    const top10 = result[0].top10;
-    const othersCount = result[0].others;
-
-    const formattedResult = [...top10, { others: { count: othersCount } }];
-    // const result = mapOutsidersData(data);
-    return res.status(200).send(formattedResult);
-  } catch (e: any) {}
+      ]) 
+    
+        const result = mapTop10Data(data, governmentsTotal);
+        //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
+        return res.status(200).send({...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]??0}]});
+      } catch (e: any) {}
 }
 
 export async function getAgesReport(req: Request, res: Response) {
@@ -1164,9 +1415,9 @@ function mapDegreeReport(rawData:any) : any {
 return result;
 }
 
-function mapOutsidersData(rawData:any[], governmentsData:any[])
+function mapTop10Data(rawData:any[], governmentsData:any[])
 {
-    let result  :any = FormsOutsiderReportDto;
+    let result  :any = FormsTop10ReportDto;
     rawData.forEach((govData) => {
         const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
         const districts :any[] = govData["departments"];
