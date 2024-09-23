@@ -1213,6 +1213,13 @@ export async function getKnewReport(req: Request, res: Response) {
 
 export async function getWeeklyReport(req:Request, res:Response)
 {
+   const government :string = req.query.government as string; 
+   const department :string = req.query.department as string ;
+   let governmentRegex :string = "";
+   let departmentRegex :string = "";
+
+    governmentRegex = government ? ".*" + government + ".*" : ".*";
+    departmentRegex = department ? ".*" + department + ".*" : ".*";
    
   const weekDates = getWeekStartAndEndDates();
   console.log("This Week Start: ", weekDates.thisWeekStart);
@@ -1223,11 +1230,15 @@ let result = await FormModel.aggregate([
     // Match documents created in the last two weeks (Saturday to Friday)
     {
       $match: {
+        
         createdAt: {
           $gte: new Date(weekDates.lastWeekStart),
           $lte: new Date(weekDates.thisWeekEnd)
-        }
-      }
+        },
+
+        government: { $exists: true, $regex: governmentRegex  },
+        department: { $exists: true, $regex: departmentRegex  }, 
+         }
     },
     // Group by day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
     {
