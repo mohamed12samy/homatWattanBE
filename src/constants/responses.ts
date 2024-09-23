@@ -8885,3 +8885,1098 @@ export const FormsDegreeReportDto: any = {
     }
   }
 };
+
+
+export const FormsOutsiderReportDto: any = {
+  top10: [],
+  governments: {
+    qahera: {
+      top10: [],
+      districts: {
+        qahera1: {
+          top10: []
+        },
+
+        qahera2: {
+          top10: []
+        },
+
+        qahera3: {
+          top10: []
+        },
+
+        qahera4: {
+          top10: []
+        },
+
+        qahera5: {
+          top10: []
+        },
+
+        qahera6: {
+          top10: []
+        },
+
+        qahera7: {
+          top10: []
+        },
+
+        qahera8: {
+          top10: []
+        },
+
+        qahera9: {
+          top10: []
+        },
+
+        qahera10: {
+          top10: []
+        },
+
+        qahera11: {
+          top10: []
+        },
+
+        qahera12: {
+          top10: []
+        },
+
+        qahera13: {
+          top10: []
+        },
+
+        qahera14: {
+          top10: []
+        },
+
+        qahera15: {
+          top10: []
+        },
+
+        qahera16: {
+          top10: []
+        },
+
+        qahera17: {
+          top10: []
+        },
+
+        qahera18: {
+          top10: []
+        },
+
+        qahera19: {
+          top10: []
+        },
+
+        qahera20: {
+          top10: []
+        },
+
+        qahera21: {
+          top10: []
+        },
+
+        qahera22: {
+          top10: []
+        },
+
+        qahera23: {
+          top10: []
+        },
+
+        qahera24: {
+          top10: []
+        },
+
+        qahera25: {
+          top10: []
+        },
+
+        qahera26: {
+          top10: []
+        },
+
+        qahera27: {
+          top10: []
+        },
+
+        qahera28: {
+          top10: []
+        },
+
+        qahera29: {
+          top10: []
+        },
+
+        qahera30: {
+          top10: []
+        },
+
+        qahera31: {
+          top10: []
+        },
+
+        qahera32: {
+          top10: []
+        },
+
+        qahera33: {
+          top10: []
+        },
+
+        qahera34: {
+          top10: []
+        },
+
+        qahera35: {
+          top10: []
+        },
+
+        qahera36: {
+          top10: []
+        },
+        qahera37: {
+          top10: []
+        },
+        qahera38: {
+          top10: []
+        },
+        qahera39: {
+          top10: []
+        },
+        qahera40: {
+          top10: []
+        },
+        qahera41: {
+          top10: []
+        },
+        qahera42: {
+          top10: []
+        },
+        qahera43: {
+          top10: []
+        },
+        qahera44: {
+          top10: []
+        }
+      }
+    },
+    giza: {
+      top10: [],
+      districts: {
+        giza1: {
+          top10: []
+        },
+        giza2: {
+          top10: []
+        },
+        giza3: {
+          top10: []
+        },
+        giza4: {
+          top10: []
+        },
+        giza5: {
+          top10: []
+        },
+        giza6: {
+          top10: []
+        },
+        giza7: {
+          top10: []
+        },
+        giza8: {
+          top10: []
+        },
+        giza9: {
+          top10: []
+        },
+        giza10: {
+          top10: []
+        },
+        giza11: {
+          top10: []
+        },
+        giza12: {
+          top10: []
+        },
+        giza13: {
+          top10: []
+        },
+        giza14: {
+          top10: []
+        },
+        giza15: {
+          top10: []
+        },
+        giza16: {
+          top10: []
+        },
+        giza17: {
+          top10: []
+        },
+        giza18: {
+          top10: []
+        },
+        giza19: {
+          top10: []
+        },
+        giza20: {
+          top10: []
+        },
+        giza21: {
+          top10: []
+        },
+        giza22: {
+          top10: []
+        },
+        giza23: {
+          top10: []
+        },
+        giza24: {
+          top10: []
+        },
+        giza25: {
+          top10: []
+        },
+        giza26: {
+          top10: []
+        },
+        giza27: {
+          top10: []
+        }
+      }
+    },
+    qaliobia: {
+      top10: [],
+      districts: {
+        qaliobia1: {
+          top10: []
+        },
+        qaliobia2: {
+          top10: []
+        },
+        qaliobia3: {
+          top10: []
+        },
+        qaliobia4: {
+          top10: []
+        },
+        qaliobia5: {
+          top10: []
+        },
+        qaliobia6: {
+          top10: []
+        },
+        qaliobia7: {
+          top10: []
+        },
+        qaliobia8: {
+          top10: []
+        },
+        qaliobia9: {
+          top10: []
+        },
+        qaliobia10: {
+          top10: []
+        }
+      }
+    },
+    alex: {
+      top10: [],
+      districts: {
+        alex1: {
+          top10: []
+        },
+        alex2: {
+          top10: []
+        },
+        alex3: {
+          top10: []
+        },
+        alex4: {
+          top10: []
+        },
+        alex5: {
+          top10: []
+        },
+        alex6: {
+          top10: []
+        },
+        alex7: {
+          top10: []
+        },
+        alex8: {
+          top10: []
+        },
+        alex9: {
+          top10: []
+        },
+        alex10: {
+          top10: []
+        },
+        alex11: {
+          top10: []
+        },
+        alex12: {
+          top10: []
+        },
+        alex13: {
+          top10: []
+        },
+        alex14: {
+          top10: []
+        }
+      }
+    },
+    beheira: {
+      top10: [],
+      districts: {
+        beheira1: {
+          top10: []
+        },
+        beheira2: {
+          top10: []
+        },
+        beheira3: {
+          top10: []
+        },
+        beheira4: {
+          top10: []
+        },
+        beheira5: {
+          top10: []
+        },
+        beheira6: {
+          top10: []
+        },
+        beheira7: {
+          top10: []
+        },
+        beheira8: {
+          top10: []
+        },
+        beheira9: {
+          top10: []
+        },
+        beheira10: {
+          top10: []
+        },
+        beheira11: {
+          top10: []
+        },
+        beheira12: {
+          top10: []
+        },
+        beheira13: {
+          top10: []
+        },
+        beheira14: {
+          top10: []
+        },
+        beheira15: {
+          top10: []
+        }
+      }
+    },
+    sharqia: {
+      top10: [],
+      districts: {
+        sharqia1: {
+          top10: []
+        },
+        sharqia2: {
+          top10: []
+        },
+        sharqia3: {
+          top10: []
+        },
+        sharqia4: {
+          top10: []
+        },
+        sharqia5: {
+          top10: []
+        },
+        sharqia6: {
+          top10: []
+        },
+        sharqia7: {
+          top10: []
+        },
+        sharqia8: {
+          top10: []
+        },
+        sharqia9: {
+          top10: []
+        },
+        sharqia10: {
+          top10: []
+        },
+        sharqia11: {
+          top10: []
+        },
+        sharqia12: {
+          top10: []
+        },
+        sharqia13: {
+          top10: []
+        },
+        sharqia14: {
+          top10: []
+        },
+        sharqia15: {
+          top10: []
+        },
+        sharqia16: {
+          top10: []
+        }
+      }
+    },
+    menoufia: {
+      top10: [],
+      districts: {
+        menoufia1: {
+          top10: []
+        },
+        menoufia2: {
+          top10: []
+        },
+        menoufia3: {
+          top10: []
+        },
+        menoufia4: {
+          top10: []
+        },
+        menoufia5: {
+          top10: []
+        },
+        menoufia6: {
+          top10: []
+        },
+        menoufia7: {
+          top10: []
+        },
+        menoufia8: {
+          top10: []
+        },
+        menoufia9: {
+          top10: []
+        },
+        menoufia10: {
+          top10: []
+        }
+      }
+    },
+    gharbiya: {
+      top10: [],
+      districts: {
+        gharbiya1: {
+          top10: []
+        },
+        gharbiya2: {
+          top10: []
+        },
+        gharbiya3: {
+          top10: []
+        },
+        gharbiya4: {
+          top10: []
+        },
+        gharbiya5: {
+          top10: []
+        },
+        gharbiya6: {
+          top10: []
+        },
+        gharbiya7: {
+          top10: []
+        },
+        gharbiya8: {
+          top10: []
+        }
+      }
+    },
+    kafr_sheikh: {
+      top10: [],
+      districts: {
+        kafr_sheikh1: {
+          top10: []
+        },
+        kafr_sheikh2: {
+          top10: []
+        },
+        kafr_sheikh3: {
+          top10: []
+        },
+        kafr_sheikh4: {
+          top10: []
+        },
+        kafr_sheikh5: {
+          top10: []
+        },
+        kafr_sheikh6: {
+          top10: []
+        },
+        kafr_sheikh7: {
+          top10: []
+        },
+        kafr_sheikh8: {
+          top10: []
+        },
+        kafr_sheikh9: {
+          top10: []
+        },
+        kafr_sheikh10: {
+          top10: []
+        }
+      }
+    },
+    dakahlia: {
+      top10: [],
+      districts: {
+        dakahlia1: {
+          top10: []
+        },
+        dakahlia2: {
+          top10: []
+        },
+        dakahlia3: {
+          top10: []
+        },
+        dakahlia4: {
+          top10: []
+        },
+        dakahlia5: {
+          top10: []
+        },
+        dakahlia6: {
+          top10: []
+        },
+        dakahlia7: {
+          top10: []
+        },
+        dakahlia8: {
+          top10: []
+        },
+        dakahlia9: {
+          top10: []
+        },
+        dakahlia10: {
+          top10: []
+        },
+        dakahlia11: {
+          top10: []
+        },
+        dakahlia12: {
+          top10: []
+        },
+        dakahlia13: {
+          top10: []
+        },
+        dakahlia14: {
+          top10: []
+        },
+        dakahlia15: {
+          top10: []
+        },
+        dakahlia16: {
+          top10: []
+        },
+        dakahlia17: {
+          top10: []
+        }
+      }
+    },
+    Ismailia: {
+      top10: [],
+      districts: {
+        Ismailia1: {
+          top10: []
+        },
+        Ismailia2: {
+          top10: []
+        },
+        Ismailia3: {
+          top10: []
+        },
+        Ismailia4: {
+          top10: []
+        },
+        Ismailia5: {
+          top10: []
+        },
+        Ismailia6: {
+          top10: []
+        },
+        Ismailia7: {
+          top10: []
+        },
+        Ismailia8: {
+          top10: []
+        },
+        Ismailia9: {
+          top10: []
+        }
+      }
+    },
+    northsinai: {
+      top10: [],
+      districts: {
+        northsinai1: {
+          top10: []
+        },
+        northsinai2: {
+          top10: []
+        },
+        northsinai3: {
+          top10: []
+        },
+        northsinai4: {
+          top10: []
+        },
+        northsinai5: {
+          top10: []
+        },
+        northsinai6: {
+          top10: []
+        }
+      }
+    },
+    bani_suef: {
+      top10: [],
+      districts: {
+        bani_suef1: {
+          top10: []
+        },
+        bani_suef2: {
+          top10: []
+        },
+        bani_suef3: {
+          top10: []
+        },
+        bani_suef4: {
+          top10: []
+        },
+        bani_suef5: {
+          top10: []
+        },
+        bani_suef6: {
+          top10: []
+        },
+        bani_suef7: {
+          top10: []
+        }
+      }
+    },
+    faiyum: {
+      top10: [],
+      districts: {
+        faiyum1: {
+          top10: []
+        },
+        faiyum2: {
+          top10: []
+        },
+        faiyum3: {
+          top10: []
+        },
+        faiyum4: {
+          top10: []
+        },
+        faiyum5: {
+          top10: []
+        },
+        faiyum6: {
+          top10: []
+        }
+      }
+    },
+    minya: {
+      top10: [],
+      districts: {
+        minya1: {
+          top10: []
+        },
+        minya2: {
+          top10: []
+        },
+        minya3: {
+          top10: []
+        },
+        minya4: {
+          top10: []
+        },
+        minya5: {
+          top10: []
+        },
+        minya6: {
+          top10: []
+        },
+        minya7: {
+          top10: []
+        },
+        minya8: {
+          top10: []
+        },
+        minya9: {
+          top10: []
+        }
+      }
+    },
+    asyut: {
+      top10: [],
+      districts: {
+        asyut1: {
+          top10: []
+        },
+        asyut2: {
+          top10: []
+        },
+        asyut3: {
+          top10: []
+        },
+        asyut4: {
+          top10: []
+        },
+        asyut5: {
+          top10: []
+        },
+        asyut6: {
+          top10: []
+        },
+        asyut7: {
+          top10: []
+        },
+        asyut8: {
+          top10: []
+        },
+        asyut9: {
+          top10: []
+        },
+        asyut10: {
+          top10: []
+        },
+        asyut11: {
+          top10: []
+        },
+        asyut12: {
+          top10: []
+        },
+        asyut13: {
+          top10: []
+        }
+      }
+    },
+    wadi: {
+      top10: [],
+      districts: {
+        wadi1: {
+          top10: []
+        },
+        wadi2: {
+          top10: []
+        },
+        wadi3: {
+          top10: []
+        },
+        wadi4: {
+          top10: []
+        },
+        wadi5: {
+          top10: []
+        }
+      }
+    },
+    sohag: {
+      top10: [],
+      districts: {
+        sohag1: {
+          top10: []
+        },
+        sohag2: {
+          top10: []
+        },
+        sohag3: {
+          top10: []
+        },
+        sohag4: {
+          top10: []
+        },
+        sohag5: {
+          top10: []
+        },
+        sohag6: {
+          top10: []
+        },
+        sohag7: {
+          top10: []
+        },
+        sohag8: {
+          top10: []
+        },
+        sohag9: {
+          top10: []
+        },
+        sohag10: {
+          top10: []
+        },
+        sohag11: {
+          top10: []
+        },
+        sohag12: {
+          top10: []
+        },
+        sohag13: {
+          top10: []
+        },
+        sohag14: {
+          top10: []
+        }
+      }
+    },
+    qena: {
+      top10: [],
+      districts: {
+        qena1: {
+          top10: []
+        },
+        qena2: {
+          top10: []
+        },
+        qena3: {
+          top10: []
+        },
+        qena4: {
+          top10: []
+        },
+        qena5: {
+          top10: []
+        },
+        qena6: {
+          top10: []
+        },
+        qena7: {
+          top10: []
+        },
+        qena8: {
+          top10: []
+        },
+        qena9: {
+          top10: []
+        }
+      }
+    },
+    luxor: {
+      top10: [],
+      districts: {
+        luxor1: {
+          top10: []
+        },
+        luxor2: {
+          top10: []
+        },
+        luxor3: {
+          top10: []
+        },
+        luxor4: {
+          top10: []
+        },
+        luxor5: {
+          top10: []
+        },
+        luxor6: {
+          top10: []
+        },
+        luxor7: {
+          top10: []
+        }
+      }
+    },
+    aswan: {
+      top10: [],
+      districts: {
+        aswan1: {
+          top10: []
+        },
+        aswan2: {
+          top10: []
+        },
+        aswan3: {
+          top10: []
+        },
+        aswan4: {
+          top10: []
+        },
+        aswan5: {
+          top10: []
+        },
+        aswan6: {
+          top10: []
+        },
+        aswan7: {
+          top10: []
+        },
+        aswan8: {
+          top10: []
+        }
+      }
+    },
+    portsaid: {
+      top10: [],
+      districts: {
+        portsaid1: {
+          top10: []
+        },
+        portsaid2: {
+          top10: []
+        },
+        portsaid3: {
+          top10: []
+        },
+        portsaid4: {
+          top10: []
+        },
+        portsaid5: {
+          top10: []
+        },
+        portsaid6: {
+          top10: []
+        },
+        portsaid7: {
+          top10: []
+        },
+        portsaid8: {
+          top10: []
+        }
+      }
+    },
+    suez: {
+      top10: [],
+      districts: {
+        suez1: {
+          top10: []
+        },
+        suez2: {
+          top10: []
+        },
+        suez3: {
+          top10: []
+        },
+        suez4: {
+          top10: []
+        },
+        suez5: {
+          top10: []
+        }
+      }
+    },
+    south_sinai: {
+      top10: [],
+      districts: {
+        south_sinai1: {
+          top10: []
+        },
+        south_sinai2: {
+          top10: []
+        },
+        south_sinai3: {
+          top10: []
+        },
+        south_sinai4: {
+          top10: []
+        },
+        south_sinai5: {
+          top10: []
+        },
+        south_sinai6: {
+          top10: []
+        },
+        south_sinai7: {
+          top10: []
+        },
+        south_sinai8: {
+          top10: []
+        },
+        south_sinai9: {
+          top10: []
+        }
+      }
+    },
+    red_sea: {
+      top10: [],
+      districts: {
+        red_sea1: {
+          top10: []
+        },
+        red_sea2: {
+          top10: []
+        },
+        red_sea3: {
+          top10: []
+        },
+        red_sea4: {
+          top10: []
+        },
+        red_sea5: {
+          top10: []
+        },
+        red_sea6: {
+          top10: []
+        },
+        red_sea7: {
+          top10: []
+        }
+      }
+    },
+    damietta: {
+      top10: [],
+      districts: {
+        damietta1: {
+          top10: []
+        },
+        damietta2: {
+          top10: []
+        },
+        damietta3: {
+          top10: []
+        },
+        damietta4: {
+          top10: []
+        },
+        damietta5: {
+          top10: []
+        }
+      }
+    },
+    matrooh: {
+      top10: [],
+      districts: {
+        matrooh1: {
+          top10: []
+        },
+        matrooh2: {
+          top10: []
+        },
+        matrooh3: {
+          top10: []
+        },
+        matrooh4: {
+          top10: []
+        },
+        matrooh5: {
+          top10: []
+        },
+        matrooh6: {
+          top10: []
+        },
+        matrooh7: {
+          top10: []
+        },
+        matrooh8: {
+          top10: []
+        }
+      }
+    }
+  }
+};
