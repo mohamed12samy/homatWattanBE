@@ -24,7 +24,7 @@ import {
 import FormModel from "../models/form.model";
 import UserModel from "../models/user.model";
 import { Request, Response } from "express";
-import _ from 'lodash';
+import _ from "lodash";
 
 export async function getReport(req: Request, res: Response) {
   try {
@@ -471,15 +471,13 @@ export async function getOutsiderReport(req: Request, res: Response) {
 
     const result = mapTop10Data(data, governmentsTotal);
     //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
-    return res
-      .status(200)
-      .send({
-        ...result,
-        top10: [
-          ...total[0]["top10"],
-          { name: "اخرى", count: total[0]["others"] ?? 0 }
-        ]
-      });
+    return res.status(200).send({
+      ...result,
+      top10: [
+        ...total[0]["top10"],
+        { name: "اخرى", count: total[0]["others"] ?? 0 }
+      ]
+    });
   } catch (e: any) {}
 }
 
@@ -666,15 +664,13 @@ export async function getUnionReport(req: Request, res: Response) {
 
     const result = mapTop10Data(data, governmentsTotal);
     //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
-    return res
-      .status(200)
-      .send({
-        ...result,
-        top10: [
-          ...total[0]["top10"],
-          { name: "اخرى", count: total[0]["others"] ?? 0 }
-        ]
-      });
+    return res.status(200).send({
+      ...result,
+      top10: [
+        ...total[0]["top10"],
+        { name: "اخرى", count: total[0]["others"] ?? 0 }
+      ]
+    });
   } catch (e: any) {}
 }
 
@@ -862,15 +858,13 @@ export async function getFieldsReport(req: Request, res: Response) {
 
     const result = mapTop10Data(data, governmentsTotal);
     //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
-    return res
-      .status(200)
-      .send({
-        ...result,
-        top10: [
-          ...total[0]["top10"],
-          { name: "اخرى", count: total[0]["others"] ?? 0 }
-        ]
-      });
+    return res.status(200).send({
+      ...result,
+      top10: [
+        ...total[0]["top10"],
+        { name: "اخرى", count: total[0]["others"] ?? 0 }
+      ]
+    });
   } catch (e: any) {}
 }
 
@@ -1477,50 +1471,6 @@ function mapReligionData(rawData: any[]): any {
   result["muslims"] = totalMuslims;
   result["christians"] = totalChristians;
   return result;
-
-
-  //   rawData.forEach((govData) => {
-  //     const governmentKey = GovernmentsMapping[govData.government];
-  //     if (!governmentKey) return; // Skip if government not found in Neighborhoods
-
-  //     if (!governments[governmentKey]) {
-  //       governments[governmentKey] = {
-  //         muslims: 0,
-  //         christians: 0,
-  //         districts: {}
-  //       };
-  //     }
-
-  //     let govMuslims = 0;
-  //     let govChristians = 0;
-
-  //     govData.districts.forEach((districtData: any) => {
-  //       const districtKey = Object.keys(Neighborhoods[governmentKey]).find(
-  //         (key) => Neighborhoods[governmentKey][key] === districtData.name
-  //       );
-
-  //       if (districtKey) {
-  //         governments[governmentKey].districts[districtKey] = {
-  //           muslims: districtData.muslims,
-  //           christians: districtData.christians
-  //         };
-  //         govMuslims += districtData.muslims;
-  //         govChristians += districtData.christians;
-  //       }
-  //     });
-
-  //     governments[governmentKey].muslims += govMuslims;
-  //     governments[governmentKey].christians += govChristians;
-
-  //     totalMuslims += govData.muslims;
-  //     totalChristians += govData.christians;
-  //   });
-
-  //   return {
-  //     muslims: totalMuslims,
-  //     christians: totalChristians,
-  //     governments
-  //   };
 }
 
 function mapAgesReport(rawData: any[]): any {
@@ -1759,15 +1709,530 @@ function getWeekStartAndEndDates() {
   };
 }
 
+export async function getRegisteredReportData(req: Request, res: Response) {
+  try {
+    const { governmentRegex, departmentRegex } = req.custQuery || {};
+    const page: number = Number(req.query.page) || 1;
+    const pageSize: number = Number(req.query.pageSize) || 10;
+
+    let data: any = await FormModel.find({
+      isApproved: true,
+      government: { $exists: true, $regex: governmentRegex },
+      department: { $exists: true, $regex: departmentRegex }
+    })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+    return res.status(200).send(data);
+  } catch (e: any) {}
+}
+
+export async function getGenderReportData(req: Request, res: Response) {
+  try {
+    console.log("first");
+    const { governmentRegex, departmentRegex } = req.custQuery || {};
+    const page: number = Number(req.query.page) || 1; // Default to 0 if not provided
+    const pageSize: number = Number(req.query.pageSize) || 10;
+    console.log(page, pageSize, governmentRegex, departmentRegex);
+
+    let data: any = await FormModel.aggregate([
+      {
+        $match: {
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
+        }
+      },
+      {
+        $group: {
+          _id: null, // No specific grouping, so all results go in the same output
+          males: {
+            $push: {
+              $cond: {
+                if: { $eq: ["$gender", "ذكر"] },
+                then: {
+                  _id: "$_id",
+                  username: "$username",
+                  id: "$id",
+                  birth_date: "$birth_date",
+                  gender: "$gender",
+                  religion: "$religion",
+                  phoneNumber: "$phoneNumber",
+                  election_candidate: "$election_candidate",
+                  election_data: "$election_data",
+                  department: "$department",
+                  fields: "$fields",
+                  degree: "$degree"
+                },
+                else: null
+              }
+            }
+          },
+          females: {
+            $push: {
+              $cond: {
+                if: { $eq: ["$gender", "انثى"] },
+                then: {
+                  _id: "$_id",
+                  username: "$username",
+                  id: "$id",
+                  birth_date: "$birth_date",
+                  gender: "$gender",
+                  religion: "$religion",
+                  phoneNumber: "$phoneNumber",
+                  election_candidate: "$election_candidate",
+                  election_data: "$election_data",
+                  department: "$department",
+                  fields: "$fields",
+                  degree: "$degree"
+                },
+                else: null
+              }
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          males: {
+            $filter: {
+              input: "$males",
+              as: "male",
+              cond: { $ne: ["$$male", null] }
+            }
+          },
+          females: {
+            $filter: {
+              input: "$females",
+              as: "female",
+              cond: { $ne: ["$$female", null] }
+            }
+          }
+        }
+      }
+    ]);
+
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    console.log(startIndex, endIndex);
+
+    const males = data[0]["males"].slice(startIndex, endIndex);
+    const females = data[0]["females"].slice(startIndex, endIndex);
+
+    return res.status(200).send({ males, females });
+  } catch (e: any) {}
+}
+
+export async function getReligionReportData(req: Request, res: Response) {
+  try {
+    const { governmentRegex, departmentRegex } = req.custQuery || {};
+    const page: number = Number(req.query.page) || 1;
+    const pageSize: number = Number(req.query.pageSize) || 10;
+
+    let data: any = await FormModel.aggregate([
+      {
+        $match: {
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
+        }
+      },
+      {
+        $group: {
+          _id: null, // No specific grouping, so all results go in the same output
+          muslims: {
+            $push: {
+              $cond: {
+                if: { $eq: ["$religion", "مسلم"] },
+                then: {
+                  _id: "$_id",
+                  username: "$username",
+                  id: "$id",
+                  birth_date: "$birth_date",
+                  gender: "$gender",
+                  religion: "$religion",
+                  phoneNumber: "$phoneNumber",
+                  election_candidate: "$election_candidate",
+                  election_data: "$election_data",
+                  department: "$department",
+                  fields: "$fields",
+                  degree: "$degree"
+                },
+                else: null
+              }
+            }
+          },
+          christians: {
+            $push: {
+              $cond: {
+                if: { $eq: ["$religion", "مسيحى"] },
+                then: {
+                  _id: "$_id",
+                  username: "$username",
+                  id: "$id",
+                  birth_date: "$birth_date",
+                  gender: "$gender",
+                  religion: "$religion",
+                  phoneNumber: "$phoneNumber",
+                  election_candidate: "$election_candidate",
+                  election_data: "$election_data",
+                  department: "$department",
+                  fields: "$fields",
+                  degree: "$degree"
+                },
+                else: null
+              }
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          muslims: {
+            $filter: {
+              input: "$muslims",
+              as: "muslim",
+              cond: { $ne: ["$$muslim", null] }
+            }
+          },
+          christians: {
+            $filter: {
+              input: "$christians",
+              as: "christian",
+              cond: { $ne: ["$$christian", null] }
+            }
+          }
+        }
+      }
+    ]);
+
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    console.log(startIndex, endIndex);
+
+    const muslims = data[0]["muslims"].slice(startIndex, endIndex);
+    const christians = data[0]["christians"].slice(startIndex, endIndex);
+
+    return res.status(200).send({ muslims, christians });
+  } catch (e: any) {}
+}
+
+export async function getOutsiderReportData(req: Request, res: Response) {
+  try {
+    const { governmentRegex, departmentRegex } = req.custQuery || {};
+    const page: number = Number(req.query.page) || 1;
+    const pageSize: number = Number(req.query.pageSize) || 10;
+
+    let data: any = await FormModel.aggregate([
+      {
+        $match: {
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex },
+          outsider: { $ne: null }
+        }
+      },
+      {
+        $group: {
+          _id: "$outsider",
+          candidates: {
+            $push: {
+              _id: "$_id",
+              username: "$username",
+              id: "$id",
+              birth_date: "$birth_date",
+              gender: "$gender",
+              religion: "$religion",
+              phoneNumber: "$phoneNumber",
+              department: "$department",
+              fields: "$fields",
+              degree: "$degree",
+              outsider: "$outsider"
+            }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      // Sort by count of candidates
+      {
+        $sort: { count: -1 }
+      },
+      // Add a ranking to identify top 10 and the rest
+      {
+        $group: {
+          _id: null,
+          top10: {
+            $push: {
+              name: "$_id",
+              candidates: "$candidates"
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          top10: { $slice: ["$top10", 10] }, // Get the top 10 outsiders
+          remaining: { $slice: ["$top10", 10, { $size: "$top10" }] } // Get the rest
+        }
+      },
+      {
+        $addFields: {
+          other: {
+            $cond: {
+              if: { $gt: [{ $size: "$remaining" }, 0] },
+              then: {
+                name: "اخرى",
+                candidates: {
+                  $reduce: {
+                    input: "$remaining.candidates",
+                    initialValue: [],
+                    in: { $concatArrays: ["$$value", "$$this"] }
+                  }
+                }
+              },
+              else: []
+            }
+          }
+        }
+      },
+      // Merge top10 and others
+      {
+        $project: {
+          finalResult: {
+            $concatArrays: [
+              "$top10",
+              {
+                $cond: {
+                  if: { $gt: [{ $size: "$other.candidates" }, 0] },
+                  then: ["$other"],
+                  else: []
+                }
+              }
+            ]
+          }
+        }
+      },
+      // Unwind to return results in the desired format
+      {
+        $unwind: "$finalResult"
+      },
+      {
+        $replaceRoot: { newRoot: "$finalResult" }
+      }
+    ]);
+
+    return res.status(200).send(data);
+  } catch (e: any) {}
+}
 
 
+export async function getUnionReportData(req: Request, res: Response) {
+    try {
+      const { governmentRegex, departmentRegex } = req.custQuery || {};
+      const page: number = Number(req.query.page) || 1;
+      const pageSize: number = Number(req.query.pageSize) || 10;
+  
+      let data: any = await FormModel.aggregate([
+        {
+          $match: {
+            government: { $exists: true, $regex: governmentRegex },
+            department: { $exists: true, $regex: departmentRegex },
+            union: { $ne: null }
+          }
+        },
+        {
+          $group: {
+            _id: "$union",
+            candidates: {
+              $push: {
+                _id: "$_id",
+                username: "$username",
+                id: "$id",
+                birth_date: "$birth_date",
+                gender: "$gender",
+                religion: "$religion",
+                phoneNumber: "$phoneNumber",
+                department: "$department",
+                fields: "$fields",
+                degree: "$degree",
+                union: "$union"
+              }
+            },
+            count: { $sum: 1 }
+          }
+        },
+        // Sort by count of candidates
+        {
+          $sort: { count: -1 }
+        },
+        // Add a ranking to identify top 10 and the rest
+        {
+          $group: {
+            _id: null,
+            top10: {
+              $push: {
+                name: "$_id",
+                candidates: "$candidates"
+              }
+            }
+          }
+        },
+        {
+          $project: {
+            top10: { $slice: ["$top10", 10] }, // Get the top 10 outsiders
+            remaining: { $slice: ["$top10", 10, { $size: "$top10" }] } // Get the rest
+          }
+        },
+        {
+          $addFields: {
+            other: {
+              $cond: {
+                if: { $gt: [{ $size: "$remaining" }, 0] },
+                then: {
+                  name: "اخرى",
+                  candidates: {
+                    $reduce: {
+                      input: "$remaining.candidates",
+                      initialValue: [],
+                      in: { $concatArrays: ["$$value", "$$this"] }
+                    }
+                  }
+                },
+                else: []
+              }
+            }
+          }
+        },
+        // Merge top10 and others
+        {
+          $project: {
+            finalResult: {
+              $concatArrays: [
+                "$top10",
+                {
+                  $cond: {
+                    if: { $gt: [{ $size: "$other.candidates" }, 0] },
+                    then: ["$other"],
+                    else: []
+                  }
+                }
+              ]
+            }
+          }
+        },
+        // Unwind to return results in the desired format
+        {
+          $unwind: "$finalResult"
+        },
+        {
+          $replaceRoot: { newRoot: "$finalResult" }
+        }
+      ]);
+  
+      return res.status(200).send(data);
+    } catch (e: any) {}
+  }
 
-
-
-
-
-
-
-
-
-
+  export async function getFieldsReportData(req: Request, res: Response) {
+    try {
+      const { governmentRegex, departmentRegex } = req.custQuery || {};
+      const page: number = Number(req.query.page) || 1;
+      const pageSize: number = Number(req.query.pageSize) || 10;
+  
+      let data: any = await FormModel.aggregate([
+        {
+          $match: {
+            government: { $exists: true, $regex: governmentRegex },
+            department: { $exists: true, $regex: departmentRegex },
+            fields: { $ne: null }
+          }
+        },
+        {
+          $group: {
+            _id: "$fields",
+            candidates: {
+              $push: {
+                _id: "$_id",
+                username: "$username",
+                id: "$id",
+                birth_date: "$birth_date",
+                gender: "$gender",
+                religion: "$religion",
+                phoneNumber: "$phoneNumber",
+                department: "$department",
+                fields: "$fields",
+                degree: "$degree",
+              }
+            },
+            count: { $sum: 1 }
+          }
+        },
+        // Sort by count of candidates
+        {
+          $sort: { count: -1 }
+        },
+        // Add a ranking to identify top 10 and the rest
+        {
+          $group: {
+            _id: null,
+            top10: {
+              $push: {
+                name: "$_id",
+                candidates: "$candidates"
+              }
+            }
+          }
+        },
+        {
+          $project: {
+            top10: { $slice: ["$top10", 10] }, // Get the top 10 outsiders
+            remaining: { $slice: ["$top10", 10, { $size: "$top10" }] } // Get the rest
+          }
+        },
+        {
+          $addFields: {
+            other: {
+              $cond: {
+                if: { $gt: [{ $size: "$remaining" }, 0] },
+                then: {
+                  name: "اخرى",
+                  candidates: {
+                    $reduce: {
+                      input: "$remaining.candidates",
+                      initialValue: [],
+                      in: { $concatArrays: ["$$value", "$$this"] }
+                    }
+                  }
+                },
+                else: []
+              }
+            }
+          }
+        },
+        // Merge top10 and others
+        {
+          $project: {
+            finalResult: {
+              $concatArrays: [
+                "$top10",
+                {
+                  $cond: {
+                    if: { $gt: [{ $size: "$other.candidates" }, 0] },
+                    then: ["$other"],
+                    else: []
+                  }
+                }
+              ]
+            }
+          }
+        },
+        // Unwind to return results in the desired format
+        {
+          $unwind: "$finalResult"
+        },
+        {
+          $replaceRoot: { newRoot: "$finalResult" }
+        }
+      ]);
+  
+      return res.status(200).send(data);
+    } catch (e: any) {}
+  }

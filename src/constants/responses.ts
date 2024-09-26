@@ -10048,3 +10048,1375 @@ export const WeeklyReportDto: any[] = [
     week: "last_week"
   }
 ];
+
+export const FormsGenderReportDataDto: any = {
+  governments: {
+    qahera: {
+      districts: {
+        qahera1: {
+          males: [],
+          females: []
+        },
+
+        qahera2: {
+          males: [],
+          females: []
+        },
+
+        qahera3: {
+          males: [],
+          females: []
+        },
+
+        qahera4: {
+          males: [],
+          females: []
+        },
+
+        qahera5: {
+          males: [],
+          females: []
+        },
+
+        qahera6: {
+          males: [],
+          females: []
+        },
+
+        qahera7: {
+          males: [],
+          females: []
+        },
+
+        qahera8: {
+          males: [],
+          females: []
+        },
+
+        qahera9: {
+          males: [],
+          females: []
+        },
+
+        qahera10: {
+          males: [],
+          females: []
+        },
+
+        qahera11: {
+          males: [],
+          females: []
+        },
+
+        qahera12: {
+          males: [],
+          females: []
+        },
+
+        qahera13: {
+          males: [],
+          females: []
+        },
+
+        qahera14: {
+          males: [],
+          females: []
+        },
+
+        qahera15: {
+          males: [],
+          females: []
+        },
+
+        qahera16: {
+          males: [],
+          females: []
+        },
+
+        qahera17: {
+          males: [],
+          females: []
+        },
+
+        qahera18: {
+          males: [],
+          females: []
+        },
+
+        qahera19: {
+          males: [],
+          females: []
+        },
+
+        qahera20: {
+          males: [],
+          females: []
+        },
+
+        qahera21: {
+          males: [],
+          females: []
+        },
+
+        qahera22: {
+          males: [],
+          females: []
+        },
+
+        qahera23: {
+          males: [],
+          females: []
+        },
+
+        qahera24: {
+          males: [],
+          females: []
+        },
+
+        qahera25: {
+          males: [],
+          females: []
+        },
+
+        qahera26: {
+          males: [],
+          females: []
+        },
+
+        qahera27: {
+          males: [],
+          females: []
+        },
+
+        qahera28: {
+          males: [],
+          females: []
+        },
+
+        qahera29: {
+          males: [],
+          females: []
+        },
+
+        qahera30: {
+          males: [],
+          females: []
+        },
+
+        qahera31: {
+          males: [],
+          females: []
+        },
+
+        qahera32: {
+          males: [],
+          females: []
+        },
+
+        qahera33: {
+          males: [],
+          females: []
+        },
+
+        qahera34: {
+          males: [],
+          females: []
+        },
+
+        qahera35: {
+          males: [],
+          females: []
+        },
+
+        qahera36: {
+          males: [],
+          females: []
+        },
+        qahera37: {
+          males: [],
+          females: []
+        },
+        qahera38: {
+          males: [],
+          females: []
+        },
+        qahera39: {
+          males: [],
+          females: []
+        },
+        qahera40: {
+          males: [],
+          females: []
+        },
+        qahera41: {
+          males: [],
+          females: []
+        },
+        qahera42: {
+          males: [],
+          females: []
+        },
+        qahera43: {
+          males: [],
+          females: []
+        },
+        qahera44: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    giza: {
+      districts: {
+        giza1: {
+          males: [],
+          females: []
+        },
+        giza2: {
+          males: [],
+          females: []
+        },
+        giza3: {
+          males: [],
+          females: []
+        },
+        giza4: {
+          males: [],
+          females: []
+        },
+        giza5: {
+          males: [],
+          females: []
+        },
+        giza6: {
+          males: [],
+          females: []
+        },
+        giza7: {
+          males: [],
+          females: []
+        },
+        giza8: {
+          males: [],
+          females: []
+        },
+        giza9: {
+          males: [],
+          females: []
+        },
+        giza10: {
+          males: [],
+          females: []
+        },
+        giza11: {
+          males: [],
+          females: []
+        },
+        giza12: {
+          males: [],
+          females: []
+        },
+        giza13: {
+          males: [],
+          females: []
+        },
+        giza14: {
+          males: [],
+          females: []
+        },
+        giza15: {
+          males: [],
+          females: []
+        },
+        giza16: {
+          males: [],
+          females: []
+        },
+        giza17: {
+          males: [],
+          females: []
+        },
+        giza18: {
+          males: [],
+          females: []
+        },
+        giza19: {
+          males: [],
+          females: []
+        },
+        giza20: {
+          males: [],
+          females: []
+        },
+        giza21: {
+          males: [],
+          females: []
+        },
+        giza22: {
+          males: [],
+          females: []
+        },
+        giza23: {
+          males: [],
+          females: []
+        },
+        giza24: {
+          males: [],
+          females: []
+        },
+        giza25: {
+          males: [],
+          females: []
+        },
+        giza26: {
+          males: [],
+          females: []
+        },
+        giza27: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    qaliobia: {
+      districts: {
+        qaliobia1: {
+          males: [],
+          females: []
+        },
+        qaliobia2: {
+          males: [],
+          females: []
+        },
+        qaliobia3: {
+          males: [],
+          females: []
+        },
+        qaliobia4: {
+          males: [],
+          females: []
+        },
+        qaliobia5: {
+          males: [],
+          females: []
+        },
+        qaliobia6: {
+          males: [],
+          females: []
+        },
+        qaliobia7: {
+          males: [],
+          females: []
+        },
+        qaliobia8: {
+          males: [],
+          females: []
+        },
+        qaliobia9: {
+          males: [],
+          females: []
+        },
+        qaliobia10: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    alex: {
+      districts: {
+        alex1: {
+          males: [],
+          females: []
+        },
+        alex2: {
+          males: [],
+          females: []
+        },
+        alex3: {
+          males: [],
+          females: []
+        },
+        alex4: {
+          males: [],
+          females: []
+        },
+        alex5: {
+          males: [],
+          females: []
+        },
+        alex6: {
+          males: [],
+          females: []
+        },
+        alex7: {
+          males: [],
+          females: []
+        },
+        alex8: {
+          males: [],
+          females: []
+        },
+        alex9: {
+          males: [],
+          females: []
+        },
+        alex10: {
+          males: [],
+          females: []
+        },
+        alex11: {
+          males: [],
+          females: []
+        },
+        alex12: {
+          males: [],
+          females: []
+        },
+        alex13: {
+          males: [],
+          females: []
+        },
+        alex14: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    beheira: {
+      districts: {
+        beheira1: {
+          males: [],
+          females: []
+        },
+        beheira2: {
+          males: [],
+          females: []
+        },
+        beheira3: {
+          males: [],
+          females: []
+        },
+        beheira4: {
+          males: [],
+          females: []
+        },
+        beheira5: {
+          males: [],
+          females: []
+        },
+        beheira6: {
+          males: [],
+          females: []
+        },
+        beheira7: {
+          males: [],
+          females: []
+        },
+        beheira8: {
+          males: [],
+          females: []
+        },
+        beheira9: {
+          males: [],
+          females: []
+        },
+        beheira10: {
+          males: [],
+          females: []
+        },
+        beheira11: {
+          males: [],
+          females: []
+        },
+        beheira12: {
+          males: [],
+          females: []
+        },
+        beheira13: {
+          males: [],
+          females: []
+        },
+        beheira14: {
+          males: [],
+          females: []
+        },
+        beheira15: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    sharqia: {
+      districts: {
+        sharqia1: {
+          males: [],
+          females: []
+        },
+        sharqia2: {
+          males: [],
+          females: []
+        },
+        sharqia3: {
+          males: [],
+          females: []
+        },
+        sharqia4: {
+          males: [],
+          females: []
+        },
+        sharqia5: {
+          males: [],
+          females: []
+        },
+        sharqia6: {
+          males: [],
+          females: []
+        },
+        sharqia7: {
+          males: [],
+          females: []
+        },
+        sharqia8: {
+          males: [],
+          females: []
+        },
+        sharqia9: {
+          males: [],
+          females: []
+        },
+        sharqia10: {
+          males: [],
+          females: []
+        },
+        sharqia11: {
+          males: [],
+          females: []
+        },
+        sharqia12: {
+          males: [],
+          females: []
+        },
+        sharqia13: {
+          males: [],
+          females: []
+        },
+        sharqia14: {
+          males: [],
+          females: []
+        },
+        sharqia15: {
+          males: [],
+          females: []
+        },
+        sharqia16: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    menoufia: {
+      districts: {
+        menoufia1: {
+          males: [],
+          females: []
+        },
+        menoufia2: {
+          males: [],
+          females: []
+        },
+        menoufia3: {
+          males: [],
+          females: []
+        },
+        menoufia4: {
+          males: [],
+          females: []
+        },
+        menoufia5: {
+          males: [],
+          females: []
+        },
+        menoufia6: {
+          males: [],
+          females: []
+        },
+        menoufia7: {
+          males: [],
+          females: []
+        },
+        menoufia8: {
+          males: [],
+          females: []
+        },
+        menoufia9: {
+          males: [],
+          females: []
+        },
+        menoufia10: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    gharbiya: {
+      districts: {
+        gharbiya1: {
+          males: [],
+          females: []
+        },
+        gharbiya2: {
+          males: [],
+          females: []
+        },
+        gharbiya3: {
+          males: [],
+          females: []
+        },
+        gharbiya4: {
+          males: [],
+          females: []
+        },
+        gharbiya5: {
+          males: [],
+          females: []
+        },
+        gharbiya6: {
+          males: [],
+          females: []
+        },
+        gharbiya7: {
+          males: [],
+          females: []
+        },
+        gharbiya8: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    kafr_sheikh: {
+      districts: {
+        kafr_sheikh1: {
+          males: [],
+          females: []
+        },
+        kafr_sheikh2: {
+          males: [],
+          females: []
+        },
+        kafr_sheikh3: {
+          males: [],
+          females: []
+        },
+        kafr_sheikh4: {
+          males: [],
+          females: []
+        },
+        kafr_sheikh5: {
+          males: [],
+          females: []
+        },
+        kafr_sheikh6: {
+          males: [],
+          females: []
+        },
+        kafr_sheikh7: {
+          males: [],
+          females: []
+        },
+        kafr_sheikh8: {
+          males: [],
+          females: []
+        },
+        kafr_sheikh9: {
+          males: [],
+          females: []
+        },
+        kafr_sheikh10: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    dakahlia: {
+      districts: {
+        dakahlia1: {
+          males: [],
+          females: []
+        },
+        dakahlia2: {
+          males: [],
+          females: []
+        },
+        dakahlia3: {
+          males: [],
+          females: []
+        },
+        dakahlia4: {
+          males: [],
+          females: []
+        },
+        dakahlia5: {
+          males: [],
+          females: []
+        },
+        dakahlia6: {
+          males: [],
+          females: []
+        },
+        dakahlia7: {
+          males: [],
+          females: []
+        },
+        dakahlia8: {
+          males: [],
+          females: []
+        },
+        dakahlia9: {
+          males: [],
+          females: []
+        },
+        dakahlia10: {
+          males: [],
+          females: []
+        },
+        dakahlia11: {
+          males: [],
+          females: []
+        },
+        dakahlia12: {
+          males: [],
+          females: []
+        },
+        dakahlia13: {
+          males: [],
+          females: []
+        },
+        dakahlia14: {
+          males: [],
+          females: []
+        },
+        dakahlia15: {
+          males: [],
+          females: []
+        },
+        dakahlia16: {
+          males: [],
+          females: []
+        },
+        dakahlia17: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    Ismailia: {
+      districts: {
+        Ismailia1: {
+          males: [],
+          females: []
+        },
+        Ismailia2: {
+          males: [],
+          females: []
+        },
+        Ismailia3: {
+          males: [],
+          females: []
+        },
+        Ismailia4: {
+          males: [],
+          females: []
+        },
+        Ismailia5: {
+          males: [],
+          females: []
+        },
+        Ismailia6: {
+          males: [],
+          females: []
+        },
+        Ismailia7: {
+          males: [],
+          females: []
+        },
+        Ismailia8: {
+          males: [],
+          females: []
+        },
+        Ismailia9: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    northsinai: {
+      districts: {
+        northsinai1: {
+          males: [],
+          females: []
+        },
+        northsinai2: {
+          males: [],
+          females: []
+        },
+        northsinai3: {
+          males: [],
+          females: []
+        },
+        northsinai4: {
+          males: [],
+          females: []
+        },
+        northsinai5: {
+          males: [],
+          females: []
+        },
+        northsinai6: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    bani_suef: {
+      districts: {
+        bani_suef1: {
+          males: [],
+          females: []
+        },
+        bani_suef2: {
+          males: [],
+          females: []
+        },
+        bani_suef3: {
+          males: [],
+          females: []
+        },
+        bani_suef4: {
+          males: [],
+          females: []
+        },
+        bani_suef5: {
+          males: [],
+          females: []
+        },
+        bani_suef6: {
+          males: [],
+          females: []
+        },
+        bani_suef7: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    faiyum: {
+      districts: {
+        faiyum1: {
+          males: [],
+          females: []
+        },
+        faiyum2: {
+          males: [],
+          females: []
+        },
+        faiyum3: {
+          males: [],
+          females: []
+        },
+        faiyum4: {
+          males: [],
+          females: []
+        },
+        faiyum5: {
+          males: [],
+          females: []
+        },
+        faiyum6: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    minya: {
+      districts: {
+        minya1: {
+          males: [],
+          females: []
+        },
+        minya2: {
+          males: [],
+          females: []
+        },
+        minya3: {
+          males: [],
+          females: []
+        },
+        minya4: {
+          males: [],
+          females: []
+        },
+        minya5: {
+          males: [],
+          females: []
+        },
+        minya6: {
+          males: [],
+          females: []
+        },
+        minya7: {
+          males: [],
+          females: []
+        },
+        minya8: {
+          males: [],
+          females: []
+        },
+        minya9: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    asyut: {
+      districts: {
+        asyut1: {
+          males: [],
+          females: []
+        },
+        asyut2: {
+          males: [],
+          females: []
+        },
+        asyut3: {
+          males: [],
+          females: []
+        },
+        asyut4: {
+          males: [],
+          females: []
+        },
+        asyut5: {
+          males: [],
+          females: []
+        },
+        asyut6: {
+          males: [],
+          females: []
+        },
+        asyut7: {
+          males: [],
+          females: []
+        },
+        asyut8: {
+          males: [],
+          females: []
+        },
+        asyut9: {
+          males: [],
+          females: []
+        },
+        asyut10: {
+          males: [],
+          females: []
+        },
+        asyut11: {
+          males: [],
+          females: []
+        },
+        asyut12: {
+          males: [],
+          females: []
+        },
+        asyut13: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    wadi: {
+      districts: {
+        wadi1: {
+          males: [],
+          females: []
+        },
+        wadi2: {
+          males: [],
+          females: []
+        },
+        wadi3: {
+          males: [],
+          females: []
+        },
+        wadi4: {
+          males: [],
+          females: []
+        },
+        wadi5: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    sohag: {
+      districts: {
+        sohag1: {
+          males: [],
+          females: []
+        },
+        sohag2: {
+          males: [],
+          females: []
+        },
+        sohag3: {
+          males: [],
+          females: []
+        },
+        sohag4: {
+          males: [],
+          females: []
+        },
+        sohag5: {
+          males: [],
+          females: []
+        },
+        sohag6: {
+          males: [],
+          females: []
+        },
+        sohag7: {
+          males: [],
+          females: []
+        },
+        sohag8: {
+          males: [],
+          females: []
+        },
+        sohag9: {
+          males: [],
+          females: []
+        },
+        sohag10: {
+          males: [],
+          females: []
+        },
+        sohag11: {
+          males: [],
+          females: []
+        },
+        sohag12: {
+          males: [],
+          females: []
+        },
+        sohag13: {
+          males: [],
+          females: []
+        },
+        sohag14: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    qena: {
+      districts: {
+        qena1: {
+          males: [],
+          females: []
+        },
+        qena2: {
+          males: [],
+          females: []
+        },
+        qena3: {
+          males: [],
+          females: []
+        },
+        qena4: {
+          males: [],
+          females: []
+        },
+        qena5: {
+          males: [],
+          females: []
+        },
+        qena6: {
+          males: [],
+          females: []
+        },
+        qena7: {
+          males: [],
+          females: []
+        },
+        qena8: {
+          males: [],
+          females: []
+        },
+        qena9: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    luxor: {
+      districts: {
+        luxor1: {
+          males: [],
+          females: []
+        },
+        luxor2: {
+          males: [],
+          females: []
+        },
+        luxor3: {
+          males: [],
+          females: []
+        },
+        luxor4: {
+          males: [],
+          females: []
+        },
+        luxor5: {
+          males: [],
+          females: []
+        },
+        luxor6: {
+          males: [],
+          females: []
+        },
+        luxor7: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    aswan: {
+      districts: {
+        aswan1: {
+          males: [],
+          females: []
+        },
+        aswan2: {
+          males: [],
+          females: []
+        },
+        aswan3: {
+          males: [],
+          females: []
+        },
+        aswan4: {
+          males: [],
+          females: []
+        },
+        aswan5: {
+          males: [],
+          females: []
+        },
+        aswan6: {
+          males: [],
+          females: []
+        },
+        aswan7: {
+          males: [],
+          females: []
+        },
+        aswan8: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    portsaid: {
+      districts: {
+        portsaid1: {
+          males: [],
+          females: []
+        },
+        portsaid2: {
+          males: [],
+          females: []
+        },
+        portsaid3: {
+          males: [],
+          females: []
+        },
+        portsaid4: {
+          males: [],
+          females: []
+        },
+        portsaid5: {
+          males: [],
+          females: []
+        },
+        portsaid6: {
+          males: [],
+          females: []
+        },
+        portsaid7: {
+          males: [],
+          females: []
+        },
+        portsaid8: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    suez: {
+      districts: {
+        suez1: {
+          males: [],
+          females: []
+        },
+        suez2: {
+          males: [],
+          females: []
+        },
+        suez3: {
+          males: [],
+          females: []
+        },
+        suez4: {
+          males: [],
+          females: []
+        },
+        suez5: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    south_sinai: {
+      districts: {
+        south_sinai1: {
+          males: [],
+          females: []
+        },
+        south_sinai2: {
+          males: [],
+          females: []
+        },
+        south_sinai3: {
+          males: [],
+          females: []
+        },
+        south_sinai4: {
+          males: [],
+          females: []
+        },
+        south_sinai5: {
+          males: [],
+          females: []
+        },
+        south_sinai6: {
+          males: [],
+          females: []
+        },
+        south_sinai7: {
+          males: [],
+          females: []
+        },
+        south_sinai8: {
+          males: [],
+          females: []
+        },
+        south_sinai9: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    red_sea: {
+      districts: {
+        red_sea1: {
+          males: [],
+          females: []
+        },
+        red_sea2: {
+          males: [],
+          females: []
+        },
+        red_sea3: {
+          males: [],
+          females: []
+        },
+        red_sea4: {
+          males: [],
+          females: []
+        },
+        red_sea5: {
+          males: [],
+          females: []
+        },
+        red_sea6: {
+          males: [],
+          females: []
+        },
+        red_sea7: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    damietta: {
+      districts: {
+        damietta1: {
+          males: [],
+          females: []
+        },
+        damietta2: {
+          males: [],
+          females: []
+        },
+        damietta3: {
+          males: [],
+          females: []
+        },
+        damietta4: {
+          males: [],
+          females: []
+        },
+        damietta5: {
+          males: [],
+          females: []
+        }
+      }
+    },
+    matrooh: {
+      districts: {
+        matrooh1: {
+          males: [],
+          females: []
+        },
+        matrooh2: {
+          males: [],
+          females: []
+        },
+        matrooh3: {
+          males: [],
+          females: []
+        },
+        matrooh4: {
+          males: [],
+          females: []
+        },
+        matrooh5: {
+          males: [],
+          females: []
+        },
+        matrooh6: {
+          males: [],
+          females: []
+        },
+        matrooh7: {
+          males: [],
+          females: []
+        },
+        matrooh8: {
+          males: [],
+          females: []
+        }
+      }
+    }
+  }
+};

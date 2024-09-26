@@ -4,13 +4,19 @@ import {
   getDegreeReport,
   getElectionsReport,
   getFieldsReport,
+  getFieldsReportData,
   getGenderReport,
+  getGenderReportData,
   getKnewReport,
   getOutsiderReport,
+  getOutsiderReportData,
   getRegisteredReport,
+  getRegisteredReportData,
   getReligionReport,
+  getReligionReportData,
   getReport,
   getUnionReport,
+  getUnionReportData,
   getWeeklyReport
 } from "../controllers/report.controller";
 import { requireUser } from "../middlewares/requireUser";
@@ -22,22 +28,22 @@ const reportRoutes = express.Router();
 reportRoutes.get("/report", getReport);
 
 reportRoutes.get("/report/registered",  setQuery(), getRegisteredReport);
-// reportRoutes.get("/report/registered/data",  setQuery(), getRegisteredReportData);
+reportRoutes.get("/report/registered/data",  setQuery(), getRegisteredReportData);
 
 reportRoutes.get("/report/gender",  setQuery(), getGenderReport);
-// reportRoutes.get("/report/gender/data",  setQuery(), getGenderReportData);
+reportRoutes.get("/report/gender/data",  setQuery(), getGenderReportData);
 
 reportRoutes.get("/report/religion",  setQuery(), getReligionReport);
-// reportRoutes.get("/report/religion/data",  setQuery(), getReligionReportData);
+reportRoutes.get("/report/religion/data",  setQuery(), getReligionReportData);
 
 reportRoutes.get("/report/outsider",  setQuery(), getOutsiderReport);
-// reportRoutes.get("/report/outsider/data",  setQuery(), getOutsiderReportData);
+reportRoutes.get("/report/outsider/data",  setQuery(), getOutsiderReportData);
 
 reportRoutes.get("/report/union",  setQuery(), getUnionReport);
-// reportRoutes.get("/report/union/data",  setQuery(), getUnionReportData);
+reportRoutes.get("/report/union/data",  setQuery(), getUnionReportData);
 
 reportRoutes.get("/report/fields",  setQuery(), getFieldsReport);
-// reportRoutes.get("/report/fields/data",  setQuery(), getFieldsReportData);
+reportRoutes.get("/report/fields/data",  setQuery(), getFieldsReportData);
 
 reportRoutes.get("/report/ages",  setQuery(), getAgesReport);
 // reportRoutes.get("/report/ages/data",  setQuery(), getAgesReportData);

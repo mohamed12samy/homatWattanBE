@@ -32,8 +32,10 @@ export async function getForms(
   model: mongoose.Model<any>,
   isApproved: boolean | null
 ) {
-  const { page, pageSize } = query;
+  const { page, pageSize, id, memberId } = query;
   let currentUser = await findUser({ _id: currentUserID });
+
+
 
   if (currentUser) {
     let filterQuery: any = {};
@@ -66,6 +68,15 @@ export async function getForms(
         break;
       default:
         return null;
+    }
+    
+  if(id)
+    {
+      filterQuery = {...filterQuery, id:{ $regex: ".*" + id + ".*" }}
+    }
+    if(memberId)
+    {
+      filterQuery = {...filterQuery, memberId:{ $regex: ".*" + memberId + ".*" }}
     }
     return await filterDataWithCount(model, filterQuery, {
       page,
