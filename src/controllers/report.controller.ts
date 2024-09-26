@@ -2,7 +2,19 @@ import {
   GovernmentReligionDto,
   MappedReligionData
 } from "../constants/religionReportDtos";
-import { FormsAgeReportDto, FormsDegreeReportDto, FormsElectionReportDto, FormsGenderReportDto, FormsKewReportDto, FormsTop10ReportDto, FormsReligionReportDto, FormsReportDto, Government, MappedData } from "../constants/responses";
+import {
+  FormsAgeReportDto,
+  FormsDegreeReportDto,
+  FormsElectionReportDto,
+  FormsGenderReportDto,
+  FormsKewReportDto,
+  FormsTop10ReportDto,
+  FormsReligionReportDto,
+  FormsReportDto,
+  Government,
+  MappedData,
+  WeeklyReportDto
+} from "../constants/responses";
 import {
   GovernmentsMapping,
   Governorate,
@@ -12,6 +24,7 @@ import {
 import FormModel from "../models/form.model";
 import UserModel from "../models/user.model";
 import { Request, Response } from "express";
+import _ from 'lodash';
 
 export async function getReport(req: Request, res: Response) {
   try {
@@ -26,10 +39,18 @@ export async function getReport(req: Request, res: Response) {
 
 export async function getRegisteredReport(req: Request, res: Response) {
   try {
+    const { governmentRegex, departmentRegex } = req.custQuery || {};
+
     const result: any = FormsReportDto;
 
     let data: any = await FormModel.aggregate([
-      { $match: { isApproved: true } },
+      {
+        $match: {
+          isApproved: true,
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
+        }
+      },
       {
         $group: {
           _id: {
@@ -123,7 +144,15 @@ export async function getRegisteredReport(req: Request, res: Response) {
 
 export async function getGenderReport(req: Request, res: Response) {
   try {
+    const { governmentRegex, departmentRegex } = req.custQuery || {};
+
     let data: any = await FormModel.aggregate([
+      {
+        $match: {
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
+        }
+      },
       {
         $group: {
           _id: {
@@ -183,7 +212,15 @@ export async function getGenderReport(req: Request, res: Response) {
 
 export async function getReligionReport(req: Request, res: Response) {
   try {
+    const { governmentRegex, departmentRegex } = req.custQuery || {};
+
     let data: any = await FormModel.aggregate([
+      {
+        $match: {
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
+        }
+      },
       {
         $group: {
           _id: {
@@ -243,11 +280,15 @@ export async function getReligionReport(req: Request, res: Response) {
 
 export async function getOutsiderReport(req: Request, res: Response) {
   try {
+    const { governmentRegex, departmentRegex } = req.custQuery || {};
+
     let total: any = await FormModel.aggregate([
       {
         // Match only documents where "outsider" is not null
         $match: {
-          outsider: { $ne: null }
+          outsider: { $ne: null },
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
         }
       },
       {
@@ -287,514 +328,563 @@ export async function getOutsiderReport(req: Request, res: Response) {
     ]);
 
     let data: any = await FormModel.aggregate([
-        {
-            // Match only documents where "outsider" is not null
-            $match: {
-              outsider: { $ne: null }
-            }
-          },
-        {
-          // Group by government, department, and outsider, and count occurrences
-          $group: {
-            _id: {
-              government: "$government",
-              department: "$department",
-              outsider: "$outsider"
-            },
-            count: { $sum: 1 }
-          }
-        },
-        {
-          // Sort by the count in descending order (for top 10)
-          $sort: { "count": -1 }
-        },
-        {
-          // Group by government and department, accumulating the top 10 outsiders
-          $group: {
-            _id: {
-              government: "$_id.government",
-              department: "$_id.department"
-            },
-            outsiders: {
-              $push: {
-                name: "$_id.outsider",
-                count: "$count"
-              }
-            }
-          }
-        },
-        {
-          // Slice to get the top 10 outsiders and calculate the others count
-          $project: {
-            _id: 0,
-            government: "$_id.government",
-            department: "$_id.department",
-            top10: { $slice: ["$outsiders", 10] },
-            othersCount: {
-              $cond: {
-                if: { $gt: [{ $size: "$outsiders" }, 10] },
-                then: {
-                  $sum: {
-                    $slice: ["$outsiders.count", 10, { $size: "$outsiders" }]
-                  }
-                },
-                else: 0
-              }
-            }
-          }
-        },
-        {
-          // Group by government, accumulate departments and top10 outsiders for the government level
-          $group: {
-            _id: "$government",
-            departments: {
-              $push: {
-                name: "$department",
-                top10: "$top10",
-                others: { count: "$othersCount" }
-              }
-            }
-          }
-        },
-        {
-          $project: {
-            _id: 0,
-            government: "$_id",
-            departments: 1
-          }
-        }
-      ]);
-
-let governmentsTotal : any = await FormModel.aggregate([
-    {
+      {
+        // Match only documents where "outsider" is not null
         $match: {
           outsider: { $ne: null }
         }
       },
-    {
-      $group: {
-        _id: { government: "$government", outsider: "$outsider" },
-        count: { $sum: 1 }
-      }
-    },
-    {
-      $group: {
-        _id: "$_id.government",
-        outsiders: {
-          $push: { name: "$_id.outsider", count: "$count" }
+      {
+        // Group by government, department, and outsider, and count occurrences
+        $group: {
+          _id: {
+            government: "$government",
+            department: "$department",
+            outsider: "$outsider"
+          },
+          count: { $sum: 1 }
         }
-      }
-    },
-    
-    {
-      $project: {
-        _id: 1,
-        outsiders: {
-          $slice: [ { $sortArray: { input: "$outsiders", sortBy: { count: -1 } } }, 10 ]
-        },
-        allOutsiders: "$outsiders"
-      }
-    },
-   
-    {
-      $project: {
-        _id: 1,
-        top10: "$outsiders",
-        others: {
-          $cond: {
-            if: { $gt: [{ $size: "$allOutsiders" }, 10] }, 
-            then: {
-              count: {
-                $sum: {
-                  $slice: ["$allOutsiders", 1, { $size: "$allOutsiders" }]
-                }
-              }
-            },
-            else: null
+      },
+      {
+        // Sort by the count in descending order (for top 10)
+        $sort: { count: -1 }
+      },
+      {
+        // Group by government and department, accumulating the top 10 outsiders
+        $group: {
+          _id: {
+            government: "$_id.government",
+            department: "$_id.department"
+          },
+          outsiders: {
+            $push: {
+              name: "$_id.outsider",
+              count: "$count"
+            }
           }
         }
+      },
+      {
+        // Slice to get the top 10 outsiders and calculate the others count
+        $project: {
+          _id: 0,
+          government: "$_id.government",
+          department: "$_id.department",
+          top10: { $slice: ["$outsiders", 10] },
+          othersCount: {
+            $cond: {
+              if: { $gt: [{ $size: "$outsiders" }, 10] },
+              then: {
+                $sum: {
+                  $slice: ["$outsiders.count", 10, { $size: "$outsiders" }]
+                }
+              },
+              else: 0
+            }
+          }
+        }
+      },
+      {
+        // Group by government, accumulate departments and top10 outsiders for the government level
+        $group: {
+          _id: "$government",
+          departments: {
+            $push: {
+              name: "$department",
+              top10: "$top10",
+              others: { count: "$othersCount" }
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          government: "$_id",
+          departments: 1
+        }
       }
-    },
-    {
-      $project: {
-        _id:0,
-        government: "$_id",
-        top10: 1,
-        others: { count: "$others.count" }
+    ]);
+
+    let governmentsTotal: any = await FormModel.aggregate([
+      {
+        $match: {
+          outsider: { $ne: null }
+        }
+      },
+      {
+        $group: {
+          _id: { government: "$government", outsider: "$outsider" },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $group: {
+          _id: "$_id.government",
+          outsiders: {
+            $push: { name: "$_id.outsider", count: "$count" }
+          }
+        }
+      },
+
+      {
+        $project: {
+          _id: 1,
+          outsiders: {
+            $slice: [
+              { $sortArray: { input: "$outsiders", sortBy: { count: -1 } } },
+              10
+            ]
+          },
+          allOutsiders: "$outsiders"
+        }
+      },
+
+      {
+        $project: {
+          _id: 1,
+          top10: "$outsiders",
+          others: {
+            $cond: {
+              if: { $gt: [{ $size: "$allOutsiders" }, 10] },
+              then: {
+                count: {
+                  $sum: {
+                    $slice: ["$allOutsiders", 1, { $size: "$allOutsiders" }]
+                  }
+                }
+              },
+              else: null
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          government: "$_id",
+          top10: 1,
+          others: { count: "$others.count" }
+        }
       }
-    }
-  ]) 
+    ]);
 
     const result = mapTop10Data(data, governmentsTotal);
     //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
-    return res.status(200).send({...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]??0}]});
+    return res
+      .status(200)
+      .send({
+        ...result,
+        top10: [
+          ...total[0]["top10"],
+          { name: "اخرى", count: total[0]["others"] ?? 0 }
+        ]
+      });
   } catch (e: any) {}
 }
 
 export async function getUnionReport(req: Request, res: Response) {
-    try {
-        let total: any = await FormModel.aggregate([
-          {
-            // Match only documents where "outsider" is not null
-            $match: {
-                union: { $ne: null }
-            }
-          },
-          {
-            $group: {
-              _id: "$union",
-              count: { $sum: 1 }
-            }
-          },
-          {
-            $sort: { count: -1 }
-          },
-          {
-            $facet: {
-              top10: [
-                { $limit: 10 },
-                { $project: { _id: 0, name: "$_id", count: 1 } }
-              ],
-              others: [
-                { $skip: 10 },
-                { $group: { _id: null, count: { $sum: "$count" } } },
-                { $project: { _id: 0, count: 1 } }
-              ]
-            }
-          },
-          {
-            $project: {
-              top10: 1,
-              others: {
-                $arrayElemAt: ["$others.count", 0]
-              }
-            }
-          }
-        ]);
-    
-        let data: any = await FormModel.aggregate([
-            {
-                $match: {
-                    union: { $ne: null }
-                }
-              },
-            {
-              $group: {
-                _id: {
-                  government: "$government",
-                  department: "$department",
-                  union: "$union"
-                },
-                count: { $sum: 1 }
-              }
-            },
-            {
-              $sort: { "count": -1 }
-            },
-            {
-              $group: {
-                _id: {
-                  government: "$_id.government",
-                  department: "$_id.department"
-                },
-                unions: {
-                  $push: {
-                    name: "$_id.union",
-                    count: "$count"
-                  }
-                }
-              }
-            },
-            {
-              $project: {
-                _id: 0,
-                government: "$_id.government",
-                department: "$_id.department",
-                top10: { $slice: ["$unions", 10] },
-                othersCount: {
-                  $cond: {
-                    if: { $gt: [{ $size: "$unions" }, 10] },
-                    then: {
-                      $sum: {
-                        $slice: ["$unions.count", 10, { $size: "$unions" }]
-                      }
-                    },
-                    else: 0
-                  }
-                }
-              }
-            },
-            {
-              $group: {
-                _id: "$government",
-                departments: {
-                  $push: {
-                    name: "$department",
-                    top10: "$top10",
-                    others: { count: "$othersCount" }
-                  }
-                }
-              }
-            },
-            {
-              $project: {
-                _id: 0,
-                government: "$_id",
-                departments: 1
-              }
-            }
-          ]);
-    
-    let governmentsTotal : any = await FormModel.aggregate([
-        {
-            $match: {
-                union: { $ne: null }
-            }
-          },
-        {
-          $group: {
-            _id: { government: "$government", union: "$union" },
-            count: { $sum: 1 }
-          }
-        },
-        {
-          $group: {
-            _id: "$_id.government",
-            unions: {
-              $push: { name: "$_id.union", count: "$count" }
-            }
-          }
-        },
-        
-        {
-          $project: {
-            _id: 1,
-            unions: {
-              $slice: [ { $sortArray: { input: "$unions", sortBy: { count: -1 } } }, 10 ]
-            },
-            allUnions: "$unions"
-          }
-        },
-       
-        {
-          $project: {
-            _id: 1,
-            top10: "$unions",
-            others: {
-              $cond: {
-                if: { $gt: [{ $size: "$allUnions" }, 10] }, 
-                then: {
-                  count: {
-                    $sum: {
-                      $slice: ["$allUnions", 1, { $size: "$allUnions" }]
-                    }
-                  }
-                },
-                else: null
-              }
-            }
-          }
-        },
-        {
-          $project: {
-            _id:0,
-            government: "$_id",
-            top10: 1,
-            others: { count: "$others.count" }
+  try {
+    const { governmentRegex, departmentRegex } = req.custQuery || {};
+
+    let total: any = await FormModel.aggregate([
+      {
+        // Match only documents where "outsider" is not null
+        $match: {
+          union: { $ne: null },
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
+        }
+      },
+      {
+        $group: {
+          _id: "$union",
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { count: -1 }
+      },
+      {
+        $facet: {
+          top10: [
+            { $limit: 10 },
+            { $project: { _id: 0, name: "$_id", count: 1 } }
+          ],
+          others: [
+            { $skip: 10 },
+            { $group: { _id: null, count: { $sum: "$count" } } },
+            { $project: { _id: 0, count: 1 } }
+          ]
+        }
+      },
+      {
+        $project: {
+          top10: 1,
+          others: {
+            $arrayElemAt: ["$others.count", 0]
           }
         }
-      ]) 
-    
-        const result = mapTop10Data(data, governmentsTotal);
-        //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
-        return res.status(200).send({...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]??0}]});
-      } catch (e: any) {}
+      }
+    ]);
+
+    let data: any = await FormModel.aggregate([
+      {
+        $match: {
+          union: { $ne: null }
+        }
+      },
+      {
+        $group: {
+          _id: {
+            government: "$government",
+            department: "$department",
+            union: "$union"
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { count: -1 }
+      },
+      {
+        $group: {
+          _id: {
+            government: "$_id.government",
+            department: "$_id.department"
+          },
+          unions: {
+            $push: {
+              name: "$_id.union",
+              count: "$count"
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          government: "$_id.government",
+          department: "$_id.department",
+          top10: { $slice: ["$unions", 10] },
+          othersCount: {
+            $cond: {
+              if: { $gt: [{ $size: "$unions" }, 10] },
+              then: {
+                $sum: {
+                  $slice: ["$unions.count", 10, { $size: "$unions" }]
+                }
+              },
+              else: 0
+            }
+          }
+        }
+      },
+      {
+        $group: {
+          _id: "$government",
+          departments: {
+            $push: {
+              name: "$department",
+              top10: "$top10",
+              others: { count: "$othersCount" }
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          government: "$_id",
+          departments: 1
+        }
+      }
+    ]);
+
+    let governmentsTotal: any = await FormModel.aggregate([
+      {
+        $match: {
+          union: { $ne: null }
+        }
+      },
+      {
+        $group: {
+          _id: { government: "$government", union: "$union" },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $group: {
+          _id: "$_id.government",
+          unions: {
+            $push: { name: "$_id.union", count: "$count" }
+          }
+        }
+      },
+
+      {
+        $project: {
+          _id: 1,
+          unions: {
+            $slice: [
+              { $sortArray: { input: "$unions", sortBy: { count: -1 } } },
+              10
+            ]
+          },
+          allUnions: "$unions"
+        }
+      },
+
+      {
+        $project: {
+          _id: 1,
+          top10: "$unions",
+          others: {
+            $cond: {
+              if: { $gt: [{ $size: "$allUnions" }, 10] },
+              then: {
+                count: {
+                  $sum: {
+                    $slice: ["$allUnions", 1, { $size: "$allUnions" }]
+                  }
+                }
+              },
+              else: null
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          government: "$_id",
+          top10: 1,
+          others: { count: "$others.count" }
+        }
+      }
+    ]);
+
+    const result = mapTop10Data(data, governmentsTotal);
+    //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
+    return res
+      .status(200)
+      .send({
+        ...result,
+        top10: [
+          ...total[0]["top10"],
+          { name: "اخرى", count: total[0]["others"] ?? 0 }
+        ]
+      });
+  } catch (e: any) {}
 }
 
 // المشاركة الحزبية
 export async function getFieldsReport(req: Request, res: Response) {
-    try {
-        let total: any = await FormModel.aggregate([
-          {
-            // Match only documents where "outsider" is not null
-            $match: {
-                fields: { $ne: null }
-            }
-          },
-          {
-            $group: {
-              _id: "$fields",
-              count: { $sum: 1 }
-            }
-          },
-          {
-            $sort: { count: -1 }
-          },
-          {
-            $facet: {
-              top10: [
-                { $limit: 10 },
-                { $project: { _id: 0, name: "$_id", count: 1 } }
-              ],
-              others: [
-                { $skip: 10 },
-                { $group: { _id: null, count: { $sum: "$count" } } },
-                { $project: { _id: 0, count: 1 } }
-              ]
-            }
-          },
-          {
-            $project: {
-              top10: 1,
-              others: {
-                $arrayElemAt: ["$others.count", 0]
-              }
-            }
-          }
-        ]);
-    
-        let data: any = await FormModel.aggregate([
-            {
-                $match: {
-                    fields: { $ne: null }
-                }
-              },
-            {
-              $group: {
-                _id: {
-                  government: "$government",
-                  department: "$department",
-                  fields: "$fields"
-                },
-                count: { $sum: 1 }
-              }
-            },
-            {
-              $sort: { "count": -1 }
-            },
-            {
-              $group: {
-                _id: {
-                  government: "$_id.government",
-                  department: "$_id.department"
-                },
-                fields: {
-                  $push: {
-                    name: "$_id.fields",
-                    count: "$count"
-                  }
-                }
-              }
-            },
-            {
-              $project: {
-                _id: 0,
-                government: "$_id.government",
-                department: "$_id.department",
-                top10: { $slice: ["$fields", 10] },
-                othersCount: {
-                  $cond: {
-                    if: { $gt: [{ $size: "$fields" }, 10] },
-                    then: {
-                      $sum: {
-                        $slice: ["$fields.count", 10, { $size: "$fields" }]
-                      }
-                    },
-                    else: 0
-                  }
-                }
-              }
-            },
-            {
-              $group: {
-                _id: "$government",
-                departments: {
-                  $push: {
-                    name: "$department",
-                    top10: "$top10",
-                    others: { count: "$othersCount" }
-                  }
-                }
-              }
-            },
-            {
-              $project: {
-                _id: 0,
-                government: "$_id",
-                departments: 1
-              }
-            }
-          ]);
-    
-    let governmentsTotal : any = await FormModel.aggregate([
-        {
-            $match: {
-                fields: { $ne: null }
-            }
-          },
-        {
-          $group: {
-            _id: { government: "$government", fields: "$fields" },
-            count: { $sum: 1 }
-          }
-        },
-        {
-          $group: {
-            _id: "$_id.government",
-            fields: {
-              $push: { name: "$_id.fields", count: "$count" }
-            }
-          }
-        },
-        
-        {
-          $project: {
-            _id: 1,
-            fields: {
-              $slice: [ { $sortArray: { input: "$fields", sortBy: { count: -1 } } }, 10 ]
-            },
-            allFields: "$fields"
-          }
-        },
-       
-        {
-          $project: {
-            _id: 1,
-            top10: "$fields",
-            others: {
-              $cond: {
-                if: { $gt: [{ $size: "$allFields" }, 10] }, 
-                then: {
-                  count: {
-                    $sum: {
-                      $slice: ["$allFields", 1, { $size: "$allFields" }]
-                    }
-                  }
-                },
-                else: null
-              }
-            }
-          }
-        },
-        {
-          $project: {
-            _id:0,
-            government: "$_id",
-            top10: 1,
-            others: { count: "$others.count" }
+  const { governmentRegex, departmentRegex } = req.custQuery || {};
+  try {
+    let total: any = await FormModel.aggregate([
+      {
+        // Match only documents where "outsider" is not null
+        $match: {
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex },
+
+          fields: { $ne: null }
+        }
+      },
+      {
+        $group: {
+          _id: "$fields",
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { count: -1 }
+      },
+      {
+        $facet: {
+          top10: [
+            { $limit: 10 },
+            { $project: { _id: 0, name: "$_id", count: 1 } }
+          ],
+          others: [
+            { $skip: 10 },
+            { $group: { _id: null, count: { $sum: "$count" } } },
+            { $project: { _id: 0, count: 1 } }
+          ]
+        }
+      },
+      {
+        $project: {
+          top10: 1,
+          others: {
+            $arrayElemAt: ["$others.count", 0]
           }
         }
-      ]) 
-    
-        const result = mapTop10Data(data, governmentsTotal);
-        //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
-        return res.status(200).send({...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]??0}]});
-      } catch (e: any) {}
+      }
+    ]);
+
+    let data: any = await FormModel.aggregate([
+      {
+        $match: {
+          fields: { $ne: null }
+        }
+      },
+      {
+        $group: {
+          _id: {
+            government: "$government",
+            department: "$department",
+            fields: "$fields"
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { count: -1 }
+      },
+      {
+        $group: {
+          _id: {
+            government: "$_id.government",
+            department: "$_id.department"
+          },
+          fields: {
+            $push: {
+              name: "$_id.fields",
+              count: "$count"
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          government: "$_id.government",
+          department: "$_id.department",
+          top10: { $slice: ["$fields", 10] },
+          othersCount: {
+            $cond: {
+              if: { $gt: [{ $size: "$fields" }, 10] },
+              then: {
+                $sum: {
+                  $slice: ["$fields.count", 10, { $size: "$fields" }]
+                }
+              },
+              else: 0
+            }
+          }
+        }
+      },
+      {
+        $group: {
+          _id: "$government",
+          departments: {
+            $push: {
+              name: "$department",
+              top10: "$top10",
+              others: { count: "$othersCount" }
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          government: "$_id",
+          departments: 1
+        }
+      }
+    ]);
+
+    let governmentsTotal: any = await FormModel.aggregate([
+      {
+        $match: {
+          fields: { $ne: null }
+        }
+      },
+      {
+        $group: {
+          _id: { government: "$government", fields: "$fields" },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $group: {
+          _id: "$_id.government",
+          fields: {
+            $push: { name: "$_id.fields", count: "$count" }
+          }
+        }
+      },
+
+      {
+        $project: {
+          _id: 1,
+          fields: {
+            $slice: [
+              { $sortArray: { input: "$fields", sortBy: { count: -1 } } },
+              10
+            ]
+          },
+          allFields: "$fields"
+        }
+      },
+
+      {
+        $project: {
+          _id: 1,
+          top10: "$fields",
+          others: {
+            $cond: {
+              if: { $gt: [{ $size: "$allFields" }, 10] },
+              then: {
+                count: {
+                  $sum: {
+                    $slice: ["$allFields", 1, { $size: "$allFields" }]
+                  }
+                }
+              },
+              else: null
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          government: "$_id",
+          top10: 1,
+          others: { count: "$others.count" }
+        }
+      }
+    ]);
+
+    const result = mapTop10Data(data, governmentsTotal);
+    //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
+    return res
+      .status(200)
+      .send({
+        ...result,
+        top10: [
+          ...total[0]["top10"],
+          { name: "اخرى", count: total[0]["others"] ?? 0 }
+        ]
+      });
+  } catch (e: any) {}
 }
 
 export async function getAgesReport(req: Request, res: Response) {
   try {
+    const { governmentRegex, departmentRegex } = req.custQuery || {};
+
     let data: any = await FormModel.aggregate([
+      {
+        $match: {
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
+        }
+      },
       {
         // Calculate the age based on birth_date
         $addFields: {
@@ -887,19 +977,21 @@ export async function getAgesReport(req: Request, res: Response) {
       }
     ]);
 
-    let result = mapAgesReport(data)
+    let result = mapAgesReport(data);
     return res.status(200).send(result);
   } catch (e: any) {}
 }
 
 export async function getDegreeReport(req: Request, res: Response) {
+  const { governmentRegex, departmentRegex } = req.custQuery || {};
+
   try {
     let result: any = await FormModel.aggregate([
       // Ensure documents with valid government, department, and degree are used
       {
         $match: {
-          government: { $exists: true, $ne: null },
-          department: { $exists: true, $ne: null },
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex },
           degree: { $exists: true, $ne: null }
         }
       },
@@ -988,19 +1080,26 @@ export async function getDegreeReport(req: Request, res: Response) {
       }
     ]);
 
-   // let finalResult: any = { degrees: degreesCount, result };
-    let finalResult  = mapDegreeReport({ degrees: degreesCount, result : result[0] });
+    // let finalResult: any = { degrees: degreesCount, result };
+    let finalResult = mapDegreeReport({
+      degrees: degreesCount,
+      result: result[0]
+    });
     return res.status(200).send(finalResult);
   } catch (e: any) {}
 }
 
 export async function getElectionsReport(req: Request, res: Response) {
+  const { governmentRegex, departmentRegex } = req.custQuery || {};
+
   try {
     let data: any = await FormModel.aggregate([
       // Match documents where `election_candidate` exists and is not empty
       {
         $match: {
-          election_candidate: { $exists: true, $ne: "" }
+          election_candidate: { $exists: true, $ne: "" },
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
         }
       },
       // Group by `government`, and collect all candidates
@@ -1042,12 +1141,16 @@ export async function getElectionsReport(req: Request, res: Response) {
 }
 
 export async function getKnewReport(req: Request, res: Response) {
+  const { governmentRegex, departmentRegex } = req.custQuery || {};
+
   try {
     let data: any = await FormModel.aggregate([
       // Match documents where `knew` is not empty
       {
         $match: {
-          knew: { $exists: true, $ne: "" }
+          knew: { $exists: true, $ne: "" },
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
         }
       },
       // Group by government, department, and knew to count occurrences
@@ -1206,39 +1309,28 @@ export async function getKnewReport(req: Request, res: Response) {
         }
       }
     ]);
-    let result  = mapKnewReport(data);
+    let result = mapKnewReport(data);
     return res.status(200).send(result);
   } catch (e: any) {}
 }
 
-export async function getWeeklyReport(req:Request, res:Response)
-{
-   const government :string = req.query.government as string; 
-   const department :string = req.query.department as string ;
-   let governmentRegex :string = "";
-   let departmentRegex :string = "";
+export async function getWeeklyReport(req: Request, res: Response) {
+  const { governmentRegex, departmentRegex } = req.custQuery || {};
 
-    governmentRegex = government ? ".*" + government + ".*" : ".*";
-    departmentRegex = department ? ".*" + department + ".*" : ".*";
-   
   const weekDates = getWeekStartAndEndDates();
-  console.log("This Week Start: ", weekDates.thisWeekStart);
-  console.log("This Week End: ", weekDates.thisWeekEnd);
-  console.log("Last Week Start: ", weekDates.lastWeekStart);
-  console.log("Last Week End: ", weekDates.lastWeekEnd);
-let result = await FormModel.aggregate([
+
+  let data = await FormModel.aggregate([
     // Match documents created in the last two weeks (Saturday to Friday)
     {
       $match: {
-        
         createdAt: {
           $gte: new Date(weekDates.lastWeekStart),
           $lte: new Date(weekDates.thisWeekEnd)
         },
 
-        government: { $exists: true, $regex: governmentRegex  },
-        department: { $exists: true, $regex: departmentRegex  }, 
-         }
+        government: { $exists: true, $regex: governmentRegex },
+        department: { $exists: true, $regex: departmentRegex }
+      }
     },
     // Group by day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
     {
@@ -1249,7 +1341,7 @@ let result = await FormModel.aggregate([
             $cond: [
               { $gte: ["$createdAt", new Date(weekDates.thisWeekStart)] },
               "this_week", // Documents from this week
-              "last_week"  // Documents from last week
+              "last_week" // Documents from last week
             ]
           }
         },
@@ -1258,28 +1350,32 @@ let result = await FormModel.aggregate([
     },
     // Project the day of the week and map it from 1=Sunday...7=Saturday
     {
-        $project: {
-            dayOfWeek: {
+      $project: {
+        dayOfWeek: {
+          $cond: {
+            if: { $eq: ["$_id.dayOfWeek", 1] },
+            then: "Sunday",
+            else: {
               $cond: {
-                if: { $eq: ["$_id.dayOfWeek", 1] }, then: "Sunday",
+                if: { $eq: ["$_id.dayOfWeek", 2] },
+                then: "Monday",
                 else: {
                   $cond: {
-                    if: { $eq: ["$_id.dayOfWeek", 2] }, then: "Monday",
+                    if: { $eq: ["$_id.dayOfWeek", 3] },
+                    then: "Tuesday",
                     else: {
                       $cond: {
-                        if: { $eq: ["$_id.dayOfWeek", 3] }, then: "Tuesday",
+                        if: { $eq: ["$_id.dayOfWeek", 4] },
+                        then: "Wednesday",
                         else: {
                           $cond: {
-                            if: { $eq: ["$_id.dayOfWeek", 4] }, then: "Wednesday",
+                            if: { $eq: ["$_id.dayOfWeek", 5] },
+                            then: "Thursday",
                             else: {
                               $cond: {
-                                if: { $eq: ["$_id.dayOfWeek", 5] }, then: "Thursday",
-                                else: {
-                                  $cond: {
-                                    if: { $eq: ["$_id.dayOfWeek", 6] }, then: "Friday",
-                                    else: "Saturday"
-                                  }
-                                }
+                                if: { $eq: ["$_id.dayOfWeek", 6] },
+                                then: "Friday",
+                                else: "Saturday"
                               }
                             }
                           }
@@ -1289,10 +1385,12 @@ let result = await FormModel.aggregate([
                   }
                 }
               }
-            },
-            count: 1,
-            week:"$_id.week"
+            }
           }
+        },
+        count: 1,
+        week: "$_id.week"
+      }
     },
     // Group by week (this week/last week) and return the count for each day
     {
@@ -1306,280 +1404,370 @@ let result = await FormModel.aggregate([
         }
       }
     },
-    {$project:{
-        _id:0,
-        week:"$_id",
-        days:1
-    }}
-  ])
-return res.status(200).send(result);
+    {
+      $project: {
+        _id: 0,
+        week: "$_id",
+        days: 1
+      }
+    }
+  ]);
+  let result = mapWeeklyReport(data);
+  return res.status(200).send(result);
 }
 
 function mapGenderData(rawData: any[]): any {
-    
-
   let totalMales = 0;
   let totalFemales = 0;
-    let result  :any = FormsGenderReportDto;
-    rawData.forEach((govData) => {
+  let result: any = _.cloneDeep(FormsGenderReportDto);
+  rawData.forEach((govData) => {
+    const govKey /**qahera */ = GovernmentsMapping[govData["government"]];
+    result["governments"][govKey]["males"] = govData["males"];
+    result["governments"][govKey]["females"] = govData["females"];
+    totalMales += govData["males"];
+    totalFemales += govData["females"];
 
-        const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
-        result["governments"][govKey]["males"] = govData["males"]
-        result["governments"][govKey]["females"] = govData["females"]
-        totalMales += govData["males"];
-        totalFemales += govData["females"];
+    const districts: any[] = govData["districts"];
 
-        const districts : any[] = govData["districts"];
-        
-        districts.forEach(dist => {
-            const distKey : string | null = findKeyByValue(Neighborhoods[govKey], dist["name"]);
-            if(distKey){
-                result["governments"][govKey]["districts"][distKey]["males"] = dist["males"]
-            result["governments"][govKey]["districts"][distKey]["females"] =  dist["females"]}
-        });
-
-
-    })
-    result["males"] = totalMales;
-    result["females"] = totalFemales;
-return result;
-   }
+    districts.forEach((dist) => {
+      const distKey: string | null = findKeyByValue(
+        Neighborhoods[govKey],
+        dist["name"]
+      );
+      if (distKey) {
+        result["governments"][govKey]["districts"][distKey]["males"] =
+          dist["males"];
+        result["governments"][govKey]["districts"][distKey]["females"] =
+          dist["females"];
+      }
+    });
+  });
+  result["males"] = totalMales;
+  result["females"] = totalFemales;
+  return result;
+}
 
 function mapReligionData(rawData: any[]): any {
   let totalMuslims = 0;
   let totalChristians = 0;
 
-    let result  :any = FormsReligionReportDto;
-    rawData.forEach((govData) => {
+  let result: any = _.cloneDeep(FormsReligionReportDto);
+  rawData.forEach((govData) => {
+    const govKey /**qahera */ = GovernmentsMapping[govData["government"]];
+    result["governments"][govKey]["muslims"] = govData["muslims"];
+    result["governments"][govKey]["christians"] = govData["christians"];
+    totalMuslims += govData["muslims"];
+    totalChristians += govData["christians"];
 
-        const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
-        result["governments"][govKey]["muslims"] = govData["muslims"]
-        result["governments"][govKey]["christians"] = govData["christians"]
-        totalMuslims += govData["muslims"];
-        totalChristians += govData["christians"];
+    const districts: any[] = govData["districts"];
 
-        const districts : any[] = govData["districts"];
-        
-        districts.forEach(dist => {
-            const distKey : string | null = findKeyByValue(Neighborhoods[govKey], dist["name"]);
-            if(distKey){
-                result["governments"][govKey]["districts"][distKey]["muslims"] = dist["muslims"]
-            result["governments"][govKey]["districts"][distKey]["christians"] =  dist["christians"]}
-        });
+    districts.forEach((dist) => {
+      const distKey: string | null = findKeyByValue(
+        Neighborhoods[govKey],
+        dist["name"]
+      );
+      if (distKey) {
+        result["governments"][govKey]["districts"][distKey]["muslims"] =
+          dist["muslims"];
+        result["governments"][govKey]["districts"][distKey]["christians"] =
+          dist["christians"];
+      }
+    });
+  });
+  result["muslims"] = totalMuslims;
+  result["christians"] = totalChristians;
+  return result;
 
 
-    })
-    result["muslims"] = totalMuslims;
-    result["christians"] = totalChristians;
-return result;
+  //   rawData.forEach((govData) => {
+  //     const governmentKey = GovernmentsMapping[govData.government];
+  //     if (!governmentKey) return; // Skip if government not found in Neighborhoods
 
-//   const governments: { [key: string]: GovernmentReligionDto } = {};
+  //     if (!governments[governmentKey]) {
+  //       governments[governmentKey] = {
+  //         muslims: 0,
+  //         christians: 0,
+  //         districts: {}
+  //       };
+  //     }
 
-//   rawData.forEach((govData) => {
-//     const governmentKey = GovernmentsMapping[govData.government];
-//     if (!governmentKey) return; // Skip if government not found in Neighborhoods
+  //     let govMuslims = 0;
+  //     let govChristians = 0;
 
-//     if (!governments[governmentKey]) {
-//       governments[governmentKey] = {
-//         muslims: 0,
-//         christians: 0,
-//         districts: {}
-//       };
-//     }
+  //     govData.districts.forEach((districtData: any) => {
+  //       const districtKey = Object.keys(Neighborhoods[governmentKey]).find(
+  //         (key) => Neighborhoods[governmentKey][key] === districtData.name
+  //       );
 
-//     let govMuslims = 0;
-//     let govChristians = 0;
+  //       if (districtKey) {
+  //         governments[governmentKey].districts[districtKey] = {
+  //           muslims: districtData.muslims,
+  //           christians: districtData.christians
+  //         };
+  //         govMuslims += districtData.muslims;
+  //         govChristians += districtData.christians;
+  //       }
+  //     });
 
-//     govData.districts.forEach((districtData: any) => {
-//       const districtKey = Object.keys(Neighborhoods[governmentKey]).find(
-//         (key) => Neighborhoods[governmentKey][key] === districtData.name
-//       );
+  //     governments[governmentKey].muslims += govMuslims;
+  //     governments[governmentKey].christians += govChristians;
 
-//       if (districtKey) {
-//         governments[governmentKey].districts[districtKey] = {
-//           muslims: districtData.muslims,
-//           christians: districtData.christians
-//         };
-//         govMuslims += districtData.muslims;
-//         govChristians += districtData.christians;
-//       }
-//     });
+  //     totalMuslims += govData.muslims;
+  //     totalChristians += govData.christians;
+  //   });
 
-//     governments[governmentKey].muslims += govMuslims;
-//     governments[governmentKey].christians += govChristians;
-
-//     totalMuslims += govData.muslims;
-//     totalChristians += govData.christians;
-//   });
-
-//   return {
-//     muslims: totalMuslims,
-//     christians: totalChristians,
-//     governments
-//   };
+  //   return {
+  //     muslims: totalMuslims,
+  //     christians: totalChristians,
+  //     governments
+  //   };
 }
 
-function mapAgesReport(rawData:any[]) : any {
-      let result  :any = FormsAgeReportDto;
-      rawData.forEach((govData) => {
-          const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
-          const districts : any[] = govData["districts"];
-          districts.forEach(dist => {
-              const distKey : string | null = findKeyByValue(Neighborhoods[govKey], dist["name"]);
-              if(distKey){
-                 
-                  result["governments"][govKey]["districts"][distKey]["ageRanges"]["20-35"] = dist["ageRanges"]["20-35"] ?? 0; 
-                  result["governments"][govKey]["districts"][distKey]["ageRanges"]["36-45"] = dist["ageRanges"]["36-45"] ?? 0; 
-                  result["governments"][govKey]["districts"][distKey]["ageRanges"]["46-60"] = dist["ageRanges"]["46-60"] ?? 0; 
-                  result["governments"][govKey]["districts"][distKey]["ageRanges"][">60"] = dist["ageRanges"][">60"] ?? 0; 
+function mapAgesReport(rawData: any[]): any {
+  let result: any = _.cloneDeep(FormsAgeReportDto);
+  rawData.forEach((govData) => {
+    const govKey /**qahera */ = GovernmentsMapping[govData["government"]];
+    const districts: any[] = govData["districts"];
+    districts.forEach((dist) => {
+      const distKey: string | null = findKeyByValue(
+        Neighborhoods[govKey],
+        dist["name"]
+      );
+      if (distKey) {
+        result["governments"][govKey]["districts"][distKey]["ageRanges"][
+          "20-35"
+        ] = dist["ageRanges"]["20-35"] ?? 0;
+        result["governments"][govKey]["districts"][distKey]["ageRanges"][
+          "36-45"
+        ] = dist["ageRanges"]["36-45"] ?? 0;
+        result["governments"][govKey]["districts"][distKey]["ageRanges"][
+          "46-60"
+        ] = dist["ageRanges"]["46-60"] ?? 0;
+        result["governments"][govKey]["districts"][distKey]["ageRanges"][
+          ">60"
+        ] = dist["ageRanges"][">60"] ?? 0;
 
-                  result["governments"][govKey]["ageRanges"]["20-35"] += result["governments"][govKey]["districts"][distKey]["ageRanges"]["20-35"];
-                  result["governments"][govKey]["ageRanges"]["36-45"] += result["governments"][govKey]["districts"][distKey]["ageRanges"]["36-45"];
-                  result["governments"][govKey]["ageRanges"]["46-60"] += result["governments"][govKey]["districts"][distKey]["ageRanges"]["46-60"];
-                  result["governments"][govKey]["ageRanges"][">60"] += result["governments"][govKey]["districts"][distKey]["ageRanges"][">60"];
-                }
-       } );
-      })
-      
+        result["governments"][govKey]["ageRanges"]["20-35"] +=
+          result["governments"][govKey]["districts"][distKey]["ageRanges"][
+            "20-35"
+          ];
+        result["governments"][govKey]["ageRanges"]["36-45"] +=
+          result["governments"][govKey]["districts"][distKey]["ageRanges"][
+            "36-45"
+          ];
+        result["governments"][govKey]["ageRanges"]["46-60"] +=
+          result["governments"][govKey]["districts"][distKey]["ageRanges"][
+            "46-60"
+          ];
+        result["governments"][govKey]["ageRanges"][">60"] +=
+          result["governments"][govKey]["districts"][distKey]["ageRanges"][
+            ">60"
+          ];
+      }
+    });
+  });
+
   return result;
 }
 
-function mapKnewReport(rawData:any[]) : any {
-    let result  :any = FormsKewReportDto;
-    rawData.forEach((govData) => {
-        const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
-        const districts : any[] = govData["departments"];
-        districts.forEach(dist => {
-            const distKey : string | null = findKeyByValue(Neighborhoods[govKey], dist["name"]);
-            if(distKey){
-               
-                result["governments"][govKey]["districts"][distKey]["knew"] = dist["knew"]
+function mapKnewReport(rawData: any[]): any {
+  let result: any = _.cloneDeep(FormsKewReportDto);
 
-                result["governments"][govKey]["knew"][0]["count"] += result["governments"][govKey]["districts"][distKey]["knew"][0]["count"];
-                result["governments"][govKey]["knew"][1]["count"] += result["governments"][govKey]["districts"][distKey]["knew"][1]["count"];
-                result["governments"][govKey]["knew"][2]["count"] += result["governments"][govKey]["districts"][distKey]["knew"][2]["count"];
-                result["governments"][govKey]["knew"][3]["count"] += result["governments"][govKey]["districts"][distKey]["knew"][3]["count"];
-               
-              }
-     } );
-    })
-    
-return result;
-}
+  rawData.forEach((govData) => {
+    const govKey /**qahera */ = GovernmentsMapping[govData["government"]];
+    const districts: any[] = govData["departments"];
+    districts.forEach((dist) => {
+      const distKey: string | null = findKeyByValue(
+        Neighborhoods[govKey],
+        dist["name"]
+      );
+      if (distKey) {
+        result["governments"][govKey]["districts"][distKey]["knew"] =
+          dist["knew"];
 
-
-function mapElectionReport(rawData:any[]) : any {
-    let result  :any = FormsElectionReportDto;
-    rawData.forEach((govData) => {
-        const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
-        result["governments"][govKey]["count"] = govData["count"];
-        result["governments"][govKey]["candidates"] = govData["candidates"];
+        result["governments"][govKey]["knew"][0]["count"] +=
+          result["governments"][govKey]["districts"][distKey]["knew"][0][
+            "count"
+          ];
+        result["governments"][govKey]["knew"][1]["count"] +=
+          result["governments"][govKey]["districts"][distKey]["knew"][1][
+            "count"
+          ];
+        result["governments"][govKey]["knew"][2]["count"] +=
+          result["governments"][govKey]["districts"][distKey]["knew"][2][
+            "count"
+          ];
+        result["governments"][govKey]["knew"][3]["count"] +=
+          result["governments"][govKey]["districts"][distKey]["knew"][3][
+            "count"
+          ];
+      }
     });
-    
-return result;
+  });
+
+  return result;
 }
 
-function mapDegreeReport(rawData:any) : any {
-    let result  :any = FormsDegreeReportDto;
-    rawData["result"]["governments"].forEach((govData : any) => {
-        const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
-        const degreesTotal:any[] = rawData["degrees"]
-        degreesTotal.forEach(degree => {
-            result["degrees"].map((item : any) =>{
-                item["count"] = item["name"] === degree["name"] ?  degree["count"] : item["count"]
-                 return item;
-                }); 
-                
-            });
+function mapElectionReport(rawData: any[]): any {
+  let result: any = _.cloneDeep(FormsElectionReportDto);
+  rawData.forEach((govData) => {
+    const govKey /**qahera */ = GovernmentsMapping[govData["government"]];
+    result["governments"][govKey]["count"] = govData["count"];
+    result["governments"][govKey]["candidates"] = govData["candidates"];
+  });
 
-        const districts : any[] = govData["districts"];
-        districts.forEach(dist => {
-            const distKey : string | null = findKeyByValue(Neighborhoods[govKey], dist["name"]);
-            if(distKey){
-               const degrees : any[] = dist["degrees"];
-               degrees.forEach(degree => {
-                result["governments"][govKey]["districts"][distKey]["degrees"].map((item : any) =>{
-                    item["count"] = item["name"] === degree["name"] ?  degree["count"] : item["count"]
-                     return item;
-                    }); 
-
-                    result["governments"][govKey]["degrees"].map((item : any) =>{
-                        item["count"] = item["name"] === degree["name"] ?   item["count"]+degree["count"] : item["count"]
-                         return item;
-                        }); 
-                    
-                });
-               
-              }
-     } );
-    })
-    
-return result;
+  return result;
 }
 
-function mapTop10Data(rawData:any[], governmentsData:any[])
-{
-    let result  :any = FormsTop10ReportDto;
-    rawData.forEach((govData) => {
-        const govKey /**qahera */ = GovernmentsMapping[govData["government"]]
-        const districts :any[] = govData["departments"];
-        districts.forEach(dist => {
-            const distKey : string | null = findKeyByValue(Neighborhoods[govKey], dist["name"]);
-            if(distKey){
-                result["governments"][govKey]["districts"][distKey]["top10"] = [...dist["top10"], {name:"اخرى",count: dist["others"].count}]
-              }
-     } );
-       
+function mapDegreeReport(rawData: any): any {
+  let result: any = _.cloneDeep(FormsDegreeReportDto);
+  rawData["result"]["governments"].forEach((govData: any) => {
+    const govKey /**qahera */ = GovernmentsMapping[govData["government"]];
+    const degreesTotal: any[] = rawData["degrees"];
+    degreesTotal.forEach((degree) => {
+      result["degrees"].map((item: any) => {
+        item["count"] =
+          item["name"] === degree["name"] ? degree["count"] : item["count"];
+        return item;
+      });
+    });
 
-    let governmentData = governmentsData.find(x=>x["government"] === govData["government"]);
-    if(governmentData)
-    {
-        result["governments"][govKey]["top10"] = [...governmentData["top10"],  {name:"اخرى",count: governmentData["others"].count ?? 0}]
+    const districts: any[] = govData["districts"];
+    districts.forEach((dist) => {
+      const distKey: string | null = findKeyByValue(
+        Neighborhoods[govKey],
+        dist["name"]
+      );
+      if (distKey) {
+        const degrees: any[] = dist["degrees"];
+        degrees.forEach((degree) => {
+          result["governments"][govKey]["districts"][distKey]["degrees"].map(
+            (item: any) => {
+              item["count"] =
+                item["name"] === degree["name"]
+                  ? degree["count"]
+                  : item["count"];
+              return item;
+            }
+          );
+
+          result["governments"][govKey]["degrees"].map((item: any) => {
+            item["count"] =
+              item["name"] === degree["name"]
+                ? item["count"] + degree["count"]
+                : item["count"];
+            return item;
+          });
+        });
+      }
+    });
+  });
+
+  return result;
+}
+
+function mapTop10Data(rawData: any[], governmentsData: any[]) {
+  let result: any = _.cloneDeep(FormsTop10ReportDto);
+  rawData.forEach((govData) => {
+    const govKey /**qahera */ = GovernmentsMapping[govData["government"]];
+    const districts: any[] = govData["departments"];
+    districts.forEach((dist) => {
+      const distKey: string | null = findKeyByValue(
+        Neighborhoods[govKey],
+        dist["name"]
+      );
+      if (distKey) {
+        result["governments"][govKey]["districts"][distKey]["top10"] = [
+          ...dist["top10"],
+          { name: "اخرى", count: dist["others"].count }
+        ];
+      }
+    });
+
+    let governmentData = governmentsData.find(
+      (x) => x["government"] === govData["government"]
+    );
+    if (governmentData) {
+      result["governments"][govKey]["top10"] = [
+        ...governmentData["top10"],
+        { name: "اخرى", count: governmentData["others"].count ?? 0 }
+      ];
     }
-    });
-    
-return result;
+  });
+
+  return result;
 }
 
+function mapWeeklyReport(rawData: any[]) {
+  let result: any[] = _.cloneDeep(WeeklyReportDto);
+
+  rawData.forEach((week) => {
+    result.map((resWeek) => {
+      if (resWeek["week"] === week["week"]) {
+        let days: any[] = week["days"];
+        days.forEach((day) => {
+          resWeek["days"].forEach((resDay: any) => {
+            if (resDay["day"] === day["day"]) {
+              resDay["count"] = day["count"];
+            }
+            return resDay;
+          });
+        });
+      }
+      return resWeek;
+    });
+  });
+  return result;
+}
 
 function findKeyByValue(object: any, value: any) {
-    for (let key in object) {
-      if (object[key] === value) {
-        return key;
-      }
+  for (let key in object) {
+    if (object[key] === value) {
+      return key;
     }
-    return null;
+  }
+  return null;
+}
+
+function getWeekStartAndEndDates() {
+  const today = new Date();
+
+  function getPreviousSaturday(date: any) {
+    const day = date.getDay();
+    const diff = (day + 1) % 7;
+    return new Date(date.setDate(date.getDate() - diff));
   }
 
-
-
-  function getWeekStartAndEndDates() {
-    const today = new Date();
-  
-    function getPreviousSaturday(date:any) {
-      const day = date.getDay();
-      const diff = (day + 1) % 7;
-      return new Date(date.setDate(date.getDate() - diff));
-    }
-  
-    function getNextFriday(date:any) {
-      const day = date.getDay();
-      const diff = (5 - day + 7) % 7; 
-      return new Date(date.setDate(date.getDate() + diff));
-    }
-  
-    const thisWeekStart = getPreviousSaturday(new Date(today)); 
-    const thisWeekEnd = getNextFriday(new Date(today)); 
-
-    const lastWeekEnd = new Date(thisWeekStart); 
-    const lastWeekStart = new Date(lastWeekEnd);
-    lastWeekStart.setDate(lastWeekStart.getDate() - 7); 
-  
-    return {
-      thisWeekStart: thisWeekStart.toISOString(),
-      thisWeekEnd: thisWeekEnd.toISOString(),
-      lastWeekStart: lastWeekStart.toISOString(),
-      lastWeekEnd: lastWeekEnd.toISOString()
-    };
+  function getNextFriday(date: any) {
+    const day = date.getDay();
+    const diff = (5 - day + 7) % 7;
+    return new Date(date.setDate(date.getDate() + diff));
   }
-  
+
+  const thisWeekStart = getPreviousSaturday(new Date(today));
+  const thisWeekEnd = getNextFriday(new Date(today));
+
+  const lastWeekEnd = new Date(thisWeekStart);
+  const lastWeekStart = new Date(lastWeekEnd);
+  lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+
+  return {
+    thisWeekStart: thisWeekStart.toISOString(),
+    thisWeekEnd: thisWeekEnd.toISOString(),
+    lastWeekStart: lastWeekStart.toISOString(),
+    lastWeekEnd: lastWeekEnd.toISOString()
+  };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

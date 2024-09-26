@@ -5808,434 +5808,434 @@ export const FormsDegreeReportDto: any = {
       districts: {
         qahera1: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera2: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera3: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera4: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera5: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera6: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera7: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera8: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera9: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera10: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera11: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera12: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera13: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera14: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera15: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera16: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera17: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera18: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera19: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera20: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera21: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera22: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera23: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera24: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera25: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera26: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera27: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera28: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera29: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera30: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera31: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera32: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera33: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera34: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera35: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
 
         qahera36: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
         qahera37: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
         qahera38: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
         qahera39: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
         qahera40: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
         qahera41: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
         qahera42: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
         qahera43: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         },
         qahera44: {
           degrees: [
-        { name: "اعدادى", count: 0 },
-        { name: "ابتدائى", count: 0 },
-        { name: "البكالوريوس / ليسانس", count: 0 },
-        { name: "دبلوم", count: 0 },
-        { name: "بدون", count: 0 }
-      ]
+            { name: "اعدادى", count: 0 },
+            { name: "ابتدائى", count: 0 },
+            { name: "البكالوريوس / ليسانس", count: 0 },
+            { name: "دبلوم", count: 0 },
+            { name: "بدون", count: 0 }
+          ]
         }
       }
     },
@@ -8885,7 +8885,6 @@ export const FormsDegreeReportDto: any = {
     }
   }
 };
-
 
 export const FormsTop10ReportDto: any = {
   top10: [],
@@ -9980,3 +9979,72 @@ export const FormsTop10ReportDto: any = {
     }
   }
 };
+
+export const WeeklyReportDto: any[] = [
+  {
+    days: [
+      {
+        day: "Saturday",
+        count: 0
+      },
+      {
+        day: "Sunday",
+        count: 0
+      },
+      {
+        day: "Monday",
+        count: 0
+      },
+      {
+        day: "Tuesday",
+        count: 0
+      },
+      {
+        day: "Wednesday",
+        count: 0
+      },
+      {
+        day: "Thursday",
+        count: 0
+      },
+      {
+        day: "Friday",
+        count: 0
+      }
+    ],
+    week: "this_week"
+  },
+  {
+    days: [
+      {
+        day: "Saturday",
+        count: 0
+      },
+      {
+        day: "Sunday",
+        count: 0
+      },
+      {
+        day: "Monday",
+        count: 0
+      },
+      {
+        day: "Tuesday",
+        count: 0
+      },
+      {
+        day: "Wednesday",
+        count: 0
+      },
+      {
+        day: "Thursday",
+        count: 0
+      },
+      {
+        day: "Friday",
+        count: 0
+      }
+    ],
+    week: "last_week"
+  }
+];

@@ -25,6 +25,9 @@ const governorator = {
     "delete:any": ["*"],
     "update:any": ["*"],
   }, 
+  reports:{
+    "read:any": ["*"],
+    }
 }
 const departmentHead = {
   forms: {
@@ -32,6 +35,9 @@ const departmentHead = {
     "delete:any": ["*"],
     "update:any": ["*"]
   }, 
+  reports:{
+    "read:any": ["*"],
+    }
 }
 const adminViewer = {
   forms: {
