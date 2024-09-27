@@ -1495,6 +1495,23 @@ function mapAgesReport(rawData: any[]): any {
           result["governments"][govKey]["districts"][distKey]["ageRanges"][
             ">60"
           ];
+
+          result["ageRanges"]["20-35"] +=
+          result["governments"][govKey]["districts"][distKey]["ageRanges"][
+            "20-35"
+          ];
+        result["ageRanges"]["36-45"] +=
+          result["governments"][govKey]["districts"][distKey]["ageRanges"][
+            "36-45"
+          ];
+        result["ageRanges"]["46-60"] +=
+          result["governments"][govKey]["districts"][distKey]["ageRanges"][
+            "46-60"
+          ];
+        result["ageRanges"][">60"] +=
+          result["governments"][govKey]["districts"][distKey]["ageRanges"][
+            ">60"
+          ];
       }
     });
   });
@@ -1533,6 +1550,23 @@ function mapKnewReport(rawData: any[]): any {
           result["governments"][govKey]["districts"][distKey]["knew"][3][
             "count"
           ];
+
+          result["knew"][0]["count"] +=
+          result["governments"][govKey]["districts"][distKey]["knew"][0][
+            "count"
+          ];
+        result["knew"][1]["count"] +=
+          result["governments"][govKey]["districts"][distKey]["knew"][1][
+            "count"
+          ];
+        result["knew"][2]["count"] +=
+          result["governments"][govKey]["districts"][distKey]["knew"][2][
+            "count"
+          ];
+        result["knew"][3]["count"] +=
+          result["governments"][govKey]["districts"][distKey]["knew"][3][
+            "count"
+          ];
       }
     });
   });
@@ -1545,6 +1579,7 @@ function mapElectionReport(rawData: any[]): any {
   rawData.forEach((govData) => {
     const govKey /**qahera */ = GovernmentsMapping[govData["government"]];
     result["governments"][govKey]["count"] = govData["count"];
+    result["count"]+=govData["count"];
     result["governments"][govKey]["candidates"] = govData["candidates"];
   });
 

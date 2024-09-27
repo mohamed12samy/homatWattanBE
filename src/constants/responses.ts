@@ -1476,6 +1476,12 @@ export const FormsReligionReportDto: any = {
 };
 
 export const FormsAgeReportDto: any = {
+  ageRanges: {
+    "36-45": 0,
+    "20-35": 0,
+    "46-60": 0,
+    ">60": 0
+  },
   governments: {
     qahera: {
       ageRanges: {
@@ -2459,6 +2465,24 @@ export const FormsAgeReportDto: any = {
 };
 
 export const FormsKewReportDto: any = {
+  knew: [
+    {
+      name: "وسائل التواصل الاجتماعي والميديا",
+      count: 0
+    },
+    {
+      name: "الاصدقاء والمعارف",
+      count: 0
+    },
+    {
+      name: "انشطته ومبادراته وخدماته",
+      count: 0
+    },
+    {
+      name: "اخرى",
+      count: 0
+    }
+  ],
   governments: {
     qahera: {
       knew: [
@@ -5757,6 +5781,7 @@ export const FormsKewReportDto: any = {
 };
 
 export const FormsElectionReportDto: any = {
+  count: 0,
   governments: {
     qahera: { count: 0, candidates: [] },
     giza: { count: 0, candidates: [] },

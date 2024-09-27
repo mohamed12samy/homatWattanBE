@@ -117,25 +117,7 @@ export async function approveForm(formBody: Form, currentUserId: string) {
   let form = await FormModel.findById(formBody._id);
 
   if (form) {
-    // let formsCount = await FormModel.countDocuments({ id: form.id });
-    // console.log(formsCount);
-    // formsCount += await notReadyFormModel.countDocuments({ id: form.id });
-
-    // if (formsCount > 1) {
-    //   let formToBeDeleted = await notReadyFormModel.findOneAndDelete({
-    //     id: form?.id
-    //   });
-
-    //   if (!formToBeDeleted) {
-    //     formToBeDeleted = await FormModel.findOneAndDelete({
-    //       id: form?.id,
-    //       isApproved: false
-    //     });
-    //   }
-    //   return {
-    //     error: { message: "form is duplicated", form: formToBeDeleted }
-    //   };
-    // }
+   
     if (form?.isApproved)
       return { error: { message: "form is approved already" } };
 
@@ -246,12 +228,46 @@ export async function getNotFilledRequiredFieldsPercentage(
   } else return null;
 }
 
-export async function getFormsCount() {
-  let notReadyForms = await notReadyFormModel.countDocuments();
-  let registeredForms = await FormModel.countDocuments({ isApproved: true });
-  let forms = await FormModel.countDocuments({ isApproved: false });
+export async function getFormsCount(currentUserID:string, query:any) {
 
-  return { notReadyForms, registeredForms, forms };
+  let currentUser = await findUser({ _id: currentUserID });
+  if (currentUser) {
+    let filterQuery: any = {};
+    switch (currentUser.role) {
+      case UsereRoles.departmentHead:
+        let markaz: string =
+          Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
+        filterQuery = {
+          department: { $regex: ".*" + markaz + ".*" },
+          government: { $regex: ".*" + currentUser.governorate + ".*" },
+        };
+        break;
+      case UsereRoles.admin:
+        case UsereRoles.adminViewer:
+        const { department, government } = query;
+        filterQuery =
+          department && government
+            ? { department, government }
+            : department
+            ? { department }
+            : government
+            ? { government }
+            : { };
+        break;
+      case UsereRoles.governorator:
+        filterQuery = {
+          government: { $regex: ".*" + currentUser.governorate + ".*" },
+        };
+        break;
+      default:
+        return null;
+    }
+    let notReadyForms = await notReadyFormModel.countDocuments(filterQuery);
+    let registeredForms = await FormModel.countDocuments({...filterQuery, isApproved:true});
+    let forms = await FormModel.countDocuments({...filterQuery, isApproved:false});
+    return { notReadyForms, registeredForms, forms };
+  }
+return {error:{message:"no user"}};
 }
 
 export async function checkIdExistence(id: string) {

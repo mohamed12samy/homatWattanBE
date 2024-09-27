@@ -79,7 +79,7 @@ export async function getNotFilledRequiredFieldsPercentageHandler(req:Request, r
 
 export async function getFormsCountHandler(req:Request, res:Response)
 {
-    let result = await getFormsCount();
+    let result = await getFormsCount(res.locals.user._id, req.query);
     return res.status(200).send(result);
 }
 
