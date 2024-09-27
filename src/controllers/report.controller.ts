@@ -365,7 +365,6 @@ export async function getOutsiderReport(req: Request, res: Response) {
         }
       },
       {
-        // Slice to get the top 10 outsiders and calculate the others count
         $project: {
           _id: 0,
           government: "$_id.government",
@@ -1096,30 +1095,13 @@ export async function getElectionsReport(req: Request, res: Response) {
           department: { $exists: true, $regex: departmentRegex }
         }
       },
-      // Group by `government`, and collect all candidates
       {
         $group: {
           _id: "$government",
           count: { $sum: 1 }, // Count number of documents per government
-          candidates: {
-            $push: {
-              _id: "$_id",
-              username: "$username",
-              id: "$id",
-              birth_date: "$birth_date",
-              gender: "$gender",
-              religion: "$religion",
-              phoneNumber: "$phoneNumber",
-              election_candidate: "$election_candidate",
-              election_data: "$election_data",
-              department: "$department",
-              fields: "$fields",
-              degree: "$degree"
-            }
-          }
+          candidates: { $push: "$$ROOT" }
         }
       },
-      // Project the final structure, rename `_id` to `name`
       {
         $project: {
           _id: 0,
@@ -1711,11 +1693,13 @@ function getWeekStartAndEndDates() {
 
 export async function getRegisteredReportData(req: Request, res: Response) {
   try {
-    const { governmentRegex, departmentRegex } = req.custQuery || {};
+    const { governmentRegex, departmentRegex, idRegex, memberIdRegex } = req.custQuery || {};
     const page: number = Number(req.query.page) || 1;
     const pageSize: number = Number(req.query.pageSize) || 10;
 
     let data: any = await FormModel.find({
+        id:{$regex:idRegex},
+            memberId:{$regex:memberIdRegex},
       isApproved: true,
       government: { $exists: true, $regex: governmentRegex },
       department: { $exists: true, $regex: departmentRegex }
@@ -1728,16 +1712,16 @@ export async function getRegisteredReportData(req: Request, res: Response) {
 
 export async function getGenderReportData(req: Request, res: Response) {
   try {
-    console.log("first");
-    const { governmentRegex, departmentRegex } = req.custQuery || {};
+    const { governmentRegex, departmentRegex, idRegex, memberIdRegex } = req.custQuery || {};
     const page: number = Number(req.query.page) || 1; // Default to 0 if not provided
     const pageSize: number = Number(req.query.pageSize) || 10;
-    console.log(page, pageSize, governmentRegex, departmentRegex);
 
     let data: any = await FormModel.aggregate([
       {
         $match: {
-          government: { $exists: true, $regex: governmentRegex },
+            id:{$regex:idRegex},
+            memberId:{$regex:memberIdRegex},
+            government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
         }
       },
@@ -1824,14 +1808,16 @@ export async function getGenderReportData(req: Request, res: Response) {
 
 export async function getReligionReportData(req: Request, res: Response) {
   try {
-    const { governmentRegex, departmentRegex } = req.custQuery || {};
+    const { governmentRegex, departmentRegex, idRegex, memberIdRegex } = req.custQuery || {};
     const page: number = Number(req.query.page) || 1;
     const pageSize: number = Number(req.query.pageSize) || 10;
 
     let data: any = await FormModel.aggregate([
       {
         $match: {
-          government: { $exists: true, $regex: governmentRegex },
+            id:{$regex:idRegex},
+            memberId:{$regex:memberIdRegex},
+            government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
         }
       },
@@ -1918,14 +1904,16 @@ export async function getReligionReportData(req: Request, res: Response) {
 
 export async function getOutsiderReportData(req: Request, res: Response) {
   try {
-    const { governmentRegex, departmentRegex } = req.custQuery || {};
+    const { governmentRegex, departmentRegex, idRegex, memberIdRegex } = req.custQuery || {};
     const page: number = Number(req.query.page) || 1;
     const pageSize: number = Number(req.query.pageSize) || 10;
 
     let data: any = await FormModel.aggregate([
       {
         $match: {
-          government: { $exists: true, $regex: governmentRegex },
+            id:{$regex:idRegex},
+            memberId:{$regex:memberIdRegex},
+            government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex },
           outsider: { $ne: null }
         }
@@ -1933,29 +1921,13 @@ export async function getOutsiderReportData(req: Request, res: Response) {
       {
         $group: {
           _id: "$outsider",
-          candidates: {
-            $push: {
-              _id: "$_id",
-              username: "$username",
-              id: "$id",
-              birth_date: "$birth_date",
-              gender: "$gender",
-              religion: "$religion",
-              phoneNumber: "$phoneNumber",
-              department: "$department",
-              fields: "$fields",
-              degree: "$degree",
-              outsider: "$outsider"
-            }
-          },
+          candidates: { $push: "$$ROOT" },
           count: { $sum: 1 }
         }
       },
-      // Sort by count of candidates
       {
         $sort: { count: -1 }
       },
-      // Add a ranking to identify top 10 and the rest
       {
         $group: {
           _id: null,
@@ -1969,8 +1941,8 @@ export async function getOutsiderReportData(req: Request, res: Response) {
       },
       {
         $project: {
-          top10: { $slice: ["$top10", 10] }, // Get the top 10 outsiders
-          remaining: { $slice: ["$top10", 10, { $size: "$top10" }] } // Get the rest
+          top10: { $slice: ["$top10", 10] }, 
+          remaining: { $slice: ["$top10", 10, { $size: "$top10" }] } 
         }
       },
       {
@@ -2026,13 +1998,15 @@ export async function getOutsiderReportData(req: Request, res: Response) {
 
 export async function getUnionReportData(req: Request, res: Response) {
     try {
-      const { governmentRegex, departmentRegex } = req.custQuery || {};
-      const page: number = Number(req.query.page) || 1;
+        const { governmentRegex, departmentRegex, idRegex, memberIdRegex } = req.custQuery || {};
+        const page: number = Number(req.query.page) || 1;
       const pageSize: number = Number(req.query.pageSize) || 10;
   
       let data: any = await FormModel.aggregate([
         {
           $match: {
+            id:{$regex:idRegex},
+            memberId:{$regex:memberIdRegex},
             government: { $exists: true, $regex: governmentRegex },
             department: { $exists: true, $regex: departmentRegex },
             union: { $ne: null }
@@ -2041,29 +2015,13 @@ export async function getUnionReportData(req: Request, res: Response) {
         {
           $group: {
             _id: "$union",
-            candidates: {
-              $push: {
-                _id: "$_id",
-                username: "$username",
-                id: "$id",
-                birth_date: "$birth_date",
-                gender: "$gender",
-                religion: "$religion",
-                phoneNumber: "$phoneNumber",
-                department: "$department",
-                fields: "$fields",
-                degree: "$degree",
-                union: "$union"
-              }
-            },
+            candidates: { $push: "$$ROOT" },
             count: { $sum: 1 }
           }
         },
-        // Sort by count of candidates
         {
           $sort: { count: -1 }
         },
-        // Add a ranking to identify top 10 and the rest
         {
           $group: {
             _id: null,
@@ -2133,13 +2091,15 @@ export async function getUnionReportData(req: Request, res: Response) {
 
   export async function getFieldsReportData(req: Request, res: Response) {
     try {
-      const { governmentRegex, departmentRegex } = req.custQuery || {};
-      const page: number = Number(req.query.page) || 1;
+        const { governmentRegex, departmentRegex, idRegex, memberIdRegex } = req.custQuery || {};
+        const page: number = Number(req.query.page) || 1;
       const pageSize: number = Number(req.query.pageSize) || 10;
   
       let data: any = await FormModel.aggregate([
         {
           $match: {
+            id:{$regex:idRegex},
+            memberId:{$regex:memberIdRegex},
             government: { $exists: true, $regex: governmentRegex },
             department: { $exists: true, $regex: departmentRegex },
             fields: { $ne: null }
@@ -2148,28 +2108,13 @@ export async function getUnionReportData(req: Request, res: Response) {
         {
           $group: {
             _id: "$fields",
-            candidates: {
-              $push: {
-                _id: "$_id",
-                username: "$username",
-                id: "$id",
-                birth_date: "$birth_date",
-                gender: "$gender",
-                religion: "$religion",
-                phoneNumber: "$phoneNumber",
-                department: "$department",
-                fields: "$fields",
-                degree: "$degree",
-              }
-            },
+            candidates:{ $push: "$$ROOT" },
             count: { $sum: 1 }
           }
         },
-        // Sort by count of candidates
         {
           $sort: { count: -1 }
         },
-        // Add a ranking to identify top 10 and the rest
         {
           $group: {
             _id: null,
@@ -2233,6 +2178,191 @@ export async function getUnionReportData(req: Request, res: Response) {
         }
       ]);
   
+      return res.status(200).send(data);
+    } catch (e: any) {}
+  }
+
+  export async function getAgesReportData(req: Request, res: Response) {
+    try {
+        const { governmentRegex, departmentRegex, idRegex, memberIdRegex } = req.custQuery || {};
+        const page: number = Number(req.query.page) || 1;
+      const pageSize: number = Number(req.query.pageSize) || 10;
+  
+      let data: any = await FormModel.aggregate([
+        {
+          $match: {
+            id:{$regex:idRegex},
+            memberId:{$regex:memberIdRegex},
+            government: { $exists: true, $regex: governmentRegex },
+            department: { $exists: true, $regex: departmentRegex },
+          }
+        },
+        {
+            $addFields: {
+              birthDate: { $dateFromString: { dateString: "$birth_date" } },
+              currentDate: { $toDate: "$$NOW" }
+            }
+          },
+          {
+            $addFields: {
+              age: {
+                $divide: [
+                  { $subtract: ["$currentDate", "$birthDate"] },
+                  1000 * 60 * 60 * 24 * 365 // Convert milliseconds to years
+                ]
+              }
+            }
+          },
+          {
+            $group: {
+              _id: {
+                $switch: {
+                  branches: [
+                    { case: { $lte: ["$age", 35] }, then: "20-35" },
+                    { case: { $and: [{ $gt: ["$age", 35] }, { $lte: ["$age", 45] }] }, then: "36-45" },
+                    { case: { $and: [{ $gt: ["$age", 45] }, { $lte: ["$age", 60] }] }, then: "46-60" }
+                  ],
+                  default: ">60"
+                }
+              },
+              candidates: { $push: "$$ROOT" }
+            }
+          },
+          {
+            $project:{
+                _id:0,
+                name:"$_id",
+                candidates:1
+            }
+          }
+      ]);
+
+      const startIndex = (page - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+      data.forEach((age:any)=>{
+        age["candidates"] = age["candidates"].slice(startIndex, endIndex);
+      })
+      return res.status(200).send(data);
+    } catch (e: any) {}
+  }
+
+  export async function getDegreesReportData(req: Request, res: Response) {
+    try {
+        const { governmentRegex, departmentRegex, idRegex, memberIdRegex } = req.custQuery || {};
+        const page: number = Number(req.query.page) || 1;
+      const pageSize: number = Number(req.query.pageSize) || 10;
+  
+      let data: any = await FormModel.aggregate([
+        {
+          $match: {
+            id:{$regex:idRegex},
+            memberId:{$regex:memberIdRegex},
+            government: { $exists: true, $regex: governmentRegex },
+            department: { $exists: true, $regex: departmentRegex },
+          }
+        },
+        {
+            $group: {
+              _id: "$degree", 
+              candidates: { $push: "$$ROOT" }  
+            }
+          },
+          {
+            $project:{
+                _id:0,
+                name:"$_id",
+                candidates:1
+            }
+          }
+      ]);
+
+      const startIndex = (page - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+      data.forEach((degree:any)=>{
+        degree["candidates"] = degree["candidates"].slice(startIndex, endIndex);
+      })
+      return res.status(200).send(data);
+    } catch (e: any) {}
+  }
+
+  export async function getElectionsReportData(req: Request, res: Response) {
+    try {
+        const { governmentRegex, departmentRegex, idRegex, memberIdRegex } = req.custQuery || {};
+        const page: number = Number(req.query.page) || 1;
+      const pageSize: number = Number(req.query.pageSize) || 10;
+  
+      let data: any = await FormModel.aggregate([
+        {
+          $match: {
+            id:{$regex:idRegex},
+            memberId:{$regex:memberIdRegex},
+            government: { $exists: true, $regex: governmentRegex },
+            department: { $exists: true, $regex: departmentRegex },
+          election_candidate: { $exists: true, $ne: "" },
+
+          }
+        },
+        {
+            $group: {
+              _id: "$election_candidate", 
+              candidates: { $push: "$$ROOT" }  
+            }
+          },
+          {
+            $project:{
+                _id:0,
+                name:"$_id",
+                candidates:1
+            }
+          }
+      ]);
+
+      const startIndex = (page - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+      data.forEach((election:any)=>{
+        election["candidates"] = election["candidates"].slice(startIndex, endIndex);
+      })
+      return res.status(200).send(data);
+    } catch (e: any) {}
+  }
+
+  export async function getKnewReportData(req: Request, res: Response) {
+    try {
+      const { governmentRegex, departmentRegex, idRegex, memberIdRegex } = req.custQuery || {};
+      const page: number = Number(req.query.page) || 1;
+      const pageSize: number = Number(req.query.pageSize) || 10;
+  
+      let data: any = await FormModel.aggregate([
+        {
+          $match: {
+            id:{$regex:idRegex},
+            memberId:{$regex:memberIdRegex},
+            government: { $exists: true, $regex: governmentRegex },
+            department: { $exists: true, $regex: departmentRegex },
+          knew: { $exists: true, $ne: "" },
+
+          }
+        },
+        {
+            $group: {
+              _id: "$knew", 
+              candidates: { $push: "$$ROOT" }  
+            }
+          },
+          {
+            $project:{
+                _id:0,
+                name:"$_id",
+                candidates:1
+            }
+          }
+      ]);
+
+      const startIndex = (page - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+      data.forEach((knew:any)=>{
+        knew["candidates"] = knew["candidates"].slice(startIndex, endIndex);
+      })
       return res.status(200).send(data);
     } catch (e: any) {}
   }

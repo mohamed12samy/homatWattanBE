@@ -1,13 +1,17 @@
 import express from "express";
 import {
   getAgesReport,
+  getAgesReportData,
   getDegreeReport,
+  getDegreesReportData,
   getElectionsReport,
+  getElectionsReportData,
   getFieldsReport,
   getFieldsReportData,
   getGenderReport,
   getGenderReportData,
   getKnewReport,
+  getKnewReportData,
   getOutsiderReport,
   getOutsiderReportData,
   getRegisteredReport,
@@ -46,16 +50,16 @@ reportRoutes.get("/report/fields",  setQuery(), getFieldsReport);
 reportRoutes.get("/report/fields/data",  setQuery(), getFieldsReportData);
 
 reportRoutes.get("/report/ages",  setQuery(), getAgesReport);
-// reportRoutes.get("/report/ages/data",  setQuery(), getAgesReportData);
+reportRoutes.get("/report/ages/data",  setQuery(), getAgesReportData);
 
 reportRoutes.get("/report/degree",  setQuery(), getDegreeReport);
-// reportRoutes.get("/report/degree/data",  setQuery(), getDegreeReportData);
+reportRoutes.get("/report/degree/data",  setQuery(), getDegreesReportData);
 
 reportRoutes.get("/report/election",  setQuery(), getElectionsReport);
-// reportRoutes.get("/report/election/data",  setQuery(), getElectionsReportData);
+reportRoutes.get("/report/election/data",  setQuery(), getElectionsReportData);
 
 reportRoutes.get("/report/knew",  setQuery(), getKnewReport);
-// reportRoutes.get("/report/knew/data",  setQuery(), getKnewReportData);
+reportRoutes.get("/report/knew/data",  setQuery(), getKnewReportData);
 
 reportRoutes.get("/report/weeklyReport", setQuery(), getWeeklyReport);
 // reportRoutes.get("/report/weeklyReport/data", setQuery(), getWeeklyReportData);
