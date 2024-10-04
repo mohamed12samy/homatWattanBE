@@ -25,7 +25,7 @@ import {
 } from "../controllers/report.controller";
 import { requireUser } from "../middlewares/requireUser";
 import { checkPermission } from "../middlewares/checkRolesPermissions";
-import { setQuery } from "../middlewares/querySetup";
+import { setQuery, setRenewQuery } from "../middlewares/querySetup";
 
 const reportRoutes = express.Router();
 
@@ -63,6 +63,10 @@ reportRoutes.get("/report/knew/data",  setQuery(), getKnewReportData);
 
 reportRoutes.get("/report/weeklyReport", setQuery(), getWeeklyReport);
 // reportRoutes.get("/report/weeklyReport/data", setQuery(), getWeeklyReportData);
+
+reportRoutes.get("/report/renew",  setQuery(), setRenewQuery(), getRegisteredReport);
+reportRoutes.get("/report/renew/data",  setQuery(), setRenewQuery(), getRegisteredReportData);
+
 
 export default reportRoutes;
 

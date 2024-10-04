@@ -278,6 +278,20 @@ export async function checkIdExistence(id: string) {
   return { exist: false };
 }
 
+export async function renewMember(id: string) {
+  let form = await FormModel.findById(id);
+  if (form) {
+    if(!form.isApproved)
+    {
+      return { error:{message:"this is not an approved member and has no member id"} };
+    }
+    form.renewed = true;
+    form.save();
+    return { form, message:"member is renewed" };
+  }
+  return { error:{message:"member doesn't exist"} };
+}
+
 async function filterDataWithCount(
   Model: mongoose.Model<any>,
   queryFilter: any,

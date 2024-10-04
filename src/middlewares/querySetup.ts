@@ -5,11 +5,17 @@ import { Neighborhoods, UsereRoles } from "../enums/enums";
 export const setQuery = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const government: string | undefined = req.query.government as string | undefined;
-      const department: string | undefined = req.query.department as string | undefined;
-    
+      const government: string | undefined = req.query.government as
+        | string
+        | undefined;
+      const department: string | undefined = req.query.department as
+        | string
+        | undefined;
+
       const id: string | undefined = req.query.id as string | undefined;
-      const memberId: string | undefined = req.query.memberId as string | undefined;
+      const memberId: string | undefined = req.query.memberId as
+        | string
+        | undefined;
 
       let governmentRegex: string = "";
       let departmentRegex: string = "";
@@ -45,6 +51,19 @@ export const setQuery = () => {
   };
 };
 
+export const setRenewQuery = () => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (req.custQuery) {
+        req.custQuery.renew = true;
+      } else req.custQuery = { renew : true };
+      next();
+    } catch (error: any) {
+      res.status(500).json({ message: error?.message });
+    }
+  };
+};
+
 declare module "express" {
   export interface Request {
     custQuery?: {
@@ -52,6 +71,7 @@ declare module "express" {
       departmentRegex?: string;
       idRegex?: string;
       memberIdRegex?: string;
+      renew?: boolean;
     };
   }
 }

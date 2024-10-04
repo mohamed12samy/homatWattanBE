@@ -38,6 +38,7 @@ export interface Form extends mongoose.Document {
   knew: string;
   other_data: string;
   isApproved: boolean;
+  renewed: boolean;
   memberId: string;
   memberIdSuffix: number;
   createdAt: Date;
@@ -80,6 +81,7 @@ const formSchema = new mongoose.Schema(
     election_data: { type: String },
     other_data: { type: String },
     isApproved: { type: Boolean, default: false },
+    renewed: { type: Boolean, default: false },
     memberId: { type: String },
     memberIdSuffix: { type: Number }
   },

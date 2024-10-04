@@ -39,17 +39,21 @@ export async function getReport(req: Request, res: Response) {
 
 export async function getRegisteredReport(req: Request, res: Response) {
   try {
-    const { governmentRegex, departmentRegex } = req.custQuery || {};
+    const { governmentRegex, departmentRegex, renew } = req.custQuery || {};
+    const query: any = {
+      isApproved: true,
+      government: { $exists: true, $regex: governmentRegex },
+      department: { $exists: true, $regex: departmentRegex }
+    };
 
+    if (renew) {
+      query.renewed = true;
+    }
     const result: any = FormsReportDto;
 
     let data: any = await FormModel.aggregate([
       {
-        $match: {
-          isApproved: true,
-          government: { $exists: true, $regex: governmentRegex },
-          department: { $exists: true, $regex: departmentRegex }
-        }
+        $match: query
       },
       {
         $group: {
@@ -118,26 +122,29 @@ export async function getRegisteredReport(req: Request, res: Response) {
         }
       }
     ]);
-    const governments: any = data[0]["governments"];
-    result["membersCount"] = data[0]["membersCount"];
 
-    for (const gov /*key */ in governments) {
-      const govKey: any = GovernmentsMapping[gov];
-      result["governments"][govKey]["membersCount"] =
-        governments[gov]["membersCount"];
-      //gov = qahera
-      const districts = governments[gov]["districts"];
-      for (const dist in districts) {
-        const distKey: string | null = findKeyByValue(
-          Neighborhoods[govKey],
-          dist
-        );
-        if (distKey) {
-          result["governments"][govKey]["districts"][distKey] = districts[dist];
+    if (data.length > 0) {
+      const governments: any = data[0]["governments"];
+      result["membersCount"] = data[0]["membersCount"];
+
+      for (const gov /*key */ in governments) {
+        const govKey: any = GovernmentsMapping[gov];
+        result["governments"][govKey]["membersCount"] =
+          governments[gov]["membersCount"];
+        //gov = qahera
+        const districts = governments[gov]["districts"];
+        for (const dist in districts) {
+          const distKey: string | null = findKeyByValue(
+            Neighborhoods[govKey],
+            dist
+          );
+          if (distKey) {
+            result["governments"][govKey]["districts"][distKey] =
+              districts[dist];
+          }
         }
       }
     }
-
     return res.status(200).send(result);
   } catch (e: any) {}
 }
@@ -1496,7 +1503,7 @@ function mapAgesReport(rawData: any[]): any {
             ">60"
           ];
 
-          result["ageRanges"]["20-35"] +=
+        result["ageRanges"]["20-35"] +=
           result["governments"][govKey]["districts"][distKey]["ageRanges"][
             "20-35"
           ];
@@ -1551,7 +1558,7 @@ function mapKnewReport(rawData: any[]): any {
             "count"
           ];
 
-          result["knew"][0]["count"] +=
+        result["knew"][0]["count"] +=
           result["governments"][govKey]["districts"][distKey]["knew"][0][
             "count"
           ];
@@ -1579,7 +1586,7 @@ function mapElectionReport(rawData: any[]): any {
   rawData.forEach((govData) => {
     const govKey /**qahera */ = GovernmentsMapping[govData["government"]];
     result["governments"][govKey]["count"] = govData["count"];
-    result["count"]+=govData["count"];
+    result["count"] += govData["count"];
     result["governments"][govKey]["candidates"] = govData["candidates"];
   });
 
@@ -1728,29 +1735,29 @@ function getWeekStartAndEndDates() {
 
 export async function getRegisteredReportData(req: Request, res: Response) {
   try {
-    const { governmentRegex, departmentRegex, idRegex, memberIdRegex } =
+    const { governmentRegex, departmentRegex, idRegex, memberIdRegex, renew } =
       req.custQuery || {};
     const page: number = Number(req.query.page) || 1;
     const pageSize: number = Number(req.query.pageSize) || 10;
 
-    let data: any = await FormModel.find({
+    const query: any = {
       id: { $regex: idRegex },
       memberId: { $regex: memberIdRegex },
       isApproved: true,
       government: { $exists: true, $regex: governmentRegex },
       department: { $exists: true, $regex: departmentRegex }
-    })
+    };
+
+    if (renew) {
+      query.renewed = true;
+    }
+
+    let data: any = await FormModel.find(query)
       .skip((page - 1) * pageSize)
       .limit(pageSize);
 
-      let totalCount = await FormModel.countDocuments({
-        id: { $regex: idRegex },
-        memberId: { $regex: memberIdRegex },
-        isApproved: true,
-        government: { $exists: true, $regex: governmentRegex },
-        department: { $exists: true, $regex: departmentRegex }
-      })
-    return res.status(200).send({data, totalCount});
+    let totalCount = await FormModel.countDocuments(query);
+    return res.status(200).send({ data, totalCount });
   } catch (e: any) {}
 }
 
@@ -1844,8 +1851,8 @@ export async function getGenderReportData(req: Request, res: Response) {
     const endIndex = startIndex + pageSize;
     console.log(startIndex, endIndex);
 
-    const malesCount = data[0]["males"].length; 
-    const femalesCount = data[0]["females"].length; 
+    const malesCount = data[0]["males"].length;
+    const femalesCount = data[0]["females"].length;
     const males = data[0]["males"].slice(startIndex, endIndex);
     const females = data[0]["females"].slice(startIndex, endIndex);
 
@@ -1943,13 +1950,15 @@ export async function getReligionReportData(req: Request, res: Response) {
     const endIndex = startIndex + pageSize;
     console.log(startIndex, endIndex);
 
-    const muslimsCount = data[0]["muslims"].length; 
-    const christiansCount = data[0]["christians"].length; 
+    const muslimsCount = data[0]["muslims"].length;
+    const christiansCount = data[0]["christians"].length;
 
     const muslims = data[0]["muslims"].slice(startIndex, endIndex);
     const christians = data[0]["christians"].slice(startIndex, endIndex);
 
-    return res.status(200).send({ muslims, christians, muslimsCount, christiansCount });
+    return res
+      .status(200)
+      .send({ muslims, christians, muslimsCount, christiansCount });
   } catch (e: any) {}
 }
 
@@ -2045,8 +2054,11 @@ export async function getOutsiderReportData(req: Request, res: Response) {
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     data.forEach((outsider: any) => {
-        outsider["totalCount"] = outsider["candidates"].length;
-        outsider["candidates"] = outsider["candidates"].slice(startIndex, endIndex);
+      outsider["totalCount"] = outsider["candidates"].length;
+      outsider["candidates"] = outsider["candidates"].slice(
+        startIndex,
+        endIndex
+      );
     });
     return res.status(200).send(data);
   } catch (e: any) {}
@@ -2145,8 +2157,8 @@ export async function getUnionReportData(req: Request, res: Response) {
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     data.forEach((union: any) => {
-        union["totalCount"] = union["candidates"].length;
-        union["candidates"] = union["candidates"].slice(startIndex, endIndex);
+      union["totalCount"] = union["candidates"].length;
+      union["candidates"] = union["candidates"].slice(startIndex, endIndex);
     });
     return res.status(200).send(data);
   } catch (e: any) {}
@@ -2244,8 +2256,8 @@ export async function getFieldsReportData(req: Request, res: Response) {
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     data.forEach((field: any) => {
-        field["totalCount"] = field["candidates"].length;
-        field["candidates"] = field["candidates"].slice(startIndex, endIndex);
+      field["totalCount"] = field["candidates"].length;
+      field["candidates"] = field["candidates"].slice(startIndex, endIndex);
     });
     return res.status(200).send(data);
   } catch (e: any) {}
@@ -2320,7 +2332,7 @@ export async function getAgesReportData(req: Request, res: Response) {
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     data.forEach((age: any) => {
-        age["totalCount"] = age["candidates"].length;
+      age["totalCount"] = age["candidates"].length;
       age["candidates"] = age["candidates"].slice(startIndex, endIndex);
     });
     return res.status(200).send(data);
@@ -2361,8 +2373,8 @@ export async function getDegreesReportData(req: Request, res: Response) {
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     data.forEach((degree: any) => {
-        degree["totalCount"] = degree["candidates"].length;
-        degree["candidates"] = degree["candidates"].slice(startIndex, endIndex);
+      degree["totalCount"] = degree["candidates"].length;
+      degree["candidates"] = degree["candidates"].slice(startIndex, endIndex);
     });
     return res.status(200).send(data);
   } catch (e: any) {}
@@ -2403,7 +2415,7 @@ export async function getElectionsReportData(req: Request, res: Response) {
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     data.forEach((election: any) => {
-        election["totalCount"] = election["candidates"].length;
+      election["totalCount"] = election["candidates"].length;
 
       election["candidates"] = election["candidates"].slice(
         startIndex,

@@ -8,6 +8,7 @@ import seedData from "../utils/seeder.util";
 import cors from "cors";
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger';
+import { renewJobSchedule } from "../utils/renewJobSchedule";
 
 const port = config.get<number>("port");
 
@@ -44,5 +45,6 @@ app.listen(port, async () => {
   logger.info(`App is Running! on Port ${port}`);
   await connect();
   await seedData();
+  await renewJobSchedule();
   routes(app);
 });
