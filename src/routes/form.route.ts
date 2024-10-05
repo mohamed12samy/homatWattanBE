@@ -10,7 +10,8 @@ import {
   getNotFilledRequiredFieldsPercentageHandler, getRegisteredMembersHandler,
   getFormsCountHandler,
   checkIdExistenceHandler,
-  renewMemberHandler
+  renewMemberHandler,
+  downloadFormsAsExcelHandler
 } from "../controllers/form.controller";
 import { requireUser } from "../middlewares/requireUser";
 import validate from "../middlewares/validateResource";
@@ -33,6 +34,7 @@ formRoutes.get("/notReadyForm", requireUser,  checkPermission('read', 'forms'), 
 formRoutes.get("/notReadyForm/percent", requireUser,  checkPermission('read', 'forms'), getNotFilledRequiredFieldsPercentageHandler);
 formRoutes.get("/forms/count", requireUser,  checkPermission('read', 'forms'), getFormsCountHandler);
 formRoutes.get("/form/id/check", checkIdExistenceHandler);
+formRoutes.get("/form/download",  requireUser,  checkPermission('read', 'forms'), downloadFormsAsExcelHandler);
 
 formRoutes.delete("/form", requireUser, checkPermission('delete', 'forms'), deleteFormHandler);
 formRoutes.delete("/notReadyForm", requireUser, checkPermission('delete', 'forms'), deleteNotReadyFormHandler);

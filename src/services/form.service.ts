@@ -7,6 +7,8 @@ import { GovernoratesCodes, Neighborhoods, UsereRoles } from "../enums/enums";
 import validate from "../middlewares/validateResource";
 import { createFormSchema } from "../schemas/form.schema";
 import { isAborted } from "zod";
+import { Workbook } from "exceljs";
+import {exportFormsToExcel} from "../../utils/excelGenerator.util";
 
 export async function createForm(input: Omit<Form, "createdAt" | "updatedAt">) {
   try {
@@ -290,6 +292,28 @@ export async function renewMember(id: string) {
     return { form, message:"member is renewed" };
   }
   return { error:{message:"member doesn't exist"} };
+}
+
+export async function downloadFormsAsExcel(query:any) {
+  const {government, department} = query as {government:string, department:string, isApproved:string};
+
+
+  const departmentRegex = department ?  { $regex: ".*" + department + ".*" } : { $regex: ".*"}
+  const governmentRegex = government ?  { $regex: ".*" + government + ".*" } : { $regex: ".*"}
+
+  const filterQuery :any = {
+    department: departmentRegex,
+    government: governmentRegex,
+    isApproved: true
+  };
+
+  let forms = await FormModel.find(filterQuery);
+
+  if(forms){
+    let workbook = exportFormsToExcel(forms);
+    return workbook;
+}
+else return {error:{message:"no registered members"}}
 }
 
 async function filterDataWithCount(
