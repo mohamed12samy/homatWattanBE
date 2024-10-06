@@ -8,7 +8,7 @@ import validate from "../middlewares/validateResource";
 import { createFormSchema } from "../schemas/form.schema";
 import { isAborted } from "zod";
 import { Workbook } from "exceljs";
-import {exportFormsToExcel} from "../../utils/excelGenerator.util";
+import { exportFormsToExcel } from "../../utils/excelGenerator.util";
 
 export async function createForm(input: Omit<Form, "createdAt" | "updatedAt">) {
   try {
@@ -36,8 +36,6 @@ export async function getForms(
 ) {
   const { page, pageSize, id, memberId } = query;
   let currentUser = await findUser({ _id: currentUserID });
-
-
 
   if (currentUser) {
     let filterQuery: any = {};
@@ -71,14 +69,15 @@ export async function getForms(
       default:
         return null;
     }
-    
-  if(id)
-    {
-      filterQuery = {...filterQuery, id:{ $regex: ".*" + id + ".*" }}
+
+    if (id) {
+      filterQuery = { ...filterQuery, id: { $regex: ".*" + id + ".*" } };
     }
-    if(memberId)
-    {
-      filterQuery = {...filterQuery, memberId:{ $regex: ".*" + memberId + ".*" }}
+    if (memberId) {
+      filterQuery = {
+        ...filterQuery,
+        memberId: { $regex: ".*" + memberId + ".*" }
+      };
     }
     return await filterDataWithCount(model, filterQuery, {
       page,
@@ -119,7 +118,6 @@ export async function approveForm(formBody: Form, currentUserId: string) {
   let form = await FormModel.findById(formBody._id);
 
   if (form) {
-   
     if (form?.isApproved)
       return { error: { message: "form is approved already" } };
 
@@ -230,8 +228,7 @@ export async function getNotFilledRequiredFieldsPercentage(
   } else return null;
 }
 
-export async function getFormsCount(currentUserID:string, query:any) {
-
+export async function getFormsCount(currentUserID: string, query: any) {
   let currentUser = await findUser({ _id: currentUserID });
   if (currentUser) {
     let filterQuery: any = {};
@@ -241,11 +238,11 @@ export async function getFormsCount(currentUserID:string, query:any) {
           Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
         filterQuery = {
           department: { $regex: ".*" + markaz + ".*" },
-          government: { $regex: ".*" + currentUser.governorate + ".*" },
+          government: { $regex: ".*" + currentUser.governorate + ".*" }
         };
         break;
       case UsereRoles.admin:
-        case UsereRoles.adminViewer:
+      case UsereRoles.adminViewer:
         const { department, government } = query;
         filterQuery =
           department && government
@@ -254,22 +251,28 @@ export async function getFormsCount(currentUserID:string, query:any) {
             ? { department }
             : government
             ? { government }
-            : { };
+            : {};
         break;
       case UsereRoles.governorator:
         filterQuery = {
-          government: { $regex: ".*" + currentUser.governorate + ".*" },
+          government: { $regex: ".*" + currentUser.governorate + ".*" }
         };
         break;
       default:
         return null;
     }
     let notReadyForms = await notReadyFormModel.countDocuments(filterQuery);
-    let registeredForms = await FormModel.countDocuments({...filterQuery, isApproved:true});
-    let forms = await FormModel.countDocuments({...filterQuery, isApproved:false});
+    let registeredForms = await FormModel.countDocuments({
+      ...filterQuery,
+      isApproved: true
+    });
+    let forms = await FormModel.countDocuments({
+      ...filterQuery,
+      isApproved: false
+    });
     return { notReadyForms, registeredForms, forms };
   }
-return {error:{message:"no user"}};
+  return { error: { message: "no user" } };
 }
 
 export async function checkIdExistence(id: string) {
@@ -283,37 +286,59 @@ export async function checkIdExistence(id: string) {
 export async function renewMember(id: string) {
   let form = await FormModel.findById(id);
   if (form) {
-    if(!form.isApproved)
-    {
-      return { error:{message:"this is not an approved member and has no member id"} };
+    if (!form.isApproved) {
+      return {
+        error: {
+          message: "this is not an approved member and has no member id"
+        }
+      };
     }
     form.renewed = true;
     form.save();
-    return { form, message:"member is renewed" };
+    return { form, message: "member is renewed" };
   }
-  return { error:{message:"member doesn't exist"} };
+  return { error: { message: "member doesn't exist" } };
 }
 
-export async function downloadFormsAsExcel(query:any) {
-  const {government, department} = query as {government:string, department:string, isApproved:string};
-
-
-  const departmentRegex = department ?  { $regex: ".*" + department + ".*" } : { $regex: ".*"}
-  const governmentRegex = government ?  { $regex: ".*" + government + ".*" } : { $regex: ".*"}
-
-  const filterQuery :any = {
-    department: departmentRegex,
-    government: governmentRegex,
-    isApproved: true
+export async function downloadFormsAsExcel(query: any) {
+  const { government, department, startDate, endDate } = query as {
+    government: string;
+    department: string;
+    isApproved: string;
+    startDate:string;
+    endDate:string;
   };
+
+  const departmentRegex = department
+    ? { $regex: ".*" + department + ".*" }
+    : { $regex: ".*" };
+  const governmentRegex = government
+    ? { $regex: ".*" + government + ".*" }
+    : { $regex: ".*" };
+
+  
+    
+    let filterQuery: any = {
+      department: departmentRegex,
+      government: governmentRegex,
+      isApproved: true,
+    };
+    
+    if(startDate && endDate)
+    {
+      filterQuery.createdAt = {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
+      }
+    }
+
 
   let forms = await FormModel.find(filterQuery);
 
-  if(forms){
+  if (forms) {
     let workbook = exportFormsToExcel(forms);
     return workbook;
-}
-else return {error:{message:"no registered members"}}
+  } else return { error: { message: "no registered members" } };
 }
 
 async function filterDataWithCount(
