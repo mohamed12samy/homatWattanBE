@@ -7,7 +7,6 @@ export const exportFormsToExcel = (forms: Form[]) => {
     const worksheet = workbook.addWorksheet("الاعضاء");
 
     worksheet.columns = [
-      { header: "ID", key: "_id", width: 30 },
       { header: "رقم العضوية", key: "memberId", width: 30 },
       { header: "الاسم", key: "username", width: 30 },
       { header: "الرقم القومي", key: "id", width: 30 },

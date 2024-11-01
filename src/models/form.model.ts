@@ -41,10 +41,27 @@ export interface Form extends mongoose.Document {
   renewed: boolean;
   memberId: string;
   memberIdSuffix: number;
+  isOutsider:string;
+  outsiderCountryOther:string;
+  unionOther:string;
+  knew_written:string;
+  isOldCandidate:string;
+  party_name_written:string;
+  isOldElection:string;
+  election_candidate_written:string;
+  isMoreData:string;
+  profilePictureLink:string;
+  frontIDLink:string;
+  backIDLink:string;
+  profilePicture:string;
+  frontID:string;
+  backID:string;
+  agreement:string;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<Boolean>;
 }
+
 const electionSchema = new mongoose.Schema({
   electionType: { type: String },
   year: { type: String },
@@ -83,7 +100,23 @@ const formSchema = new mongoose.Schema(
     isApproved: { type: Boolean, default: false },
     renewed: { type: Boolean, default: false },
     memberId: { type: String },
-    memberIdSuffix: { type: Number }
+    memberIdSuffix: { type: Number },
+    isOutsider:{ type: String },
+    outsiderCountryOther:{ type: String },
+    unionOther:{ type: String },
+    knew_written:{ type: String },
+    isOldCandidate:{ type: String },
+    party_name_written:{ type: String },
+    isOldElection:{ type: String },
+    election_candidate_written:{ type: String },
+    isMoreData:{ type: String },
+    profilePictureLink:{ type: String },
+    frontIDLink:{ type: String },
+    backIDLink:{ type: String },
+    profilePicture:{ type: String },
+    frontID:{ type: String },
+    backID:{ type: String },
+    agreement:{ type: String }
   },
   {
     timestamps: true

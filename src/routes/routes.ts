@@ -4,6 +4,7 @@ import usersRoutes from "./users.route";
 import formRoutes from "./form.route";
 import reportRoutes from "./report.route";
 import { checkPermission } from "../middlewares/checkRolesPermissions";
+import suggestionRoutes from "./suggestion.route";
 
 function routes(app: Express) {
   /**
@@ -22,6 +23,7 @@ function routes(app: Express) {
   app.use("/api", usersRoutes);
   app.use("/api", sessionRoutes);
   app.use("/api", formRoutes);
+  app.use("/api", suggestionRoutes);
   app.use("/api", checkPermission('read', 'reports'), reportRoutes);
 
   /**
