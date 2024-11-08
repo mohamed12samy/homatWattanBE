@@ -3,7 +3,7 @@ import FormModel, { Form } from "../models/form.model";
 import mongoose, { FilterQuery, Model } from "mongoose";
 import { findUser } from "./user.service";
 import notReadyFormModel from "../models/notReadyForm.model";
-import { GovernoratesCodes, Neighborhoods, UsereRoles } from "../enums/enums";
+import { GovernmentsMapping, GovernoratesCodes, Neighborhoods, UsereRoles } from "../enums/enums";
 import validate from "../middlewares/validateResource";
 import { createFormSchema } from "../schemas/form.schema";
 import { isAborted } from "zod";
@@ -144,13 +144,15 @@ export async function approveForm(formBody: Form, currentUserId: string) {
     const totalLength: number = 7;
     const numberOfLeadingZeros: number = totalLength - newNumberStr.length;
     const prefix: string =
-      GovernoratesCodes[government as keyof typeof GovernoratesCodes] +
+      GovernoratesCodes[GovernmentsMapping[form.government] as keyof typeof GovernoratesCodes] +
       "0".repeat(numberOfLeadingZeros);
+
     const newMemberId: string = prefix + newNumberStr;
 
     let formToBeUpdated = {
       ...formBody,
       isApproved: true,
+      ApprovedBy:currentUser.username,
       memberId: newMemberId,
       memberIdSuffix: newNumber
     };

@@ -156,6 +156,7 @@ export async function getGenderReport(req: Request, res: Response) {
     let data: any = await FormModel.aggregate([
       {
         $match: {
+          isApproved: true,
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
         }
@@ -224,6 +225,7 @@ export async function getReligionReport(req: Request, res: Response) {
     let data: any = await FormModel.aggregate([
       {
         $match: {
+          isApproved: true,
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
         }
@@ -294,6 +296,7 @@ export async function getOutsiderReport(req: Request, res: Response) {
         // Match only documents where "outsider" is not null
         $match: {
           outsider: { $ne: null },
+          isApproved: true,
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
         }
@@ -474,7 +477,7 @@ export async function getOutsiderReport(req: Request, res: Response) {
         }
       }
     ]);
-
+   
     const result = mapTop10Data(data, governmentsTotal);
     //{...result, top10: [...total[0]["top10"], {name:"اخرى",count:total[0]["others"]}]}
     return res.status(200).send({
@@ -496,6 +499,7 @@ export async function getUnionReport(req: Request, res: Response) {
         // Match only documents where "outsider" is not null
         $match: {
           union: { $ne: null },
+          isApproved: true,
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
         }
@@ -688,6 +692,7 @@ export async function getFieldsReport(req: Request, res: Response) {
       {
         // Match only documents where "outsider" is not null
         $match: {
+          isApproved: true,
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex },
 
@@ -881,6 +886,7 @@ export async function getAgesReport(req: Request, res: Response) {
     let data: any = await FormModel.aggregate([
       {
         $match: {
+          isApproved: true,
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
         }
@@ -990,6 +996,7 @@ export async function getDegreeReport(req: Request, res: Response) {
       // Ensure documents with valid government, department, and degree are used
       {
         $match: {
+          isApproved: true,
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex },
           degree: { $exists: true, $ne: null }
@@ -1097,6 +1104,7 @@ export async function getElectionsReport(req: Request, res: Response) {
       // Match documents where `election_candidate` exists and is not empty
       {
         $match: {
+          isApproved: true,
           election_candidate: { $exists: true, $ne: "" },
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
@@ -1131,6 +1139,7 @@ export async function getKnewReport(req: Request, res: Response) {
       // Match documents where `knew` is not empty
       {
         $match: {
+          isApproved: true,
           knew: { $exists: true, $ne: "" },
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
@@ -1311,6 +1320,7 @@ export async function getWeeklyReport(req: Request, res: Response) {
           $lte: new Date(weekDates.thisWeekEnd)
         },
 
+        isApproved: true,
         government: { $exists: true, $regex: governmentRegex },
         department: { $exists: true, $regex: departmentRegex }
       }
@@ -1772,6 +1782,7 @@ export async function getGenderReportData(req: Request, res: Response) {
       {
         $match: {
           id: { $regex: idRegex },
+          isApproved: true,
           memberId: { $regex: memberIdRegex },
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
@@ -1871,6 +1882,7 @@ export async function getReligionReportData(req: Request, res: Response) {
       {
         $match: {
           id: { $regex: idRegex },
+          isApproved: true,
           memberId: { $regex: memberIdRegex },
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
@@ -1973,6 +1985,7 @@ export async function getOutsiderReportData(req: Request, res: Response) {
       {
         $match: {
           id: { $regex: idRegex },
+          isApproved: true,
           memberId: { $regex: memberIdRegex },
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex },
@@ -2075,6 +2088,7 @@ export async function getUnionReportData(req: Request, res: Response) {
       {
         $match: {
           id: { $regex: idRegex },
+          isApproved: true,
           memberId: { $regex: memberIdRegex },
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex },
@@ -2175,6 +2189,7 @@ export async function getFieldsReportData(req: Request, res: Response) {
       {
         $match: {
           id: { $regex: idRegex },
+          isApproved: true,
           memberId: { $regex: memberIdRegex },
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex },
@@ -2274,6 +2289,7 @@ export async function getAgesReportData(req: Request, res: Response) {
       {
         $match: {
           id: { $regex: idRegex },
+          isApproved: true,
           memberId: { $regex: memberIdRegex },
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
@@ -2350,6 +2366,7 @@ export async function getDegreesReportData(req: Request, res: Response) {
       {
         $match: {
           id: { $regex: idRegex },
+          isApproved: true,
           memberId: { $regex: memberIdRegex },
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
@@ -2392,6 +2409,7 @@ export async function getElectionsReportData(req: Request, res: Response) {
         $match: {
           id: { $regex: idRegex },
           memberId: { $regex: memberIdRegex },
+          isApproved: true,
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex },
           election_candidate: { $exists: true, $ne: "" }
@@ -2438,6 +2456,7 @@ export async function getKnewReportData(req: Request, res: Response) {
         $match: {
           id: { $regex: idRegex },
           memberId: { $regex: memberIdRegex },
+          isApproved: true,
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex },
           knew: { $exists: true, $ne: "" }
