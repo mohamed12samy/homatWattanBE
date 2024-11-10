@@ -129,7 +129,7 @@ export async function approveForm(formBody: Form, currentUserId: string) {
 
     let lastMemeber: any = await FormModel.findOne(
       {
-        government: { $regex: ".*" + currentUser.governorate + ".*" },
+        government: { $regex: ".*" + form.government + ".*" },
         memberIdSuffix: { $exists: true, $ne: null }
       },
       { memberIdSuffix: 1 }
@@ -148,7 +148,6 @@ export async function approveForm(formBody: Form, currentUserId: string) {
       "0".repeat(numberOfLeadingZeros);
 
     const newMemberId: string = prefix + newNumberStr;
-
     let formToBeUpdated = {
       ...formBody,
       isApproved: true,
@@ -165,6 +164,7 @@ export async function approveForm(formBody: Form, currentUserId: string) {
     else return { error: { message: "form not updated" } };
   } else return { error: { message: "form is not found" } };
 }
+
 
 export async function getNotFilledRequiredFieldsPercentage(
   currentUserID: string
