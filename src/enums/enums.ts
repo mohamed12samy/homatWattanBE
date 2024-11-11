@@ -95,6 +95,7 @@ export enum GovernoratesCodes {
 
 export const Neighborhoods: any = {
   qahera: {
+    qahera:"القاهرة",
     qahera1: "حى السلام أول",
     qahera2: "حى السلام ثانى",
     qahera3: "حى المرج",
@@ -141,6 +142,7 @@ export const Neighborhoods: any = {
     qahera44: "حي الجمالية"
   },
   giza: {
+  giza: "الجيزة",
     giza1: "مركز البدرشين",
     giza2: "مركز الصف",
     giza3: "مركز أطفيح",
@@ -170,6 +172,7 @@ export const Neighborhoods: any = {
     giza27: "مركز الحوامدية"
   },
   qaliobia: {
+    qaliobia:"القليوبية",
     qaliobia1: "مركز بنها",
     qaliobia2: "مركز قليوب",
     qaliobia3: "مركز القناطر الخيرية",
@@ -182,6 +185,7 @@ export const Neighborhoods: any = {
     qaliobia10: "شبرا الخيمة ثاني"
   },
   alex: {
+    alex: "الأسكندرية",
     alex1: "قسم باب شرق",
     alex2: "قسم محرم بك",
     alex3: "قسم كرموس",
@@ -198,6 +202,7 @@ export const Neighborhoods: any = {
     alex14: "مركز برج العرب"
   },
   beheira: {
+    beheira : "البحيرة",
     beheira1 : "مركز دمنهور",
     beheira2 : "مركز كفر الدوار",
     beheira3 : "مركز رشيد",
@@ -215,6 +220,7 @@ export const Neighborhoods: any = {
     beheira15 : "مركز وادى النطرون"
   },
   sharqia: {
+    sharqia : "الشرقية",
     sharqia1 : "الزقازيق",
     sharqia2 : "منيا القمح",
     sharqia3 : "بلبيس",
@@ -233,6 +239,7 @@ export const Neighborhoods: any = {
     sharqia16 : "القرين"
   },
   menoufia: {
+    menoufia : "المنوفية",
     menoufia1 : "شبين الكوم",
     menoufia2 : "مدينة السادات",
     menoufia3 : "منوف",
@@ -245,6 +252,7 @@ export const Neighborhoods: any = {
     menoufia10 : "سرس الليان"
   },
   gharbiya: {
+    gharbiya : "الغربية",
     gharbiya1 : "مركز طنطا",
     gharbiya2 : "مركز المحلة الكبرى",
     gharbiya3 : "مركز كفر الزيات",
@@ -255,6 +263,7 @@ export const Neighborhoods: any = {
     gharbiya8 : "سمنود"
   },
   kafr_sheikh: {
+    kafr_sheikh : "كفر الشيخ",
     kafr_sheikh1 : "مركز كفر الشيخ",
     kafr_sheikh2 : "مركز دسوق",
     kafr_sheikh3 : "مركز فوه",
@@ -267,6 +276,7 @@ export const Neighborhoods: any = {
     kafr_sheikh10 : "مركز قلين"
   },
   dakahlia: {
+    dakahlia : "الدقهلية",
     dakahlia1 : "مركز المنصورة",
     dakahlia2 : "مركز طلخا",
     dakahlia3 : "مركز ميت غمر",
@@ -286,6 +296,7 @@ export const Neighborhoods: any = {
     dakahlia17 : "مركز نبروه"
   },
   Ismailia: {
+    Ismailia : "الإسماعيلية",
     Ismailia1 : "مركز الإسماعيلية",
     Ismailia2 : "فايد",
     Ismailia3 : "القنطرة شرق",
@@ -297,6 +308,7 @@ export const Neighborhoods: any = {
     Ismailia9 : "قسم ثانى الإسماعيلية"
   },
   northsinai: {
+    northsinai : "شمال سيناء",
     northsinai1 : "العريش",
     northsinai2 : "الشيخ زويد",
     northsinai3 : "رفح",
@@ -305,6 +317,7 @@ export const Neighborhoods: any = {
     northsinai6 : "نخل"
   },
   bani_suef: {
+    bani_suef : "بني سويف",
     bani_suef1 : "بنى سويف",
     bani_suef2 : "الواسطى",
     bani_suef3 : "ناصر",
@@ -314,6 +327,7 @@ export const Neighborhoods: any = {
     bani_suef7 : "الفشن"
   },
   faiyum: {
+    faiyum : "الفيوم",
     faiyum1 : "مركز الفيوم",
     faiyum2 : "مركز طاميه",
     faiyum3 : "مركز سنورس",
@@ -322,6 +336,7 @@ export const Neighborhoods: any = {
     faiyum6 : "مركز يوسف الصديق"
   },
   minya: {
+    minya : "المنيا",
     minya1 : "مركز المنيا",
     minya2 : "العدوة",
     minya3 : "مغاغه",
@@ -333,6 +348,7 @@ export const Neighborhoods: any = {
     minya9 : "ديرمواس"
   },
   asyut: {
+    asyut : "أسيوط",
     asyut1 : "مركز أسيوط",
     asyut2 : "ديروط",
     asyut3 : "منفلوط",
@@ -348,6 +364,7 @@ export const Neighborhoods: any = {
     asyut13 : "قسم أسيوط ثاني"
   },
   wadi: {
+    wadi : "الوادي الجديد",
     wadi1 : "الخارجه",
     wadi2 : "باريس",
     wadi3 : "الداخله",
@@ -355,6 +372,7 @@ export const Neighborhoods: any = {
     wadi5 : "بلاط"
   },
   sohag: {
+    sohag : "سوهاج",
     sohag1 : "مركز سوهاج",
     sohag2 : "أخميم",
     sohag3 : "البلينا",
@@ -371,6 +389,7 @@ export const Neighborhoods: any = {
     sohag14 : "حي غرب"
   },
   qena: {
+    qena : "قنا",
     qena1 : "قنا",
     qena2 : "أبوتشت",
     qena3 : "نجع حمادى",
@@ -382,6 +401,7 @@ export const Neighborhoods: any = {
     qena9 : "فرشوط"
   },
   luxor: {
+    luxor : "الأقصر",
     luxor1 : "مركز الأقصر",
     luxor2 : "الزينية",
     luxor3 : "البياضية",
@@ -391,6 +411,7 @@ export const Neighborhoods: any = {
     luxor7 : "إسنا"
   },
   aswan: {
+    aswan : "أسوان",
     aswan1 : "أسوان",
     aswan2 : "دراو",
     aswan3 : "كوم أمبو",
@@ -401,6 +422,7 @@ export const Neighborhoods: any = {
     aswan8 : "أبو سمبل"
   },
   portsaid: {
+    portsaid : "بور سعيد",
     portsaid1 : "بور فؤاد",
     portsaid2 : "حي الشرق",
     portsaid3 : "حي العرب",
@@ -411,6 +433,7 @@ export const Neighborhoods: any = {
     portsaid8 : "حي غرب"
   },
   suez: {
+    suez : "السويس",
     suez1 : "حي السويس",
     suez2 : "حي الأربعين",
     suez3 : "حي عتاقة",
@@ -418,6 +441,7 @@ export const Neighborhoods: any = {
     suez5 : "حي فيصل"
   },
   south_sinai: {
+    south_sinai : "جنوب سيناء",
     south_sinai1 : "أبو رديس",
     south_sinai2 : "أبو زنيمة",
     south_sinai3 : "نويبع",
@@ -429,6 +453,7 @@ export const Neighborhoods: any = {
     south_sinai9 : "الطور"
   },
   red_sea: {
+    red_sea : "البحر الأحمر",
     red_sea1 : "رأس غارب",
     red_sea2 : "الغردقة",
     red_sea3 : "القصير",
@@ -438,6 +463,7 @@ export const Neighborhoods: any = {
     red_sea7 : "مدينة حلايب"
   },
   damietta:{
+    damietta:"دمياط",
     damietta1:"مركز دمياط",
     damietta2:"مركز فارسكور",
     damietta3:"مركز كفر سعد",
@@ -445,6 +471,7 @@ export const Neighborhoods: any = {
     damietta5:"مركز كفر البطيخ"
   },
   matrooh: {
+    matrooh:"مرسى مطروح",
     matrooh1:"مركز مرسى مطروح",
     matrooh2:"مركز الحمام",
     matrooh3:"مركز العلمين",

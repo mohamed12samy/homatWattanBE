@@ -183,16 +183,26 @@ export async function getNotFilledRequiredFieldsPercentage(
   ];
 
   if (currentUser) {
-    let markaz: string =
-      Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
-    let regexCondition = { department: { $regex: ".*" + markaz + ".*" } };
-    console.log(regexCondition);
-    console.log(markaz);
 
+    
+    let government :string = "";
+    let department :string = "";
+    
+    if(currentUser.role === UsereRoles.governorator)
+      {
+        government = Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
+      }
+      
+      if(currentUser.role === UsereRoles.departmentHead)
+        {
+          department = Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
+        }
+        console.log("1", Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name], "\n 2 ", currentUser.name.split(/[0-9]/), "\n 3 ", currentUser.name);
     try {
       // Retrieve all documents
       const documents = await notReadyFormModel.find({
-        department: { $regex: ".*" + markaz + ".*" }
+        department: { $regex: ".*" + department + ".*" },
+        government: { $regex: ".*" + government + ".*" }
       });
       let totalCount: number = 0;
       let docCounts: number = 0;
@@ -215,6 +225,7 @@ export async function getNotFilledRequiredFieldsPercentage(
         (accumulator, currentValue) => accumulator + currentValue,
         0
       );
+      console.log(sum,docCounts)
       let percentage = (sum / (9 * docCounts)) * 100;
       // console.log('Missing fields count for each document:', missingFieldsCount,
       // sum, docCounts, percentage);

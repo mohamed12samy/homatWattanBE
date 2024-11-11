@@ -655,7 +655,7 @@ export const FormsGenderReportDto: any = {
       }
     },
     matrooh: {
-      males: 8,
+      males: 0,
       females: 0,
       districts: {
         matrooh1: { males: 0, females: 0 },

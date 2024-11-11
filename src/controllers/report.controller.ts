@@ -187,7 +187,7 @@ export async function getGenderReport(req: Request, res: Response) {
           },
           females: {
             $sum: {
-              $cond: [{ $eq: ["$_id.gender", "انثى"] }, "$count", 0]
+              $cond: [{$or:[ {$eq: ["$_id.gender", "انثى"]}, {$eq: ["$_id.gender", "أنثى"]},{$eq: ["$_id.gender", "انثي"]}, {$eq: ["$_id.gender", "أنثي"]}] }, "$count", 0]
             }
           }
         }
@@ -750,18 +750,25 @@ export async function getAgesReport(req: Request, res: Response) {
         }
       },
       {
-        // Calculate the age based on birth_date
+        // Parse birth_date into a valid date format and calculate age
         $addFields: {
           age: {
             $subtract: [
               { $year: new Date() },
-              { $year: { $dateFromString: { dateString: "$birth_date" } } }
+              { 
+                $year: { 
+                  $dateFromString: { 
+                    dateString: "$birth_date", 
+                    format: "%d/%m/%Y" 
+                  } 
+                } 
+              }
             ]
           }
         }
       },
       {
-        // Add a field to classify age into ranges
+        // Classify age into ranges
         $addFields: {
           ageRange: {
             $switch: {
@@ -829,21 +836,22 @@ export async function getAgesReport(req: Request, res: Response) {
           }
         }
       },
-
       {
         // Format the final output
         $project: {
           _id: 0,
           government: "$_id",
-          totalAgeRanges: 1,
           districts: 1
         }
       }
-    ]);
-
+    ]
+    );
+console.log(data)
     let result = mapAgesReport(data);
     return res.status(200).send(result);
-  } catch (e: any) {}
+  } catch (e: any) {
+    console.log(e)
+  }
 }
 
 export async function getDegreeReport(req: Request, res: Response) {
@@ -1806,7 +1814,7 @@ export async function getGenderReportData(req: Request, res: Response) {
           females: {
             $push: {
               $cond: {
-                if: { $eq: ["$gender", "انثى"] },
+                if: {$or:[ {$eq: ["$gender", "انثى"]}, {$eq: ["$gender", "أنثى"]},{$eq: ["$gender", "انثي"]}, {$eq: ["$gender", "أنثي"]} ] },
                 then: {
                   _id: "$_id",
                   username: "$username",
@@ -2287,7 +2295,7 @@ export async function getAgesReportData(req: Request, res: Response) {
       },
       {
         $addFields: {
-          birthDate: { $dateFromString: { dateString: "$birth_date" } },
+          birthDate: { $dateFromString: { dateString: "$birth_date", format: "%d/%m/%Y"  } },
           currentDate: { $toDate: "$$NOW" }
         }
       },
