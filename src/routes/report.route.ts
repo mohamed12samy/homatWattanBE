@@ -18,6 +18,8 @@ import {
   getRegisteredReportData,
   getReligionReport,
   getReligionReportData,
+  getRenewReport,
+  getRenewReportData,
   getReport,
   getUnionReport,
   getUnionReportData,
@@ -64,8 +66,8 @@ reportRoutes.get("/report/knew/data",  setQuery(), getKnewReportData);
 reportRoutes.get("/report/weeklyReport", setQuery(), getWeeklyReport);
 // reportRoutes.get("/report/weeklyReport/data", setQuery(), getWeeklyReportData);
 
-reportRoutes.get("/report/renew",  setQuery(), setRenewQuery(), getRegisteredReport);
-reportRoutes.get("/report/renew/data",  setQuery(), setRenewQuery(), getRegisteredReportData);
+reportRoutes.get("/report/renew",  setQuery(), setRenewQuery(), getRenewReport);
+reportRoutes.get("/report/renew/data",  setQuery(), setRenewQuery(), getRenewReportData);
 
 
 export default reportRoutes;

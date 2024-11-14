@@ -15,7 +15,8 @@ import {
   MappedData,
   WeeklyReportDto,
   FormsOutsiderReportDto,
-  FormsUnionReportDto
+  FormsUnionReportDto,
+  FormsRenewDto
 } from "../constants/responses";
 import {
   countries,
@@ -1313,6 +1314,214 @@ export async function getWeeklyReport(req: Request, res: Response) {
   return res.status(200).send(result);
 }
 
+export async function getRenewReport(req: Request, res: Response) {
+  try {
+    const { governmentRegex, departmentRegex } = req.custQuery || {};
+    const query: any = {
+      isApproved: true,
+      government: { $exists: true, $regex: governmentRegex },
+      department: { $exists: true, $regex: departmentRegex }
+    };
+
+   
+      query.renewed = true;
+    
+    const result: any = FormsRenewDto;
+
+    let dataRenewed: any = await FormModel.aggregate([
+      {
+        $match: query
+      },
+      {
+        $group: {
+          _id: {
+            government: "$government",
+            department: "$department"
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $group: {
+          _id: "$_id.government",
+          districts: {
+            $push: {
+              department: "$_id.department",
+              count: "$count"
+            }
+          },
+          membersCount: { $sum: "$count" }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          governments: {
+            $push: {
+              government: "$_id",
+              membersCount: "$membersCount",
+              districts: "$districts"
+            }
+          },
+          membersCount: { $sum: "$membersCount" }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          membersCount: 1,
+          governments: {
+            $arrayToObject: {
+              $map: {
+                input: "$governments",
+                as: "gov",
+                in: {
+                  k: "$$gov.government",
+                  v: {
+                    membersCount: "$$gov.membersCount",
+                    districts: {
+                      $arrayToObject: {
+                        $map: {
+                          input: "$$gov.districts",
+                          as: "dist",
+                          in: {
+                            k: "$$dist.department",
+                            v: "$$dist.count"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]);
+
+    query.renewed = false;
+
+    let dataNotRenewed: any = await FormModel.aggregate([
+      {
+        $match: query
+      },
+      {
+        $group: {
+          _id: {
+            government: "$government",
+            department: "$department"
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $group: {
+          _id: "$_id.government",
+          districts: {
+            $push: {
+              department: "$_id.department",
+              count: "$count"
+            }
+          },
+          membersCount: { $sum: "$count" }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          governments: {
+            $push: {
+              government: "$_id",
+              membersCount: "$membersCount",
+              districts: "$districts"
+            }
+          },
+          membersCount: { $sum: "$membersCount" }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          membersCount: 1,
+          governments: {
+            $arrayToObject: {
+              $map: {
+                input: "$governments",
+                as: "gov",
+                in: {
+                  k: "$$gov.government",
+                  v: {
+                    membersCount: "$$gov.membersCount",
+                    districts: {
+                      $arrayToObject: {
+                        $map: {
+                          input: "$$gov.districts",
+                          as: "dist",
+                          in: {
+                            k: "$$dist.department",
+                            v: "$$dist.count"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]);
+
+    if (dataRenewed.length > 0) {
+      const renewedGovernments: any = dataRenewed[0]["governments"];
+      result["renewed"] = dataRenewed[0]["membersCount"];
+
+      for (const gov /*key */ in renewedGovernments) {
+        const govKey: any = GovernmentsMapping[gov];
+        result["governments"][govKey]["renewed"] =
+        renewedGovernments[gov]["membersCount"];
+        //gov = qahera
+        const districts = renewedGovernments[gov]["districts"];
+        for (const dist in districts) {
+          const distKey: string | null = findKeyByValue(
+            Neighborhoods[govKey],
+            dist
+          );
+          if (distKey) {
+            result["governments"][govKey]["districts"][distKey]["renewed"] =
+              districts[dist];
+          }
+        }
+      }
+    }
+    if (dataNotRenewed.length > 0) {
+      const notRenewedGovernments: any = dataNotRenewed[0]["governments"];
+      result["notRenewed"] = dataNotRenewed[0]["membersCount"];
+
+      for (const gov /*key */ in notRenewedGovernments) {
+        const govKey: any = GovernmentsMapping[gov];
+        result["governments"][govKey]["notRenewed"] =
+        notRenewedGovernments[gov]["membersCount"];
+        //gov = qahera
+        const districts = notRenewedGovernments[gov]["districts"];
+        for (const dist in districts) {
+          const distKey: string | null = findKeyByValue(
+            Neighborhoods[govKey],
+            dist
+          );
+          if (distKey) {
+            result["governments"][govKey]["districts"][distKey]["notRenewed"] =
+              districts[dist];
+          }
+        }
+      }
+    }
+    return res.status(200).send(result);
+  } catch (e: any) {}
+}
+
 function mapGenderData(rawData: any[]): any {
   let totalMales = 0;
   let totalFemales = 0;
@@ -1762,7 +1971,39 @@ export async function getRegisteredReportData(req: Request, res: Response) {
     return res.status(200).send({ data, totalCount });
   } catch (e: any) {}
 }
+export async function getRenewReportData(req: Request, res: Response) {
+  try {
+    const { governmentRegex, departmentRegex, idRegex, memberIdRegex } =
+      req.custQuery || {};
+    const page: number = Number(req.query.page) || 1;
+    const pageSize: number = Number(req.query.pageSize) || 10;
 
+    const query: any = {
+      id: { $regex: idRegex },
+      memberId: { $regex: memberIdRegex },
+      isApproved: true,
+      government: { $exists: true, $regex: governmentRegex },
+      department: { $exists: true, $regex: departmentRegex }
+    };
+
+      query.renewed = true;
+    
+    const result: any = FormsRenewDto;
+
+    let renewed: any = await FormModel.find(query)
+    .skip((page - 1) * pageSize)
+    .limit(pageSize);
+
+    query.renewed = false;
+
+    let notRenewed: any = await FormModel.find(query)
+    .skip((page - 1) * pageSize)
+    .limit(pageSize);
+
+
+    return res.status(200).send({renewed, notRenewed});
+  } catch (e: any) {}
+}
 export async function getGenderReportData(req: Request, res: Response) {
   try {
     const { governmentRegex, departmentRegex, idRegex, memberIdRegex } =

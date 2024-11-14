@@ -33730,3 +33730,1410 @@ export const FormsUnionReportDto: any = {
     }
   }
 };
+
+export const FormsRenewDto: any = {
+  renewed: 0,
+  notRenewed: 0,
+  governments: {
+    qahera: {
+      renewed: 0,
+      notRenewed: 0,
+      districts: {
+        qahera1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera9: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera10: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera11: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera12: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera13: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera14: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera15: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera16: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera17: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera18: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera19: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera20: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera21: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera22: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera23: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera24: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera25: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera26: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera27: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera28: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera29: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera30: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera31: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera32: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera33: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera34: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera35: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera36: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera37: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera38: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera40: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera41: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera42: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera43: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qahera44: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    giza: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        giza1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza9: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza10: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza11: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza12: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza13: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza14: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza15: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza16: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza17: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza18: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza19: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza20: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza21: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza22: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza23: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza24: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza25: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza26: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        giza27: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    alex: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        alex1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex9: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex10: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex11: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex12: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex13: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        alex14: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    qaliobia: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        qaliobia1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qaliobia2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qaliobia3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qaliobia4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qaliobia5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qaliobia6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qaliobia7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qaliobia8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qaliobia9: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qaliobia10: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    beheira: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        beheira1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira9: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira10: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira11: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira12: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira13: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira14: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        beheira15: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    sharqia: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        sharqia1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia9: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia10: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia11: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia12: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia13: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia14: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia15: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sharqia16: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    menoufia: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        menoufia1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        menoufia2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        menoufia3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        menoufia4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        menoufia5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        menoufia6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        menoufia7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        menoufia8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        menoufia9: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        menoufia10: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    gharbiya: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        gharbiya1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        gharbiya2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        gharbiya3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        gharbiya4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        gharbiya5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        gharbiya6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        gharbiya7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        gharbiya8: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    kafr_sheikh: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        kafr_sheikh1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        kafr_sheikh2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        kafr_sheikh3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        kafr_sheikh4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        kafr_sheikh5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        kafr_sheikh6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        kafr_sheikh7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        kafr_sheikh8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        kafr_sheikh9: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        kafr_sheikh10: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    dakahlia: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        dakahlia1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia9: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia10: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia11: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia12: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia13: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia14: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia15: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia16: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        dakahlia17: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    Ismailia: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        Ismailia1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        Ismailia2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        Ismailia3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        Ismailia4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        Ismailia5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        Ismailia6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        Ismailia7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        Ismailia8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        Ismailia9: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    suez: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        suez1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        suez2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        suez3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        suez4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        suez5: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    portsaid: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        portsaid1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        portsaid2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        portsaid3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        portsaid4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        portsaid5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        portsaid6: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    red_sea: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        red_sea1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        red_sea2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        red_sea3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        red_sea4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        red_sea5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        red_sea6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        red_sea7: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    northsinai: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        northsinai1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        northsinai2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        northsinai3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        northsinai4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        northsinai5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        northsinai6: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    bani_suef: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        bani_suef1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        bani_suef2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        bani_suef3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        bani_suef4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        bani_suef5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        bani_suef6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        bani_suef7: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    faiyum: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        faiyum1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        faiyum2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        faiyum3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        faiyum4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        faiyum5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        faiyum6: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    minya: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        minya1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        minya2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        minya3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        minya4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        minya5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        minya6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        minya7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        minya8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        minya9: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    asyut: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        asyut1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut9: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut10: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut11: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut12: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        asyut13: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    wadi: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        wadi1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        wadi2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        wadi3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        wadi4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        wadi5: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    sohag: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        sohag1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag9: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag10: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag11: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag12: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag13: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        sohag14: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    qena: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        qena1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qena2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qena3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qena4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qena5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qena6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qena7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qena8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        qena9: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    luxor: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        luxor1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        luxor2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        luxor3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        luxor4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        luxor5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        luxor6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        luxor7: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    aswan: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        aswan1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        aswan2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        aswan3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        aswan4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        aswan5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        aswan6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        aswan7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        aswan8: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    south_sinai: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        south_sinai1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        south_sinai2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        south_sinai3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        south_sinai4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        south_sinai5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        south_sinai6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        south_sinai7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        south_sinai8: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        south_sinai9: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    damietta: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        damietta1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        damietta2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        damietta3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        damietta4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        damietta5: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    },
+    matrooh: {
+      renewed: 0,
+      notRenewed: 0,
+
+      districts: {
+        matrooh1: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        matrooh2: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        matrooh3: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        matrooh4: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        matrooh5: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        matrooh6: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        matrooh7: {
+          renewed: 0,
+          notRenewed: 0
+        },
+        matrooh8: {
+          renewed: 0,
+          notRenewed: 0
+        }
+      }
+    }
+  }
+};
