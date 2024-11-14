@@ -294,42 +294,42 @@ export async function getOutsiderReport(req: Request, res: Response) {
   try {
     const { governmentRegex, departmentRegex } = req.custQuery || {};
 
-    let top10Total : any = await FormModel.aggregate(
+    // let top10Total : any = await FormModel.aggregate(
       
-      [
-      {
-        $match: {
-          outsider: { $in: countries },
-          isApproved: true,
-          government: { $exists: true, $regex: governmentRegex },
-          department: { $exists: true, $regex: departmentRegex }
-        }
-      },
-      {
-        $group: {
-          _id: "$outsider", // Group by `myProperty` values in `propertyList`
-          count: { $sum: 1 }, // Count the number of documents in each group
-          documents: { $push: "$$ROOT" } // Optionally, add all documents in each group
-        }
-      }
-    ]);
-    let othersTotal : any = await FormModel.aggregate([
-      {
-        $match: {
-          outsiderCountryOther: { $nin: countries },
-          isApproved: true,
-          government: { $exists: true, $regex: governmentRegex },
-          department: { $exists: true, $regex: departmentRegex }
-        }
-      },
-      {
-        $group: {
-          _id: "$outsiderCountryOther", // Group by `myProperty` values in `propertyList`
-          count: { $sum: 1 }, // Count the number of documents in each group
-          documents: { $push: "$$ROOT" } // Optionally, add all documents in each group
-        }
-      }
-    ]);
+    //   [
+    //   {
+    //     $match: {
+    //       outsider: { $in: countries },
+    //       isApproved: true,
+    //       government: { $exists: true, $regex: governmentRegex },
+    //       department: { $exists: true, $regex: departmentRegex }
+    //     }
+    //   },
+    //   {
+    //     $group: {
+    //       _id: "$outsider", // Group by `myProperty` values in `propertyList`
+    //       count: { $sum: 1 }, // Count the number of documents in each group
+    //       documents: { $push: "$$ROOT" } // Optionally, add all documents in each group
+    //     }
+    //   }
+    // ]);
+    // let othersTotal : any = await FormModel.aggregate([
+    //   {
+    //     $match: {
+    //       outsiderCountryOther: {$exists:true,  $nin: countries },
+    //       isApproved: true,
+    //       government: { $exists: true, $regex: governmentRegex },
+    //       department: { $exists: true, $regex: departmentRegex }
+    //     }
+    //   },
+    //   {
+    //     $group: {
+    //       _id: "$outsiderCountryOther", // Group by `myProperty` values in `propertyList`
+    //       count: { $sum: 1 }, // Count the number of documents in each group
+    //       documents: { $push: "$$ROOT" } // Optionally, add all documents in each group
+    //     }
+    //   }
+    // ]);
 
 
     let top10TotalData : any = await FormModel.aggregate(
@@ -395,8 +395,8 @@ export async function getOutsiderReport(req: Request, res: Response) {
       [
       {
         $match: {
-          isOutsider: "لا",
-          outsiderCountryOther: { $nin: countries, $ne: ""},
+          outsider:"أخرى",
+          outsiderCountryOther: {$exists:true,  $nin: countries },
           isApproved: true,
           government: { $exists: true, $regex: governmentRegex },
           department: { $exists: true, $regex: departmentRegex }
@@ -1542,13 +1542,6 @@ function mapUnionData(rawData: any[]): any {
         });
       }
     });
-
-
-
-
-    result["governments"][govKey]["count"] = govData["count"];
-    result["count"] += govData["count"];
-    result["governments"][govKey]["candidates"] = govData["candidates"];
   });
 
   return result;
@@ -1670,7 +1663,7 @@ othersTotalData.forEach((govData) => {
     if (distKey) {
       dist["outsider"].forEach((outsider:any)=>{
         result["governments"][govKey]["districts"][distKey]["others"][outsider["name"]] = outsider["count"]; 
-        result["governments"][govKey]["others"][outsider["name"]] += outsider["count"];
+        result["governments"][govKey]["others"][outsider["name"]] = result["governments"][govKey]["others"][outsider["name"]] ? result["governments"][govKey]["others"][outsider["name"]] + outsider["count"] : outsider["count"] ;
         result["others"][outsider["name"]] = result["others"][outsider["name"]] ? result["others"][outsider["name"]] + outsider["count"] : outsider["count"];
       });
           }
