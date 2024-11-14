@@ -20,14 +20,14 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(
   cors({
-    origin: "membersofhumatalwatan.com",
+    origin: "https://www.membersofhumatalwatan.com/",
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization', 'x-access-token', 'Access-Control-Allow-Headers']
   })
 );
 
 app.use((req, res, next) => {
-  const allowedOrigins :string[] = ['membersofhumatalwatan.com'];
+  const allowedOrigins :string[] = ['https://www.membersofhumatalwatan.com'];
   const origin : string | undefined = req.headers.origin;
   if (origin && allowedOrigins.includes(origin)) {
        res.setHeader('Access-Control-Allow-Origin', origin);
