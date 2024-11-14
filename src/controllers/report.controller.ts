@@ -1452,6 +1452,7 @@ function mapKnewReport(rawData: any[]): any {
         dist["name"]
       );
       if (distKey) {
+        console.log(dist["knew"])
         result["governments"][govKey]["districts"][distKey]["knew"] =
           dist["knew"];
 

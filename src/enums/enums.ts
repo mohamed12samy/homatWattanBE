@@ -492,9 +492,9 @@ export enum UsereRoles {
 }
 
 export const enum Knew {
-  socialMedia  = "وسائل التواصل الاجتماعي والميديا",
-  friends = "الاصدقاء والمعارف",
-  activities = "انشطته ومبادراته وخدماته"
+  socialMedia  = "وسائل التواصل الإجتماعى والميديا",
+  friends = "الأصدقاء والمعارف",
+  activities = "أنشطته ومبادراته وخدماته",
 }
 
 
