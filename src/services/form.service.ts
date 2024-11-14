@@ -153,7 +153,8 @@ export async function approveForm(formBody: Form, currentUserId: string) {
       isApproved: true,
       ApprovedBy:currentUser.username,
       memberId: newMemberId,
-      memberIdSuffix: newNumber
+      memberIdSuffix: newNumber,
+      approvedAt : new Date()
     };
     let result = await FormModel.updateOne(
       { _id: formToBeUpdated._id },
@@ -339,7 +340,7 @@ export async function downloadFormsAsExcel(query: any) {
     
     if(startDate && endDate)
     {
-      filterQuery.createdAt = {
+      filterQuery.approvedAt = {
         $gte: new Date(startDate),
         $lte: new Date(endDate)
       }

@@ -60,6 +60,7 @@ export interface Form extends mongoose.Document {
   agreement:string;
   createdAt: Date;
   updatedAt: Date;
+  approvedAt: Date;
   comparePassword(candidatePassword: string): Promise<Boolean>;
 }
 
@@ -118,7 +119,8 @@ const formSchema = new mongoose.Schema(
     profilePicture:{ type: String },
     frontID:{ type: String },
     backID:{ type: String },
-    agreement:{ type: String }
+    agreement:{ type: String },
+    approvedAt:{ type: Date }
   },
   {
     timestamps: true
