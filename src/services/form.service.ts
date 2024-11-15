@@ -3,7 +3,13 @@ import FormModel, { Form } from "../models/form.model";
 import mongoose, { FilterQuery, Model } from "mongoose";
 import { findUser } from "./user.service";
 import notReadyFormModel from "../models/notReadyForm.model";
-import { GovernmentsMapping, GovernoratesCodes, Neighborhoods, UsereRoles } from "../enums/enums";
+import {
+  Ages,
+  GovernmentsMapping,
+  GovernoratesCodes,
+  Neighborhoods,
+  UsereRoles
+} from "../enums/enums";
 import validate from "../middlewares/validateResource";
 import { createFormSchema } from "../schemas/form.schema";
 import { isAborted } from "zod";
@@ -144,17 +150,18 @@ export async function approveForm(formBody: Form, currentUserId: string) {
     const totalLength: number = 7;
     const numberOfLeadingZeros: number = totalLength - newNumberStr.length;
     const prefix: string =
-      GovernoratesCodes[GovernmentsMapping[form.government] as keyof typeof GovernoratesCodes] +
-      "0".repeat(numberOfLeadingZeros);
+      GovernoratesCodes[
+        GovernmentsMapping[form.government] as keyof typeof GovernoratesCodes
+      ] + "0".repeat(numberOfLeadingZeros);
 
     const newMemberId: string = prefix + newNumberStr;
     let formToBeUpdated = {
       ...formBody,
       isApproved: true,
-      ApprovedBy:currentUser.username,
+      ApprovedBy: currentUser.username,
       memberId: newMemberId,
       memberIdSuffix: newNumber,
-      approvedAt : new Date()
+      approvedAt: new Date()
     };
     let result = await FormModel.updateOne(
       { _id: formToBeUpdated._id },
@@ -165,7 +172,6 @@ export async function approveForm(formBody: Form, currentUserId: string) {
     else return { error: { message: "form not updated" } };
   } else return { error: { message: "form is not found" } };
 }
-
 
 export async function getNotFilledRequiredFieldsPercentage(
   currentUserID: string
@@ -184,21 +190,26 @@ export async function getNotFilledRequiredFieldsPercentage(
   ];
 
   if (currentUser) {
+    let government: string = "";
+    let department: string = "";
 
-    
-    let government :string = "";
-    let department :string = "";
-    
-    if(currentUser.role === UsereRoles.governorator)
-      {
-        government = Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
-      }
-      
-      if(currentUser.role === UsereRoles.departmentHead)
-        {
-          department = Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
-        }
-        console.log("1", Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name], "\n 2 ", currentUser.name.split(/[0-9]/), "\n 3 ", currentUser.name);
+    if (currentUser.role === UsereRoles.governorator) {
+      government =
+        Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
+    }
+
+    if (currentUser.role === UsereRoles.departmentHead) {
+      department =
+        Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
+    }
+    console.log(
+      "1",
+      Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name],
+      "\n 2 ",
+      currentUser.name.split(/[0-9]/),
+      "\n 3 ",
+      currentUser.name
+    );
     try {
       // Retrieve all documents
       const documents = await notReadyFormModel.find({
@@ -226,7 +237,7 @@ export async function getNotFilledRequiredFieldsPercentage(
         (accumulator, currentValue) => accumulator + currentValue,
         0
       );
-      console.log(sum,docCounts)
+      console.log(sum, docCounts);
       let percentage = (sum / (9 * docCounts)) * 100;
       // console.log('Missing fields count for each document:', missingFieldsCount,
       // sum, docCounts, percentage);
@@ -315,14 +326,39 @@ export async function renewMember(id: string) {
 }
 
 export async function downloadFormsAsExcel(query: any) {
-  const { government, department, startDate, endDate } = query as {
+  const {
+    government,
+    department,
+    startDate,
+    endDate,
+    religion,
+    age,
+    gender,
+    degree,
+    union,
+    election,
+    renew,
+    knew,
+    outsider,
+    field
+  } = query as {
     government: string;
     department: string;
     isApproved: string;
-    startDate:string;
-    endDate:string;
+    startDate: string;
+    endDate: string;
+    religion: string;
+    age: Ages;
+    gender: string;
+    degree: string;
+    union: string;
+    election: string;
+    renew: boolean;
+    knew: string;
+    outsider: string;
+    field: string;
   };
-
+  const orConditions: any[] = [];
   const departmentRegex = department
     ? { $regex: ".*" + department + ".*" }
     : { $regex: ".*" };
@@ -330,29 +366,94 @@ export async function downloadFormsAsExcel(query: any) {
     ? { $regex: ".*" + government + ".*" }
     : { $regex: ".*" };
 
-  
-    
-    let filterQuery: any = {
-      department: departmentRegex,
-      government: governmentRegex,
-      isApproved: true,
+  const religionRegex = religion
+    ? { $regex: ".*" + religion + ".*" }
+    : { $regex: ".*" };
+  const ageRegex = age ? { $regex: ".*" + age + ".*" } : { $regex: ".*" };
+  const genderRegex = gender
+    ? { $regex: ".*" + gender + ".*" }
+    : { $regex: ".*" };
+  const degreeRegex = degree
+    ? { $regex: ".*" + degree + ".*" }
+    : { $regex: ".*" };
+
+  let filterQuery: any = {
+    department: departmentRegex,
+    government: governmentRegex,
+    isApproved: true,
+    religion: religionRegex,
+    gender: genderRegex,
+    degree: degreeRegex
+
+  };
+
+  const fieldRegex = field ? { $regex: ".*" + field + ".*" } : { $regex: ".*" };
+
+  if (union) {
+    filterQuery.union = { $regex: ".*" + union + ".*" };
+  }
+  if (election) {
+    filterQuery.election = { $regex: ".*" + election + ".*" };
+  }
+  if (knew) {
+    filterQuery.union = { $regex: ".*" + knew + ".*" };
+  }
+  if (outsider) {
+    filterQuery.union = { $regex: ".*" + outsider + ".*" };
+  }
+  if (field) {
+    filterQuery.fields = { $regex: ".*" + field + ".*" };
+  }
+
+  if (renew !== null && renew !== undefined) {
+    filterQuery.renew = renew;
+  }
+
+  if (startDate && endDate) {
+    filterQuery.approvedAt = {
+      $gte: new Date(startDate),
+      $lte: new Date(endDate)
     };
-    
-    if(startDate && endDate)
+  }
+
+  if (age) {
+    let range: any = getDateRangeForAge(age);
+    if (range.startDate) {
+      filterQuery.birth_date_iso = { $gte: range.startDate };
+    }
+    if (range.endDate) {
+      filterQuery.birth_date_iso = {
+        ...filterQuery.birth_date_iso,
+        $lte: range.endDate
+      };
+    }
+  }
+  
+console.log(filterQuery)
+  let forms = await FormModel.aggregate([
     {
-      filterQuery.approvedAt = {
-        $gte: new Date(startDate),
-        $lte: new Date(endDate)
+      $addFields: {
+        birth_date_iso: {
+          $dateFromString: {
+            dateString: "$birth_date",
+            format: "%d/%m/%Y"  // Adjust this format to match your date strings, e.g., "dd/MM/yyyy"
+          }
+        }
+      }
+    },
+    {
+      $match: filterQuery
+    },
+    {
+      $project: {
+        birth_date_iso: 0  // Exclude the temporary field so only the original document is returned
       }
     }
-
-
-  let forms = await FormModel.find(filterQuery);
-
-  if (forms) {
+  ])
+  if (forms && forms.length > 0) {
     let workbook = exportFormsToExcel(forms);
     return workbook;
-  } else return { error: { message: "no registered members" } };
+  } else return { error: { message: "no members to download" } };
 }
 
 async function filterDataWithCount(
@@ -368,3 +469,61 @@ async function filterDataWithCount(
 
   return { forms, totalCounts };
 }
+
+const getDateRangeForAge = (
+  ageRange: Ages
+): { startDate?: Date; endDate?: Date } => {
+  const today = new Date();
+  switch (ageRange) {
+    case Ages["20-35"]:
+      return {
+        startDate: new Date(
+          today.getFullYear() - 35,
+          today.getMonth(),
+          today.getDate()
+        ),
+        endDate: new Date(
+          today.getFullYear() - 20,
+          today.getMonth(),
+          today.getDate()
+        )
+      };
+    case Ages["36-45"]:
+      return {
+        startDate: new Date(
+          today.getFullYear() - 45,
+          today.getMonth(),
+          today.getDate()
+        ),
+        endDate: new Date(
+          today.getFullYear() - 36,
+          today.getMonth(),
+          today.getDate()
+        )
+      };
+    case Ages["46-60"]:
+      return {
+        startDate: new Date(
+          today.getFullYear() - 60,
+          today.getMonth(),
+          today.getDate()
+        ),
+        endDate: new Date(
+          today.getFullYear() - 46,
+          today.getMonth(),
+          today.getDate()
+        )
+      };
+    case Ages[">60"]:
+      return {
+        startDate: undefined,
+        endDate: new Date(
+          today.getFullYear() - 60,
+          today.getMonth(),
+          today.getDate()
+        )
+      };
+    default:
+      return {};
+  }
+};

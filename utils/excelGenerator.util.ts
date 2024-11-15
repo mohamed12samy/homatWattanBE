@@ -47,9 +47,9 @@ export const exportFormsToExcel = (forms: Form[]) => {
       };
     });
 
-    forms.forEach((form) => {
+    forms.forEach((form:any) => {
       let formToAdd = {
-        ...form.toObject(),
+        ...form,
         renewed: form.renewed ? "نعم" : "لا"
       };
       worksheet.addRow(formToAdd);
