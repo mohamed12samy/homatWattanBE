@@ -11,7 +11,8 @@ import {
   getForms,
   getFormsCount,
   renewMember,
-  downloadFormsAsExcel
+  downloadFormsAsExcel,
+  getMembersCards
 } from "../services/form.service";
 import { omit } from "lodash";
 import notReadyFormModel from "../models/notReadyForm.model";
@@ -112,17 +113,35 @@ export async function renewMemberHandler(req: Request, res: Response) {
 }
 
 export async function downloadFormsAsExcelHandler(req: Request, res: Response) {
-  let workbook = await downloadFormsAsExcel(req.query);
+  let result = await downloadFormsAsExcel(req.query);
 
-  if (workbook instanceof Workbook) {
-    res.setHeader(
-      "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    );
-    res.setHeader("Content-Disposition", "attachment; filename=members.xlsx");
-    await workbook.xlsx.write(res);
-    return res.status(200);
+  if (result instanceof Buffer) {
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', 'attachment; filename="members.zip"');
+    return res.send(result);
   }
 
-  return res.status(500).send(workbook);
+  return res.status(500).send(result);
+}
+
+export async function getMembersCardsHandler(req: Request, res: Response) {
+  let zipFile = await getMembersCards(req.query);
+
+  res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', 'attachment; filename="cards.zip"');
+
+    // Send the ZIP file as a response
+    return res.send(zipFile);
+
+  // if (workbook instanceof Workbook) {
+  //   res.setHeader(
+  //     "Content-Type",
+  //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  //   );
+  //   res.setHeader("Content-Disposition", "attachment; filename=members.xlsx");
+  //   await workbook.xlsx.write(res);
+  //   return res.status(200);
+  // }
+
+  //return res.status(500).send(workbook);
 }

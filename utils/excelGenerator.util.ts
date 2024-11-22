@@ -1,7 +1,7 @@
 import { Workbook } from "exceljs";
 import { Form } from "../src/models/form.model";
 
-export const exportFormsToExcel = (forms: Form[]) => {
+export const exportFormsToExcel = async (forms: Form[]) => {
   try {
     const workbook = new Workbook();
     const worksheet = workbook.addWorksheet("الاعضاء");
@@ -55,7 +55,7 @@ export const exportFormsToExcel = (forms: Form[]) => {
       worksheet.addRow(formToAdd);
     });
 
-    return workbook;
+    return await workbook.xlsx.writeBuffer();
   } catch (error) {
     console.error("Error exporting users to Excel:", error);
     return {

@@ -15,6 +15,9 @@ import { createFormSchema } from "../schemas/form.schema";
 import { isAborted } from "zod";
 import { Workbook } from "exceljs";
 import { exportFormsToExcel } from "../../utils/excelGenerator.util";
+import JSZip from "jszip";
+import { generatePdfForMembers } from "../../utils/pdfProcess.util";
+import axios from "axios";
 
 export async function createForm(input: Omit<Form, "createdAt" | "updatedAt">) {
   try {
@@ -384,7 +387,6 @@ export async function downloadFormsAsExcel(query: any) {
     religion: religionRegex,
     gender: genderRegex,
     degree: degreeRegex
-
   };
 
   const fieldRegex = field ? { $regex: ".*" + field + ".*" } : { $regex: ".*" };
@@ -428,15 +430,15 @@ export async function downloadFormsAsExcel(query: any) {
       };
     }
   }
-  
-console.log(filterQuery)
+
+  console.log(filterQuery);
   let forms = await FormModel.aggregate([
     {
       $addFields: {
         birth_date_iso: {
           $dateFromString: {
             dateString: "$birth_date",
-            format: "%d/%m/%Y"  // Adjust this format to match your date strings, e.g., "dd/MM/yyyy"
+            format: "%d/%m/%Y" // Adjust this format to match your date strings, e.g., "dd/MM/yyyy"
           }
         }
       }
@@ -446,14 +448,70 @@ console.log(filterQuery)
     },
     {
       $project: {
-        birth_date_iso: 0  // Exclude the temporary field so only the original document is returned
+        birth_date_iso: 0 // Exclude the temporary field so only the original document is returned
       }
     }
-  ])
+  ]);
   if (forms && forms.length > 0) {
-    let workbook = exportFormsToExcel(forms);
-    return workbook;
+    let workbook = await exportFormsToExcel(forms);
+
+    if (workbook instanceof Buffer) {
+      const zip = new JSZip();
+      zip.file("members.xlsx", workbook);
+      const imagesFolder = zip.folder("images");
+      for (const member of forms) {
+        if (member.profilePictureLink) {
+          const profilePic = await axios.get<ArrayBuffer>(
+            member.profilePictureLink,
+            { responseType: "arraybuffer" }
+          );
+          const profileBuffer: ArrayBuffer = profilePic.data;
+          imagesFolder?.file(`${member.memberId}_profile.jpg`, profileBuffer);
+        }
+
+        if (member.frontIDLink) {
+          const frontIDLink = await axios.get<ArrayBuffer>(member.frontIDLink, {
+            responseType: "arraybuffer"
+          });
+          const frontIdBuffer: ArrayBuffer = frontIDLink.data;
+          imagesFolder?.file(`${member.memberId}_frontID.jpg`, frontIdBuffer);
+        }
+
+        if (member.backIDLink) {
+          const backIDLink = await axios.get<ArrayBuffer>(member.backIDLink, {
+            responseType: "arraybuffer"
+          });
+          const backIDBuffer: ArrayBuffer = backIDLink.data;
+          imagesFolder?.file(`${member.memberId}_backID.jpg`, backIDBuffer);
+        }
+      }
+      const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
+      return zipBuffer;
+    } else return { error: { message: "internal server error" } };
   } else return { error: { message: "no members to download" } };
+}
+
+export async function getMembersCards(query: any) {
+  const { government, department } = query as {
+    government: string;
+    department: string;
+  };
+
+  const govRegex = government ? ".*" + government + ".*" : ".*";
+  const deptRegex = department ? ".*" + department + ".*" : ".*";
+  let members = await FormModel.find({
+    isApproved: true,
+    government: { $regex: govRegex },
+    department: { $regex: deptRegex }
+  });
+
+  const zip = new JSZip();
+  for (const member of members) {
+    var pdfFile = await generatePdfForMembers(member);
+    zip.file(pdfFile.fileName, pdfFile.content);
+  }
+  const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
+  return zipBuffer;
 }
 
 async function filterDataWithCount(

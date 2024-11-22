@@ -11,7 +11,8 @@ import {
   getFormsCountHandler,
   checkIdExistenceHandler,
   renewMemberHandler,
-  downloadFormsAsExcelHandler
+  downloadFormsAsExcelHandler,
+  getMembersCardsHandler
 } from "../controllers/form.controller";
 import { requireUser } from "../middlewares/requireUser";
 import validate from "../middlewares/validateResource";
@@ -35,6 +36,7 @@ formRoutes.get("/notReadyForm/percent", requireUser,  checkPermission('read', 'f
 formRoutes.get("/forms/count", requireUser,  checkPermission('read', 'forms'), getFormsCountHandler);
 formRoutes.get("/form/id/check", checkIdExistenceHandler);
 formRoutes.get("/form/download",  requireUser,  checkPermission('read', 'forms'), downloadFormsAsExcelHandler);
+formRoutes.get("/form/card/download",  requireUser,  checkPermission('read', 'forms'), getMembersCardsHandler);
 
 formRoutes.delete("/form", requireUser, checkPermission('delete', 'forms'), deleteFormHandler);
 formRoutes.delete("/notReadyForm", requireUser, checkPermission('delete', 'forms'), deleteNotReadyFormHandler);
