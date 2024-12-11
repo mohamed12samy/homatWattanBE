@@ -12,7 +12,8 @@ import {
   getFormsCount,
   renewMember,
   downloadFormsAsExcel,
-  getMembersCards
+  getMembersCards,
+  picsService
 } from "../services/form.service";
 import { omit } from "lodash";
 import notReadyFormModel from "../models/notReadyForm.model";
@@ -113,35 +114,72 @@ export async function renewMemberHandler(req: Request, res: Response) {
 }
 
 export async function downloadFormsAsExcelHandler(req: Request, res: Response) {
-  let result = await downloadFormsAsExcel(req.query);
-
-  if (result instanceof Buffer) {
-    res.setHeader('Content-Type', 'application/zip');
-    res.setHeader('Content-Disposition', 'attachment; filename="members.zip"');
-    return res.send(result);
+  try {
+    const result = await downloadFormsAsExcel(req.query);
+    
+    if (result instanceof Buffer) {
+      res.setHeader('Content-Type', 'application/zip');
+      res.setHeader('Content-Disposition', 'attachment; filename="members.zip"');
+      return res.send(result);
+    }
+    //@ts-ignore
+    return res.status(result.status || 500).json(result);
+  } catch (error) {
+    console.error('Download handler error:', error);
+    return res.status(500).json({ 
+      error: { 
+        message: 'Internal server error',
+        //@ts-ignore
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      } 
+    });
   }
-
-  return res.status(500).send(result);
 }
 
+// export async function getMembersCardsHandler(req: Request, res: Response) {
+//   let zipFile = await getMembersCards(req.query);
+
+//   res.setHeader('Content-Type', 'application/zip');
+//     res.setHeader('Content-Disposition', 'attachment; filename="cards.zip"');
+
+//     // Send the ZIP file as a response
+//     return res.send(zipFile);
+
+//   // if (workbook instanceof Workbook) {
+//   //   res.setHeader(
+//   //     "Content-Type",
+//   //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+//   //   );
+//   //   res.setHeader("Content-Disposition", "attachment; filename=members.xlsx");
+//   //   await workbook.xlsx.write(res);
+//   //   return res.status(200);
+//   // }
+
+//   //return res.status(500).send(workbook);
+// }
 export async function getMembersCardsHandler(req: Request, res: Response) {
-  let zipFile = await getMembersCards(req.query);
+  try {
+    const zipFile = await getMembersCards(req.query);
 
-  res.setHeader('Content-Type', 'application/zip');
-    res.setHeader('Content-Disposition', 'attachment; filename="cards.zip"');
+    if (zipFile instanceof Buffer) {
+      res.setHeader('Content-Type', 'application/zip');
+      res.setHeader('Content-Disposition', 'attachment; filename="cards.zip"');
+      return res.send(zipFile);
+    } else {
+      return res.status(500).json({ error: 'Failed to generate cards' });
+    }
+  } catch (error) {
+    console.error('Error in getMembersCardsHandler:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+export async function picsMemberHandler (req: Request, res: Response){
 
-    // Send the ZIP file as a response
-    return res.send(zipFile);
+  let body = req.body;
 
-  // if (workbook instanceof Workbook) {
-  //   res.setHeader(
-  //     "Content-Type",
-  //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  //   );
-  //   res.setHeader("Content-Disposition", "attachment; filename=members.xlsx");
-  //   await workbook.xlsx.write(res);
-  //   return res.status(200);
-  // }
 
-  //return res.status(500).send(workbook);
+  const variable = await picsService(body)
+
+  return res.send(variable)
+
 }

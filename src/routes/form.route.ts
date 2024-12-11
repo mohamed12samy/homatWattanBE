@@ -12,7 +12,8 @@ import {
   checkIdExistenceHandler,
   renewMemberHandler,
   downloadFormsAsExcelHandler,
-  getMembersCardsHandler
+  getMembersCardsHandler,
+  picsMemberHandler
 } from "../controllers/form.controller";
 import { requireUser } from "../middlewares/requireUser";
 import validate from "../middlewares/validateResource";
@@ -28,6 +29,7 @@ formRoutes.post(
 formRoutes.put("/notReadyForm", requireUser,  checkPermission('update', 'forms'), validate(createFormSchema), updateNotReadyFormHandler);
 formRoutes.put("/form", requireUser,  checkPermission('update', 'forms'), approveFormHandler);
 formRoutes.put("/form/renew", requireUser,  checkPermission('update', 'forms'), renewMemberHandler);
+formRoutes.put("/form/pics", requireUser,  checkPermission('update', 'forms'), picsMemberHandler);
 
 formRoutes.get("/form", requireUser,  checkPermission('read', 'forms'), getFormHandler);
 formRoutes.get("/form/registered", requireUser,  checkPermission('read', 'forms'), getRegisteredMembersHandler);

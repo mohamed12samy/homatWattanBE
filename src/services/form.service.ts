@@ -328,7 +328,310 @@ export async function renewMember(id: string) {
   return { error: { message: "member doesn't exist" } };
 }
 
-export async function downloadFormsAsExcel(query: any) {
+// export async function downloadFormsAsExcel(query: any) {
+//   const {
+//     government,
+//     department,
+//     startDate,
+//     endDate,
+//     religion,
+//     age,
+//     gender,
+//     degree,
+//     union,
+//     election,
+//     renew,
+//     knew,
+//     outsider,
+//     field,
+//   } = query as {
+//     government: string;
+//     department: string;
+//     isApproved: string;
+//     startDate: string;
+//     endDate: string;
+//     religion: string;
+//     age: Ages;
+//     gender: string;
+//     degree: string;
+//     union: string;
+//     election: string;
+//     renew: boolean;
+//     knew: string;
+//     outsider: string;
+//     field: string;
+//   };
+//   const orConditions: any[] = [];
+//   const departmentRegex = department
+//     ? { $regex: ".*" + department + ".*" }
+//     : { $regex: ".*" };
+//   const governmentRegex = government
+//     ? { $regex: ".*" + government + ".*" }
+//     : { $regex: ".*" };
+
+//   const religionRegex = religion
+//     ? { $regex: ".*" + religion + ".*" }
+//     : { $regex: ".*" };
+//   const ageRegex = age ? { $regex: ".*" + age + ".*" } : { $regex: ".*" };
+//   const genderRegex = gender
+//     ? { $regex: ".*" + gender + ".*" }
+//     : { $regex: ".*" };
+//   const degreeRegex = degree
+//     ? { $regex: ".*" + degree + ".*" }
+//     : { $regex: ".*" };
+
+//   let filterQuery: any = {
+//     department: departmentRegex,
+//     government: governmentRegex,
+//     isApproved: true,
+//     religion: religionRegex,
+//     gender: genderRegex,
+//     degree: degreeRegex,
+//   };
+
+//   const fieldRegex = field ? { $regex: ".*" + field + ".*" } : { $regex: ".*" };
+
+//   if (union) {
+//     filterQuery.union = { $regex: ".*" + union + ".*" };
+//   }
+//   if (election) {
+//     filterQuery.election = { $regex: ".*" + election + ".*" };
+//   }
+//   if (knew) {
+//     filterQuery.union = { $regex: ".*" + knew + ".*" };
+//   }
+//   if (outsider) {
+//     filterQuery.union = { $regex: ".*" + outsider + ".*" };
+//   }
+//   if (field) {
+//     filterQuery.fields = { $regex: ".*" + field + ".*" };
+//   }
+
+//   if (renew !== null && renew !== undefined) {
+//     filterQuery.renew = renew;
+//   }
+
+//   if (startDate && endDate) {
+//     filterQuery.approvedAt = {
+//       $gte: new Date(startDate),
+//       $lte: new Date(endDate),
+//     };
+//   }
+
+//   if (age) {
+//     let range: any = getDateRangeForAge(age);
+//     if (range.startDate) {
+//       filterQuery.birth_date_iso = { $gte: range.startDate };
+//     }
+//     if (range.endDate) {
+//       filterQuery.birth_date_iso = {
+//         ...filterQuery.birth_date_iso,
+//         $lte: range.endDate,
+//       };
+//     }
+//   }
+
+//   console.log(filterQuery);
+//   let forms = await FormModel.aggregate([
+//     {
+//       $addFields: {
+//         birth_date_iso: {
+//           $dateFromString: {
+//             dateString: "$birth_date",
+//             format: "%d/%m/%Y", // Adjust this format to match your date strings, e.g., "dd/MM/yyyy"
+//           },
+//         },
+//       },
+//     },
+//     {
+//       $match: filterQuery,
+//     },
+//     {
+//       $project: {
+//         birth_date_iso: 0, // Exclude the temporary field so only the original document is returned
+//       },
+//     },
+//   ]);
+//   if (forms && forms.length > 0) {
+//     let workbook = await exportFormsToExcel(forms);
+
+//     if (workbook instanceof Buffer) {
+//       const zip = new JSZip();
+//       zip.file("members.xlsx", workbook);
+//       const imagesFolder = zip.folder("images");
+//       for (const member of forms) {
+//         if (member.profilePictureLink) {
+//           const profilePic = await axios.get<ArrayBuffer>(
+//             member.profilePictureLink,
+//             { responseType: "arraybuffer" }
+//           );
+//           const profileBuffer: ArrayBuffer = profilePic.data;
+//           imagesFolder?.file(`${member.memberId}_profile.jpg`, profileBuffer);
+//         }
+
+//         if (member.frontIDLink) {
+//           const frontIDLink = await axios.get<ArrayBuffer>(member.frontIDLink, {
+//             responseType: "arraybuffer",
+//           });
+//           const frontIdBuffer: ArrayBuffer = frontIDLink.data;
+//           imagesFolder?.file(`${member.memberId}_frontID.jpg`, frontIdBuffer);
+//         }
+
+//         if (member.backIDLink) {
+//           const backIDLink = await axios.get<ArrayBuffer>(member.backIDLink, {
+//             responseType: "arraybuffer",
+//           });
+//           const backIDBuffer: ArrayBuffer = backIDLink.data;
+//           imagesFolder?.file(`${member.memberId}_backID.jpg`, backIDBuffer);
+//         }
+//       }
+//       const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
+//       return zipBuffer;
+//     } else return { error: { message: "internal server error" } };
+//   } else return { error: { message: "no members to download" } };
+// }
+
+interface DownloadQuery {
+  government?: string;
+  department?: string;
+  startDate?: string;
+  endDate?: string;
+  religion?: string;
+  age?: Ages;
+  gender?: string;
+  degree?: string;
+  union?: string;
+  election?: string;
+  renew?: string;
+  knew?: string;
+  outsider?: string;
+  field?: string;
+}
+
+function isValidHttpUrl(urlString: string): boolean {
+  try {
+    const url = new URL(urlString);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+export async function downloadFormsAsExcel(query: DownloadQuery) {
+  try {
+    // Validate and sanitize query parameters
+    const filterQuery = buildFilterQuery(query);
+
+    // Execute aggregation with error handling
+    let forms;
+    try {
+      forms = await FormModel.aggregate([
+        {
+          $addFields: {
+            birth_date_iso: {
+              $dateFromString: {
+                dateString: "$birth_date",
+                format: "%d/%m/%Y",
+                onError: null // Handle invalid dates gracefully
+              }
+            }
+          }
+        },
+        {
+          $match: filterQuery
+        },
+        {
+          $project: {
+            birth_date_iso: 0
+          }
+        }
+      ]);
+    } catch (error) {
+      console.error("MongoDB aggregation error:", error);
+      return {
+        status: 500,
+        error: { message: "Database query failed" }
+      };
+    }
+
+    if (!forms?.length) {
+      return {
+        status: 404,
+        error: { message: "No members found matching the criteria" }
+      };
+    }
+
+    // Generate Excel workbook
+    const workbook = await exportFormsToExcel(forms);
+    if (!(workbook instanceof Buffer)) {
+      return {
+        status: 500,
+        error: { message: "Failed to generate Excel file" }
+      };
+    }
+
+    // Create ZIP archive
+    const zip = new JSZip();
+    zip.file("members.xlsx", workbook);
+    const imagesFolder = zip.folder("images");
+
+    // Download images with proper error handling
+    for (const member of forms) {
+      await Promise.all([
+        downloadAndAddToZip(
+          member.profilePictureLink,
+          `${member.memberId}_profile.jpg`,
+          imagesFolder
+        ),
+        downloadAndAddToZip(
+          member.frontIDLink,
+          `${member.memberId}_frontID.jpg`,
+          imagesFolder
+        ),
+        downloadAndAddToZip(
+          member.backIDLink,
+          `${member.memberId}_backID.jpg`,
+          imagesFolder
+        )
+      ]);
+    }
+
+    return await zip.generateAsync({ type: "nodebuffer" });
+  } catch (error) {
+    console.error("Download forms error:", error);
+    return {
+      status: 500,
+      error: { message: "Failed to process download request" }
+    };
+  }
+}
+
+async function downloadAndAddToZip(
+  url: string | undefined,
+  filename: string,
+  folder: JSZip | null
+) {
+  if (!url || !isValidHttpUrl(url)) {
+    console.warn(`Skipping invalid URL for ${filename}`);
+    return;
+  }
+
+  try {
+    const response = await axios.get<ArrayBuffer>(url, {
+      responseType: "arraybuffer",
+      timeout: 5000, // 5 second timeout
+      validateStatus: (status) => status === 200 // Only accept 200 OK
+    });
+
+    folder?.file(filename, response.data);
+  } catch (error) {
+    //@ts-ignore
+    console.warn(`Failed to download ${filename}:`, error.message);
+    // Continue processing other images
+  }
+}
+
+function buildFilterQuery(query: DownloadQuery) {
   const {
     government,
     department,
@@ -344,73 +647,48 @@ export async function downloadFormsAsExcel(query: any) {
     knew,
     outsider,
     field
-  } = query as {
-    government: string;
-    department: string;
-    isApproved: string;
-    startDate: string;
-    endDate: string;
-    religion: string;
-    age: Ages;
-    gender: string;
-    degree: string;
-    union: string;
-    election: string;
-    renew: boolean;
-    knew: string;
-    outsider: string;
-    field: string;
-  };
-  const orConditions: any[] = [];
-  const departmentRegex = department
-    ? { $regex: ".*" + department + ".*" }
-    : { $regex: ".*" };
-  const governmentRegex = government
-    ? { $regex: ".*" + government + ".*" }
-    : { $regex: ".*" };
+  } = query;
 
-  const religionRegex = religion
-    ? { $regex: ".*" + religion + ".*" }
-    : { $regex: ".*" };
-  const ageRegex = age ? { $regex: ".*" + age + ".*" } : { $regex: ".*" };
-  const genderRegex = gender
-    ? { $regex: ".*" + gender + ".*" }
-    : { $regex: ".*" };
-  const degreeRegex = degree
-    ? { $regex: ".*" + degree + ".*" }
-    : { $regex: ".*" };
-
-  let filterQuery: any = {
-    department: departmentRegex,
-    government: governmentRegex,
-    isApproved: true,
-    religion: religionRegex,
-    gender: genderRegex,
-    degree: degreeRegex
+  const filterQuery: any = {
+    isApproved: true
   };
 
-  const fieldRegex = field ? { $regex: ".*" + field + ".*" } : { $regex: ".*" };
+  // Helper function to add regex condition if value exists
+  const addRegexCondition = (key: string, value?: string) => {
+    if (value) {
+      filterQuery[key] = { $regex: new RegExp(value, "i") };
+    }
+  };
 
-  if (union) {
-    filterQuery.union = { $regex: ".*" + union + ".*" };
-  }
-  if (election) {
-    filterQuery.election = { $regex: ".*" + election + ".*" };
-  }
-  if (knew) {
-    filterQuery.union = { $regex: ".*" + knew + ".*" };
-  }
+  // Add basic filters
+  addRegexCondition("department", department);
+  addRegexCondition("government", government);
+  addRegexCondition("religion", religion);
+  addRegexCondition("gender", gender);
+  addRegexCondition("degree", degree);
+  addRegexCondition("union", union);
+  addRegexCondition("election", election);
+  addRegexCondition("knew", knew);
+  addRegexCondition("fields", field);
+
+  // Handle special cases
   if (outsider) {
-    filterQuery.union = { $regex: ".*" + outsider + ".*" };
-  }
-  if (field) {
-    filterQuery.fields = { $regex: ".*" + field + ".*" };
+    
+    if(outsider === "true" )
+    {
+      filterQuery.outsider = { $regex: ".*" };
+    }
+    else if(outsider !== "false")
+    {
+      filterQuery.outsider = { $regex: ".*"+outsider+".*" };
+    }
   }
 
-  if (renew !== null && renew !== undefined) {
-    filterQuery.renew = renew;
+  if (renew !== undefined) {
+    filterQuery.renewed = renew === "true";
   }
 
+  // Handle date range
   if (startDate && endDate) {
     filterQuery.approvedAt = {
       $gte: new Date(startDate),
@@ -418,97 +696,67 @@ export async function downloadFormsAsExcel(query: any) {
     };
   }
 
+  // Handle age range
   if (age) {
-    let range: any = getDateRangeForAge(age);
-    if (range.startDate) {
-      filterQuery.birth_date_iso = { $gte: range.startDate };
-    }
-    if (range.endDate) {
-      filterQuery.birth_date_iso = {
-        ...filterQuery.birth_date_iso,
-        $lte: range.endDate
-      };
+    const range = getDateRangeForAge(age);
+    if (range.startDate || range.endDate) {
+      filterQuery.birth_date_iso = {};
+      if (range.startDate) {
+        filterQuery.birth_date_iso.$gte = range.startDate;
+      }
+      if (range.endDate) {
+        filterQuery.birth_date_iso.$lte = range.endDate;
+      }
     }
   }
 
-  console.log(filterQuery);
-  let forms = await FormModel.aggregate([
-    {
-      $addFields: {
-        birth_date_iso: {
-          $dateFromString: {
-            dateString: "$birth_date",
-            format: "%d/%m/%Y" // Adjust this format to match your date strings, e.g., "dd/MM/yyyy"
-          }
-        }
-      }
-    },
-    {
-      $match: filterQuery
-    },
-    {
-      $project: {
-        birth_date_iso: 0 // Exclude the temporary field so only the original document is returned
-      }
-    }
-  ]);
-  if (forms && forms.length > 0) {
-    let workbook = await exportFormsToExcel(forms);
-
-    if (workbook instanceof Buffer) {
-      const zip = new JSZip();
-      zip.file("members.xlsx", workbook);
-      const imagesFolder = zip.folder("images");
-      for (const member of forms) {
-        if (member.profilePictureLink) {
-          const profilePic = await axios.get<ArrayBuffer>(
-            member.profilePictureLink,
-            { responseType: "arraybuffer" }
-          );
-          const profileBuffer: ArrayBuffer = profilePic.data;
-          imagesFolder?.file(`${member.memberId}_profile.jpg`, profileBuffer);
-        }
-
-        if (member.frontIDLink) {
-          const frontIDLink = await axios.get<ArrayBuffer>(member.frontIDLink, {
-            responseType: "arraybuffer"
-          });
-          const frontIdBuffer: ArrayBuffer = frontIDLink.data;
-          imagesFolder?.file(`${member.memberId}_frontID.jpg`, frontIdBuffer);
-        }
-
-        if (member.backIDLink) {
-          const backIDLink = await axios.get<ArrayBuffer>(member.backIDLink, {
-            responseType: "arraybuffer"
-          });
-          const backIDBuffer: ArrayBuffer = backIDLink.data;
-          imagesFolder?.file(`${member.memberId}_backID.jpg`, backIDBuffer);
-        }
-      }
-      const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
-      return zipBuffer;
-    } else return { error: { message: "internal server error" } };
-  } else return { error: { message: "no members to download" } };
+  return filterQuery;
 }
 
 export async function getMembersCards(query: any) {
-  const { government, department } = query as {
+  const { government, department, startMemberId, endMemberId, startDate, endDate } = query as {
     government: string;
     department: string;
+    endMemberId: number;
+    startMemberId: number;
+    startDate:string;
+    endDate:string;
   };
 
   const govRegex = government ? ".*" + government + ".*" : ".*";
   const deptRegex = department ? ".*" + department + ".*" : ".*";
+  
+  let memberIdSuffix : any = { $exists: true }
+  let approvedAt : any ={ $exists: true }
+  if (startDate && endDate) {
+    
+    approvedAt = {
+      $gte: new Date(`${startDate.split('T')[0]}T00:00:00.000Z`),
+      $lte: new Date(`${endDate.split('T')[0]}T23:59:59.999Z`)
+    };
+  }
+  console.log(approvedAt)
+if(startMemberId && endMemberId)
+{
+  memberIdSuffix =  {
+    $gte: startMemberId,
+    $lte: endMemberId
+  };
+}
   let members = await FormModel.find({
     isApproved: true,
     government: { $regex: govRegex },
-    department: { $regex: deptRegex }
+    department: { $regex: deptRegex },
+    approvedAt,
+    memberIdSuffix
   });
 
   const zip = new JSZip();
   for (const member of members) {
-    var pdfFile = await generatePdfForMembers(member);
-    zip.file(pdfFile.fileName, pdfFile.content);
+    if (isValidHttpUrl(member.profilePictureLink)) {
+      var pdfFile = await generatePdfForMembers(member);
+      zip.file(pdfFile.fileName, pdfFile.content);
+    }
   }
   const zipBuffer = await zip.generateAsync({ type: "nodebuffer" });
   return zipBuffer;
@@ -585,3 +833,18 @@ const getDateRangeForAge = (
       return {};
   }
 };
+
+export async function picsService(body: any) {
+  let member = await FormModel.findById(body._id);
+  if (member) {
+    member.profilePictureLink = body.profilePictureLink
+      ? body.profilePictureLink
+      : member.profilePictureLink;
+    member.backIDLink = body.backIDLink ? body.backIDLink : member.backIDLink;
+    member.frontIDLink = body.frontIDLink
+      ? body.frontIDLink
+      : member.frontIDLink;
+    await member.save();
+  }
+  return member;
+}

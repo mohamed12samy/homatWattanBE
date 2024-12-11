@@ -50,7 +50,8 @@ export const exportFormsToExcel = async (forms: Form[]) => {
     forms.forEach((form:any) => {
       let formToAdd = {
         ...form,
-        renewed: form.renewed ? "نعم" : "لا"
+        renewed: form.renewed ? "نعم" : "لا",
+        outsider: form.outsider === "أخرى" ? form.outsiderCountryOther : form.outsider
       };
       worksheet.addRow(formToAdd);
     });
