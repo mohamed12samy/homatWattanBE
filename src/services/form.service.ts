@@ -751,6 +751,10 @@ if(startMemberId && endMemberId)
     memberIdSuffix
   });
 
+  if(members?.length === 0)
+  {
+    return {error:{message:"no members found"}}
+  }
   const zip = new JSZip();
   for (const member of members) {
     if (isValidHttpUrl(member.profilePictureLink)) {

@@ -166,7 +166,7 @@ export async function getMembersCardsHandler(req: Request, res: Response) {
       res.setHeader('Content-Disposition', 'attachment; filename="cards.zip"');
       return res.send(zipFile);
     } else {
-      return res.status(500).json({ error: 'Failed to generate cards' });
+      return res.status(400).send(zipFile);
     }
   } catch (error) {
     console.error('Error in getMembersCardsHandler:', error);
