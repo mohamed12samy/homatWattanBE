@@ -7,6 +7,8 @@ async function connect() {
   try {
     logger.info("Connecting to DB !");
     await mongoose.connect(dbURI);
+    //mongoose.set('debug', true);
+
     logger.info("Connected to DB !");
   } catch (error) {
     logger.error("Could not connect to db !");

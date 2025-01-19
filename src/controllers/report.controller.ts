@@ -741,7 +741,6 @@ export async function getFieldsReport(req: Request, res: Response) {
 export async function getAgesReport(req: Request, res: Response) {
   try {
     const { governmentRegex, departmentRegex } = req.custQuery || {};
-
     let data: any = await FormModel.aggregate([
       {
         $match: {
@@ -847,7 +846,6 @@ export async function getAgesReport(req: Request, res: Response) {
       }
     ]
     );
-console.log(data)
     let result = mapAgesReport(data);
     return res.status(200).send(result);
   } catch (e: any) {
@@ -2010,97 +2008,82 @@ export async function getGenderReportData(req: Request, res: Response) {
       req.custQuery || {};
     const page: number = Number(req.query.page) || 1; // Default to 0 if not provided
     const pageSize: number = Number(req.query.pageSize) || 10;
-
-    let data: any = await FormModel.aggregate([
+    
+    let malesAsync = async()=>await FormModel.aggregate([
       {
         $match: {
           id: { $regex: idRegex },
           isApproved: true,
           memberId: { $regex: memberIdRegex },
           government: { $exists: true, $regex: governmentRegex },
-          department: { $exists: true, $regex: departmentRegex }
+          department: { $exists: true, $regex: departmentRegex },
+          gender:{$eq:"ذكر"}
         }
       },
       {
-        $group: {
-          _id: null, // No specific grouping, so all results go in the same output
-          males: {
-            $push: {
-              $cond: {
-                if: { $eq: ["$gender", "ذكر"] },
-                then: {
-                  _id: "$_id",
-                  username: "$username",
-                  id: "$id",
-                  birth_date: "$birth_date",
-                  gender: "$gender",
-                  religion: "$religion",
-                  phoneNumber: "$phoneNumber",
-                  election_candidate: "$election_candidate",
-                  election_data: "$election_data",
-                  department: "$department",
-                  fields: "$fields",
-                  degree: "$degree"
-                },
-                else: null
-              }
-            }
-          },
-          females: {
-            $push: {
-              $cond: {
-                if: {$or:[ {$eq: ["$gender", "انثى"]}, {$eq: ["$gender", "أنثى"]},{$eq: ["$gender", "انثي"]}, {$eq: ["$gender", "أنثي"]} ] },
-                then: {
-                  _id: "$_id",
-                  username: "$username",
-                  id: "$id",
-                  birth_date: "$birth_date",
-                  gender: "$gender",
-                  religion: "$religion",
-                  phoneNumber: "$phoneNumber",
-                  election_candidate: "$election_candidate",
-                  election_data: "$election_data",
-                  department: "$department",
-                  fields: "$fields",
-                  degree: "$degree"
-                },
-                else: null
-              }
-            }
-          }
+        $facet: {
+          documents: [
+            { $skip: (page-1)*pageSize }, // If you need pagination, replace 0 with your skip value
+            { $limit: pageSize } // Adjust the limit based on how many documents you want per page
+          ],
+          totalCount: [
+            { $count: "totalCount" }
+          ]
         }
       },
       {
         $project: {
-          _id: 0,
-          males: {
-            $filter: {
-              input: "$males",
-              as: "male",
-              cond: { $ne: ["$$male", null] }
-            }
-          },
-          females: {
-            $filter: {
-              input: "$females",
-              as: "female",
-              cond: { $ne: ["$$female", null] }
-            }
-          }
+          documents: 1,
+          totalCount: { $arrayElemAt: ["$totalCount.totalCount", 0] }
         }
       }
-    ]);
+     ],{allowDiskUse:true});
+    
+     let femalesAsync = async()=>await FormModel.aggregate([
+      {
+        $match: {
+          id: { $regex: idRegex },
+          isApproved: true,
+          memberId: { $regex: memberIdRegex },
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex },
+          $or:[
+            {gender : {$eq:"انثى"} }, {gender : {$eq:"أنثى"} },{gender : {$eq:"انثي"} },{gender : {$eq:"أنثي"} } 
+          ]        
+        }
+      },
+      {
+        $facet: {
+          documents: [
+            { $skip: (page-1)*pageSize }, // If you need pagination, replace 0 with your skip value
+            { $limit: pageSize } // Adjust the limit based on how many documents you want per page
+          ],
+          totalCount: [
+            { $count: "totalCount" }
+          ]
+        }
+      },
+      {
+        $project: {
+          documents: 1,
+          totalCount: { $arrayElemAt: ["$totalCount.totalCount", 0] }
+        }
+      }
+     ],{allowDiskUse:true})//.exec().then(res=>res).catch(err=>console.log(err));
+  
+     const [males, females] = await Promise.all([malesAsync(),femalesAsync()]);
 
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    console.log(startIndex, endIndex);
+// console.log(males, females)
+    // const startIndex = (page - 1) * pageSize;
+    // const endIndex = startIndex + pageSize;
+    // console.log(startIndex, endIndex);
 
-    const malesCount = data[0]["males"].length;
-    const femalesCount = data[0]["females"].length;
-    const males = data[0]["males"].slice(startIndex, endIndex);
-    const females = data[0]["females"].slice(startIndex, endIndex);
+    // const malesCount = data[0]["males"].length;
+    // const femalesCount = data[0]["females"].length;
+    // const males = data[0]["males"].slice(startIndex, endIndex);
+    // const females = data[0]["females"].slice(startIndex, endIndex);
 
-    return res.status(200).send({ males, females, malesCount, femalesCount });
+   return res.status(200).send({males:males[0]["documents"], malesCount:males[0]["totalCount"],females:females[0]["documents"], femalesCount:females[0]["totalCount"]});
   } catch (e: any) {}
 }
 
@@ -2111,99 +2094,72 @@ export async function getReligionReportData(req: Request, res: Response) {
     const page: number = Number(req.query.page) || 1;
     const pageSize: number = Number(req.query.pageSize) || 10;
 
-    let data: any = await FormModel.aggregate([
+    let muslimsAsync = async()=>await FormModel.aggregate([
       {
         $match: {
           id: { $regex: idRegex },
           isApproved: true,
           memberId: { $regex: memberIdRegex },
           government: { $exists: true, $regex: governmentRegex },
-          department: { $exists: true, $regex: departmentRegex }
+          department: { $exists: true, $regex: departmentRegex },
+          religion:{$eq:"مسلم"}
         }
       },
       {
-        $group: {
-          _id: null, // No specific grouping, so all results go in the same output
-          muslims: {
-            $push: {
-              $cond: {
-                if: { $eq: ["$religion", "مسلم"] },
-                then: {
-                  _id: "$_id",
-                  username: "$username",
-                  id: "$id",
-                  birth_date: "$birth_date",
-                  gender: "$gender",
-                  religion: "$religion",
-                  phoneNumber: "$phoneNumber",
-                  election_candidate: "$election_candidate",
-                  election_data: "$election_data",
-                  department: "$department",
-                  fields: "$fields",
-                  degree: "$degree"
-                },
-                else: null
-              }
-            }
-          },
-          christians: {
-            $push: {
-              $cond: {
-                if: { $eq: ["$religion", "مسيحى"] },
-                then: {
-                  _id: "$_id",
-                  username: "$username",
-                  id: "$id",
-                  birth_date: "$birth_date",
-                  gender: "$gender",
-                  religion: "$religion",
-                  phoneNumber: "$phoneNumber",
-                  election_candidate: "$election_candidate",
-                  election_data: "$election_data",
-                  department: "$department",
-                  fields: "$fields",
-                  degree: "$degree"
-                },
-                else: null
-              }
-            }
-          }
+        $facet: {
+          documents: [
+            { $skip: (page-1)*pageSize }, // If you need pagination, replace 0 with your skip value
+            { $limit: pageSize } // Adjust the limit based on how many documents you want per page
+          ],
+          totalCount: [
+            { $count: "totalCount" }
+          ]
         }
       },
       {
         $project: {
-          _id: 0,
-          muslims: {
-            $filter: {
-              input: "$muslims",
-              as: "muslim",
-              cond: { $ne: ["$$muslim", null] }
-            }
-          },
-          christians: {
-            $filter: {
-              input: "$christians",
-              as: "christian",
-              cond: { $ne: ["$$christian", null] }
-            }
-          }
+          documents: 1,
+          totalCount: { $arrayElemAt: ["$totalCount.totalCount", 0] }
         }
       }
-    ]);
-
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    console.log(startIndex, endIndex);
-
-    const muslimsCount = data[0]["muslims"].length;
-    const christiansCount = data[0]["christians"].length;
-
-    const muslims = data[0]["muslims"].slice(startIndex, endIndex);
-    const christians = data[0]["christians"].slice(startIndex, endIndex);
-
+     ],{allowDiskUse:true});
+    
+     let christianAsync = async()=>await FormModel.aggregate([
+      {
+        $match: {
+          id: { $regex: idRegex },
+          isApproved: true,
+          memberId: { $regex: memberIdRegex },
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex },
+          $or:[
+            {religion : {$eq:"مسيحى"} }, {religion : {$eq:"مسيحي"} } 
+          ]        
+        }
+      },
+      {
+        $facet: {
+          documents: [
+            { $skip: (page-1)*pageSize }, // If you need pagination, replace 0 with your skip value
+            { $limit: pageSize } // Adjust the limit based on how many documents you want per page
+          ],
+          totalCount: [
+            { $count: "totalCount" }
+          ]
+        }
+      },
+      {
+        $project: {
+          documents: 1,
+          totalCount: { $arrayElemAt: ["$totalCount.totalCount", 0] }
+        }
+      }
+     ],{allowDiskUse:true})//.exec().then(res=>res).catch(err=>console.log(err));
+  
+     const [muslims, christians] = await Promise.all([muslimsAsync(),christianAsync()]);
     return res
       .status(200)
-      .send({ muslims, christians, muslimsCount, christiansCount });
+      .send({muslims:muslims[0]["documents"], muslimsCount:muslims[0]["totalCount"],christians:christians[0]["documents"], christiansCount:christians[0]["totalCount"]});
   } catch (e: any) {}
 }
 
@@ -2213,100 +2169,58 @@ export async function getOutsiderReportData(req: Request, res: Response) {
       req.custQuery || {};
     const page: number = Number(req.query.page) || 1;
     const pageSize: number = Number(req.query.pageSize) || 10;
+    let top10: any = await FormModel.aggregate(
+      [
+        {
+          $match: {
+            id: { $regex: idRegex },
+            isApproved: true,
+            memberId: { $regex: memberIdRegex },
+            government: { $exists: true, $regex: governmentRegex },
+            department: { $exists: true, $regex: departmentRegex },
+            outsider: { $ne: null }
+          }
+        },
+        {
+          $group: {
+            _id: "$outsider", // Group by the value of the "fields" attribute
+            count: { $sum: 1 } // Count occurrences
+          }
+        },
+        {
+          $sort: { count: -1 } // Sort by frequency in descending order
+        },
+        {
+          $limit: 10 // Limit to the top 10 values
+        },
+        {
+          $project: {
+            _id: 0,
+            outsider: "$_id", // Rename _id to "field" for clarity
+            count: 1
+          }
+        }
+      ]
+    )
+    let top10Arr : any[] = [];
+    let result : any[] = [] ;
+    // for await(let field of top10)
+    // {
+    //   let top10Res = await FormModel.find({fields:{$eq:field["field"]}}).skip((page-1)*pageSize).limit(pageSize);
+    //   result = [...result, {name:field["field"], totalCount:field["count"], candidates:top10Res}];
+    //   top10Arr = [...top10Arr, field["field"]];
+    // }
+    const results = await Promise.all(top10.map(async(outsider:any) => {
+      let top10Res = await FormModel.find({outsider:{$eq:outsider["outsider"]}}).skip((page-1)*pageSize).limit(pageSize);
+      result = [...result, {name:outsider["outsider"], totalCount:outsider["count"], candidates:top10Res}];
+      top10Arr = [...top10Arr, outsider["outsider"]];
+    }));
 
-    let data: any = await FormModel.aggregate([
-      {
-        $match: {
-          id: { $regex: idRegex },
-          isApproved: true,
-          memberId: { $regex: memberIdRegex },
-          government: { $exists: true, $regex: governmentRegex },
-          department: { $exists: true, $regex: departmentRegex },
-          outsider: { $ne: null }
-        }
-      },
-      {
-        $group: {
-          _id: "$outsider",
-          candidates: { $push: "$$ROOT" },
-          count: { $sum: 1 }
-        }
-      },
-      {
-        $sort: { count: -1 }
-      },
-      {
-        $group: {
-          _id: null,
-          top10: {
-            $push: {
-              name: "$_id",
-              candidates: "$candidates"
-            }
-          }
-        }
-      },
-      {
-        $project: {
-          top10: { $slice: ["$top10", 10] },
-          remaining: { $slice: ["$top10", 10, { $size: "$top10" }] }
-        }
-      },
-      {
-        $addFields: {
-          other: {
-            $cond: {
-              if: { $gt: [{ $size: "$remaining" }, 0] },
-              then: {
-                name: "اخرى",
-                candidates: {
-                  $reduce: {
-                    input: "$remaining.candidates",
-                    initialValue: [],
-                    in: { $concatArrays: ["$$value", "$$this"] }
-                  }
-                }
-              },
-              else: []
-            }
-          }
-        }
-      },
-      // Merge top10 and others
-      {
-        $project: {
-          finalResult: {
-            $concatArrays: [
-              "$top10",
-              {
-                $cond: {
-                  if: { $gt: [{ $size: "$other.candidates" }, 0] },
-                  then: ["$other"],
-                  else: []
-                }
-              }
-            ]
-          }
-        }
-      },
-      // Unwind to return results in the desired format
-      {
-        $unwind: "$finalResult"
-      },
-      {
-        $replaceRoot: { newRoot: "$finalResult" }
-      }
-    ]);
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    data.forEach((outsider: any) => {
-      outsider["totalCount"] = outsider["candidates"].length;
-      outsider["candidates"] = outsider["candidates"].slice(
-        startIndex,
-        endIndex
-      );
-    });
-    return res.status(200).send(data);
+
+    let rest = await FormModel.find({outsider:{$nin:top10Arr, $exists:true}}).skip((page-1)*pageSize).limit(pageSize)
+    let restCount : number = await FormModel.countDocuments({outsider:{$nin:top10Arr, $exists:true}});
+    result = [...result, {name:"اخرى", totalCount:restCount, candidates:rest}];
+    return res.status(200).send(result);
   } catch (e: any) {}
 }
 
@@ -2317,98 +2231,62 @@ export async function getUnionReportData(req: Request, res: Response) {
     const page: number = Number(req.query.page) || 1;
     const pageSize: number = Number(req.query.pageSize) || 10;
 
-    let data: any = await FormModel.aggregate([
-      {
-        $match: {
-          id: { $regex: idRegex },
-          isApproved: true,
-          memberId: { $regex: memberIdRegex },
-          government: { $exists: true, $regex: governmentRegex },
-          department: { $exists: true, $regex: departmentRegex },
-          union: { $ne: null }
-        }
-      },
-      {
-        $group: {
-          _id: "$union",
-          candidates: { $push: "$$ROOT" },
-          count: { $sum: 1 }
-        }
-      },
-      {
-        $sort: { count: -1 }
-      },
-      {
-        $group: {
-          _id: null,
-          top10: {
-            $push: {
-              name: "$_id",
-              candidates: "$candidates"
-            }
-          }
-        }
-      },
-      {
-        $project: {
-          top10: { $slice: ["$top10", 10] }, // Get the top 10 outsiders
-          remaining: { $slice: ["$top10", 10, { $size: "$top10" }] } // Get the rest
-        }
-      },
-      {
-        $addFields: {
-          other: {
-            $cond: {
-              if: { $gt: [{ $size: "$remaining" }, 0] },
-              then: {
-                name: "اخرى",
-                candidates: {
-                  $reduce: {
-                    input: "$remaining.candidates",
-                    initialValue: [],
-                    in: { $concatArrays: ["$$value", "$$this"] }
-                  }
-                }
-              },
-              else: []
-            }
-          }
-        }
-      },
-      // Merge top10 and others
-      {
-        $project: {
-          finalResult: {
-            $concatArrays: [
-              "$top10",
-              {
-                $cond: {
-                  if: { $gt: [{ $size: "$other.candidates" }, 0] },
-                  then: ["$other"],
-                  else: []
-                }
-              }
-            ]
-          }
-        }
-      },
-      // Unwind to return results in the desired format
-      {
-        $unwind: "$finalResult"
-      },
-      {
-        $replaceRoot: { newRoot: "$finalResult" }
-      }
-    ]);
 
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    data.forEach((union: any) => {
-      union["totalCount"] = union["candidates"].length;
-      union["candidates"] = union["candidates"].slice(startIndex, endIndex);
-    });
-    return res.status(200).send(data);
-  } catch (e: any) {}
+    
+    let top10: any = await FormModel.aggregate(
+      [
+        {
+          $match: {
+            id: { $regex: idRegex },
+            isApproved: true,
+            memberId: { $regex: memberIdRegex },
+            government: { $exists: true, $regex: governmentRegex },
+            department: { $exists: true, $regex: departmentRegex },
+            union: { $ne: null }
+          }
+        },
+        {
+          $group: {
+            _id: "$union", // Group by the value of the "fields" attribute
+            count: { $sum: 1 } // Count occurrences
+          }
+        },
+        {
+          $sort: { count: -1 } // Sort by frequency in descending order
+        },
+        {
+          $limit: 10 // Limit to the top 10 values
+        },
+        {
+          $project: {
+            _id: 0,
+            union: "$_id", // Rename _id to "field" for clarity
+            count: 1
+          }
+        }
+      ]
+    )
+    let top10Arr : any[] = [];
+    let result : any[] = [] ;
+    // for await(let field of top10)
+    // {
+    //   let top10Res = await FormModel.find({fields:{$eq:field["field"]}}).skip((page-1)*pageSize).limit(pageSize);
+    //   result = [...result, {name:field["field"], totalCount:field["count"], candidates:top10Res}];
+    //   top10Arr = [...top10Arr, field["field"]];
+    // }
+    const results = await Promise.all(top10.map(async(union:any) => {
+      let top10Res = await FormModel.find({union:{$eq:union["union"]}}).skip((page-1)*pageSize).limit(pageSize);
+      result = [...result, {name:union["union"], totalCount:union["count"], candidates:top10Res}];
+      top10Arr = [...top10Arr, union["union"]];
+    }));
+
+
+    let rest = await FormModel.find({union:{$nin:top10Arr, $exists:true}}).skip((page-1)*pageSize).limit(pageSize)
+    let restCount : number = await FormModel.countDocuments({union:{$nin:top10Arr, $exists:true}});
+    result = [...result, {name:"اخرى", totalCount:restCount, candidates:rest}];
+
+    return res.status(200).send(result);
+   } catch (e: any) {}
 }
 
 export async function getFieldsReportData(req: Request, res: Response) {
@@ -2418,97 +2296,62 @@ export async function getFieldsReportData(req: Request, res: Response) {
     const page: number = Number(req.query.page) || 1;
     const pageSize: number = Number(req.query.pageSize) || 10;
 
-    let data: any = await FormModel.aggregate([
-      {
-        $match: {
-          id: { $regex: idRegex },
-          isApproved: true,
-          memberId: { $regex: memberIdRegex },
-          government: { $exists: true, $regex: governmentRegex },
-          department: { $exists: true, $regex: departmentRegex },
-          fields: { $ne: null }
-        }
-      },
-      {
-        $group: {
-          _id: "$fields",
-          candidates: { $push: "$$ROOT" },
-          count: { $sum: 1 }
-        }
-      },
-      {
-        $sort: { count: -1 }
-      },
-      {
-        $group: {
-          _id: null,
-          top10: {
-            $push: {
-              name: "$_id",
-              candidates: "$candidates"
-            }
+    let top10: any = await FormModel.aggregate(
+      [
+        {
+          $match: {
+            id: { $regex: idRegex },
+            isApproved: true,
+            memberId: { $regex: memberIdRegex },
+            government: { $exists: true, $regex: governmentRegex },
+            department: { $exists: true, $regex: departmentRegex },
+            fields: { $exists: true } // Ensure the "fields" attribute exists
+          }
+        },
+        {
+          $group: {
+            _id: "$fields", // Group by the value of the "fields" attribute
+            count: { $sum: 1 } // Count occurrences
+          }
+        },
+        {
+          $sort: { count: -1 } // Sort by frequency in descending order
+        },
+        {
+          $limit: 10 // Limit to the top 10 values
+        },
+        {
+          $project: {
+            _id: 0,
+            field: "$_id", // Rename _id to "field" for clarity
+            count: 1
           }
         }
-      },
-      {
-        $project: {
-          top10: { $slice: ["$top10", 10] }, // Get the top 10 outsiders
-          remaining: { $slice: ["$top10", 10, { $size: "$top10" }] } // Get the rest
-        }
-      },
-      {
-        $addFields: {
-          other: {
-            $cond: {
-              if: { $gt: [{ $size: "$remaining" }, 0] },
-              then: {
-                name: "اخرى",
-                candidates: {
-                  $reduce: {
-                    input: "$remaining.candidates",
-                    initialValue: [],
-                    in: { $concatArrays: ["$$value", "$$this"] }
-                  }
-                }
-              },
-              else: []
-            }
-          }
-        }
-      },
-      // Merge top10 and others
-      {
-        $project: {
-          finalResult: {
-            $concatArrays: [
-              "$top10",
-              {
-                $cond: {
-                  if: { $gt: [{ $size: "$other.candidates" }, 0] },
-                  then: ["$other"],
-                  else: []
-                }
-              }
-            ]
-          }
-        }
-      },
-      // Unwind to return results in the desired format
-      {
-        $unwind: "$finalResult"
-      },
-      {
-        $replaceRoot: { newRoot: "$finalResult" }
-      }
-    ]);
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    data.forEach((field: any) => {
-      field["totalCount"] = field["candidates"].length;
-      field["candidates"] = field["candidates"].slice(startIndex, endIndex);
-    });
-    return res.status(200).send(data);
-  } catch (e: any) {}
+      ]
+    )
+    let top10Arr : any[] = [];
+    let result : any[] = [] ;
+    // for await(let field of top10)
+    // {
+    //   let top10Res = await FormModel.find({fields:{$eq:field["field"]}}).skip((page-1)*pageSize).limit(pageSize);
+    //   result = [...result, {name:field["field"], totalCount:field["count"], candidates:top10Res}];
+    //   top10Arr = [...top10Arr, field["field"]];
+    // }
+    const results = await Promise.all(top10.map(async(field:any) => {
+      let top10Res = await FormModel.find({fields:{$eq:field["field"]}}).skip((page-1)*pageSize).limit(pageSize);
+      result = [...result, {name:field["field"], totalCount:field["count"], candidates:top10Res}];
+      top10Arr = [...top10Arr, field["field"]];
+    }));
+
+
+    let rest = await FormModel.find({fields:{$nin:top10Arr, $exists:true}}).skip((page-1)*pageSize).limit(pageSize)
+    let restCount : number = await FormModel.countDocuments({fields:{$nin:top10Arr, $exists:true}});
+    result = [...result, {name:"اخرى", totalCount:restCount, candidates:rest}];
+
+    return res.status(200).send(result);
+  } catch (e: any) {
+    console.log(e)
+  }
 }
 
 export async function getAgesReportData(req: Request, res: Response) {
@@ -2518,7 +2361,7 @@ export async function getAgesReportData(req: Request, res: Response) {
     const page: number = Number(req.query.page) || 1;
     const pageSize: number = Number(req.query.pageSize) || 10;
 
-    let data: any = await FormModel.aggregate([
+    let a20_35Async = async()=>await FormModel.aggregate([
       {
         $match: {
           id: { $regex: idRegex },
@@ -2545,46 +2388,190 @@ export async function getAgesReportData(req: Request, res: Response) {
         }
       },
       {
-        $group: {
-          _id: {
-            $switch: {
-              branches: [
-                { case: { $lte: ["$age", 35] }, then: "20-35" },
-                {
-                  case: {
-                    $and: [{ $gt: ["$age", 35] }, { $lte: ["$age", 45] }]
-                  },
-                  then: "36-45"
-                },
-                {
-                  case: {
-                    $and: [{ $gt: ["$age", 45] }, { $lte: ["$age", 60] }]
-                  },
-                  then: "46-60"
-                }
-              ],
-              default: ">60"
-            }
-          },
-          candidates: { $push: "$$ROOT" }
+        $match: {
+          age: { $gte: 20, $lte: 35 }, // Filter ages between 20 and 35
+        },
+      },
+      {
+        $facet: {
+          documents: [
+            { $skip: (page-1)*pageSize }, // If you need pagination, replace 0 with your skip value
+            { $limit: pageSize } // Adjust the limit based on how many documents you want per page
+          ],
+          totalCount: [
+            { $count: "totalCount" }
+          ]
         }
       },
       {
         $project: {
-          _id: 0,
-          name: "$_id",
-          candidates: 1
+          documents: 1,
+          totalCount: { $arrayElemAt: ["$totalCount.totalCount", 0] }
         }
       }
-    ]);
+     ],{allowDiskUse:true});
+    
+     
+    let a36_45Async = async()=> await FormModel.aggregate([
+      {
+        $match: {
+          id: { $regex: idRegex },
+          isApproved: true,
+          memberId: { $regex: memberIdRegex },
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
+        }
+      },
+      {
+        $addFields: {
+          birthDate: { $dateFromString: { dateString: "$birth_date", format: "%d/%m/%Y"  } },
+          currentDate: { $toDate: "$$NOW" }
+        }
+      },
+      {
+        $addFields: {
+          age: {
+            $divide: [
+              { $subtract: ["$currentDate", "$birthDate"] },
+              1000 * 60 * 60 * 24 * 365 // Convert milliseconds to years
+            ]
+          }
+        }
+      },
+      {
+        $match: {
+          age: { $gte: 36, $lte: 45 }, // Filter ages between 20 and 35
+        },
+      },
+      {
+        $facet: {
+          documents: [
+            { $skip: (page-1)*pageSize }, // If you need pagination, replace 0 with your skip value
+            { $limit: pageSize } // Adjust the limit based on how many documents you want per page
+          ],
+          totalCount: [
+            { $count: "totalCount" }
+          ]
+        }
+      },
+      {
+        $project: {
+          documents: 1,
+          totalCount: { $arrayElemAt: ["$totalCount.totalCount", 0] }
+        }
+      }
+     ],{allowDiskUse:true});
 
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    data.forEach((age: any) => {
-      age["totalCount"] = age["candidates"].length;
-      age["candidates"] = age["candidates"].slice(startIndex, endIndex);
-    });
-    return res.status(200).send(data);
+     
+    let a46_60Async = async()=> await FormModel.aggregate([
+      {
+        $match: {
+          id: { $regex: idRegex },
+          isApproved: true,
+          memberId: { $regex: memberIdRegex },
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
+        }
+      },
+      {
+        $addFields: {
+          birthDate: { $dateFromString: { dateString: "$birth_date", format: "%d/%m/%Y"  } },
+          currentDate: { $toDate: "$$NOW" }
+        }
+      },
+      {
+        $addFields: {
+          age: {
+            $divide: [
+              { $subtract: ["$currentDate", "$birthDate"] },
+              1000 * 60 * 60 * 24 * 365 // Convert milliseconds to years
+            ]
+          }
+        }
+      },
+      {
+        $match: {
+          age: { $gte: 46, $lte: 60 }, // Filter ages between 20 and 35
+        },
+      },
+      {
+        $facet: {
+          documents: [
+            { $skip: (page-1)*pageSize }, // If you need pagination, replace 0 with your skip value
+            { $limit: pageSize } // Adjust the limit based on how many documents you want per page
+          ],
+          totalCount: [
+            { $count: "totalCount" }
+          ]
+        }
+      },
+      {
+        $project: {
+          documents: 1,
+          totalCount: { $arrayElemAt: ["$totalCount.totalCount", 0] }
+        }
+      }
+     ],{allowDiskUse:true});
+
+     
+    let aGt60Async = async()=> await FormModel.aggregate([
+      {
+        $match: {
+          id: { $regex: idRegex },
+          isApproved: true,
+          memberId: { $regex: memberIdRegex },
+          government: { $exists: true, $regex: governmentRegex },
+          department: { $exists: true, $regex: departmentRegex }
+        }
+      },
+      {
+        $addFields: {
+          birthDate: { $dateFromString: { dateString: "$birth_date", format: "%d/%m/%Y"  } },
+          currentDate: { $toDate: "$$NOW" }
+        }
+      },
+      {
+        $addFields: {
+          age: {
+            $divide: [
+              { $subtract: ["$currentDate", "$birthDate"] },
+              1000 * 60 * 60 * 24 * 365 // Convert milliseconds to years
+            ]
+          }
+        }
+      },
+      {
+        $match: {
+          age: { $gt: 60 }, // Filter ages between 20 and 35
+        },
+      },
+      {
+        $facet: {
+          documents: [
+            { $skip: (page-1)*pageSize }, // If you need pagination, replace 0 with your skip value
+            { $limit: pageSize } // Adjust the limit based on how many documents you want per page
+          ],
+          totalCount: [
+            { $count: "totalCount" }
+          ]
+        }
+      },
+      {
+        $project: {
+          documents: 1,
+          totalCount: { $arrayElemAt: ["$totalCount.totalCount", 0] }
+        }
+      }
+     ],{allowDiskUse:true});
+
+     const [a20_35, a36_45,a46_60,aGt60] = await Promise.all([a20_35Async(),a36_45Async(),a46_60Async(),aGt60Async()]);
+
+     let result : any[] = [{candidates:aGt60[0]["documents"], totalCount:aGt60[0]["totalCount"], name:">60"},
+     {candidates:a20_35[0]["documents"], totalCount:a20_35[0]["totalCount"], name:"20-35"},
+     {candidates:a36_45[0]["documents"], totalCount:a36_45[0]["totalCount"], name:"36-45"},
+     {candidates:a46_60[0]["documents"], totalCount:a46_60[0]["totalCount"], name:"46-60"}];
+
+    return res.status(200).send(result);
   } catch (e: any) {}
 }
 
@@ -2608,24 +2595,32 @@ export async function getDegreesReportData(req: Request, res: Response) {
       {
         $group: {
           _id: "$degree",
-          candidates: { $push: "$$ROOT" }
+          candidates: { $push: "$id" }
         }
       },
+    
       {
         $project: {
           _id: 0,
           name: "$_id",
-          candidates: 1
+          totalCount: { $size: "$candidates" }, // Total count
+          candidates: { $slice: ["$candidates", (page-1)*pageSize, pageSize] }
         }
       }
-    ]);
+    ],{allowDiskUse:true});//.exec().then(res=>console.log(res)).catch(er=>console.log(er));
 
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    data.forEach((degree: any) => {
-      degree["totalCount"] = degree["candidates"].length;
-      degree["candidates"] = degree["candidates"].slice(startIndex, endIndex);
-    });
+    for await (let degree of data)
+    {
+      degree["candidates"] = await FormModel.find({id:{$in:degree["candidates"]}})
+    }
+
+    // const startIndex = (page - 1) * pageSize;
+    // const endIndex = startIndex + pageSize;
+
+    // data.forEach((degree: any) => {
+    //   degree["totalCount"] = degree["candidates"].length;
+    //   degree["candidates"] = degree["candidates"].slice(startIndex, endIndex);
+    // });
     return res.status(200).send(data);
   } catch (e: any) {}
 }
@@ -2651,28 +2646,34 @@ export async function getElectionsReportData(req: Request, res: Response) {
       {
         $group: {
           _id: "$election_candidate",
-          candidates: { $push: "$$ROOT" }
+          candidates: { $push: "$id" }
         }
       },
       {
         $project: {
           _id: 0,
           name: "$_id",
-          candidates: 1
+          totalCount: { $size: "$candidates" }, // Total count
+          candidates: { $slice: ["$candidates", (page-1)*pageSize, pageSize] }
         }
       }
-    ]);
+    ])//.exec().then(res=>res).catch(er=> console.log(er));
 
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    data.forEach((election: any) => {
-      election["totalCount"] = election["candidates"].length;
+    for await (let election of data)
+    {
+      election["candidates"] = await FormModel.find({id:{$in:election["candidates"]}})
+    }
 
-      election["candidates"] = election["candidates"].slice(
-        startIndex,
-        endIndex
-      );
-    });
+    // const startIndex = (page - 1) * pageSize;
+    // const endIndex = startIndex + pageSize;
+    // data.forEach((election: any) => {
+    //   election["totalCount"] = election["candidates"].length;
+
+    //   election["candidates"] = election["candidates"].slice(
+    //     startIndex,
+    //     endIndex
+    //   );
+    // });
     return res.status(200).send(data);
   } catch (e: any) {}
 }
@@ -2698,24 +2699,28 @@ export async function getKnewReportData(req: Request, res: Response) {
       {
         $group: {
           _id: "$knew",
-          candidates: { $push: "$$ROOT" }
+          candidates: { $push: "$id" }
         }
       },
       {
         $project: {
           _id: 0,
           name: "$_id",
-          candidates: 1
+          totalCount: { $size: "$candidates" }, // Total count
+          candidates: { $slice: ["$candidates", (page-1)*pageSize, pageSize] }
         }
       }
     ]);
-
-    const startIndex = (page - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    data.forEach((knew: any) => {
-      knew["totalCount"] = knew["candidates"].length;
-      knew["candidates"] = knew["candidates"].slice(startIndex, endIndex);
-    });
+    for await (let knew of data)
+    {
+      knew["candidates"] = await FormModel.find({id:{$in:knew["candidates"]}})
+    }
+    // const startIndex = (page - 1) * pageSize;
+    // const endIndex = startIndex + pageSize;
+    // data.forEach((knew: any) => {
+    //   knew["totalCount"] = knew["candidates"].length;
+    //   knew["candidates"] = knew["candidates"].slice(startIndex, endIndex);
+    // });
     return res.status(200).send(data);
   } catch (e: any) {}
 }
