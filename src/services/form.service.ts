@@ -18,6 +18,7 @@ import { exportFormsToExcel } from "../../utils/excelGenerator.util";
 import JSZip from "jszip";
 import { generatePdfForMembers } from "../../utils/pdfProcess.util";
 import axios from "axios";
+import pLimit from 'p-limit';
 
 export async function createForm(input: Omit<Form, "createdAt" | "updatedAt">) {
   try {
@@ -516,16 +517,17 @@ function isValidHttpUrl(urlString: string): boolean {
     return false;
   }
 }
+async function runAggregation(filterQuery:any, count:number)
+{
+  console.log(count)
+  let forms : any[]=[];
+  let asyncArr : any[]=[];
+  const limit = pLimit(10); 
+const limitNum = 5000;
+  for (let i = 0; i <= count; i+=limitNum) {
 
-export async function downloadFormsAsExcel(query: DownloadQuery) {
-  try {
-    // Validate and sanitize query parameters
-    const filterQuery = buildFilterQuery(query);
-
-    // Execute aggregation with error handling
-    let forms;
-    try {
-      forms = await FormModel.aggregate([
+    asyncArr.push(limit(() =>
+      FormModel.aggregate([
         {
           $addFields: {
             birth_date_iso: {
@@ -540,12 +542,58 @@ export async function downloadFormsAsExcel(query: DownloadQuery) {
         {
           $match: filterQuery
         },
+        {$skip:i},
+        {$limit:limitNum},
         {
           $project: {
             birth_date_iso: 0
           }
         }
-      ]);
+      ])
+    ))
+  }
+
+  let asyncRes = await Promise.all(asyncArr);
+  
+  for await(let item of asyncRes)
+  {
+    forms = [...forms, ...item]
+  } 
+  
+  return forms;
+}
+export async function downloadFormsAsExcel(query: DownloadQuery) {
+  try {
+    // Validate and sanitize query parameters
+    const filterQuery = buildFilterQuery(query);
+
+    // Execute aggregation with error handling
+      let forms;
+    try {
+      let formsCount : number = await FormModel.countDocuments(filterQuery);
+      forms = await runAggregation(filterQuery, formsCount);
+      // forms = await FormModel.aggregate([
+      //   {
+      //     $addFields: {
+      //       birth_date_iso: {
+      //         $dateFromString: {
+      //           dateString: "$birth_date",
+      //           format: "%d/%m/%Y",
+      //           onError: null // Handle invalid dates gracefully
+      //         }
+      //       }
+      //     }
+      //   },
+      //   {
+      //     $match: filterQuery
+      //   },
+      //   {
+      //     $project: {
+      //       birth_date_iso: 0
+      //     }
+      //   }
+      // ]).exec().then(res=>res).catch(re=>console.log(re));
+      console.log(forms.length)
     } catch (error) {
       console.error("MongoDB aggregation error:", error);
       return {
@@ -612,7 +660,7 @@ async function downloadAndAddToZip(
   folder: JSZip | null
 ) {
   if (!url || !isValidHttpUrl(url)) {
-    console.warn(`Skipping invalid URL for ${filename}`);
+    //console.warn(`Skipping invalid URL for ${filename}`);
     return;
   }
 
