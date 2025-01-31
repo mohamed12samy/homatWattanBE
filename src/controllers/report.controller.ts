@@ -138,11 +138,17 @@ export async function getRegisteredReport(req: Request, res: Response) {
         //gov = qahera
         const districts = governments[gov]["districts"];
         for (const dist in districts) {
-          const distKey: string | null = findKeyByValue(
+          let distKey: string | null = findKeyByValue(
             Neighborhoods[govKey],
             dist
           );
           if (distKey) {
+            // if (distKey == "qena") {
+            //   distKey = "qena1";
+            // }
+            // if (distKey == "aswan") {
+            //   distKey = "aswan1";
+            // }
             result["governments"][govKey]["districts"][distKey] =
               districts[dist];
           }
@@ -1543,12 +1549,12 @@ function mapGenderData(rawData: any[]): any {
         dist["name"]
       );
       if (distKey) {
-        if (distKey == "qena") {
-          distKey = "qena1";
-        }
-        if (distKey == "aswan") {
-          distKey = "aswan1";
-        }
+        // if (distKey == "qena") {
+        //   distKey = "qena1";
+        // }
+        // if (distKey == "aswan") {
+        //   distKey = "aswan1";
+        // }
         result["governments"][govKey]["districts"][distKey]["males"] =
           dist["males"];
         result["governments"][govKey]["districts"][distKey]["females"] =
@@ -1581,12 +1587,12 @@ function mapReligionData(rawData: any[]): any {
         dist["name"]
       );
       if (distKey) {
-        if (distKey == "qena") {
-          distKey = "qena1";
-        }
-        if (distKey == "aswan") {
-          distKey = "aswan1";
-        }
+        // if (distKey == "qena") {
+        //   distKey = "qena1";
+        // }
+        // if (distKey == "aswan") {
+        //   distKey = "aswan1";
+        // }
         result["governments"][govKey]["districts"][distKey]["muslims"] =
           dist["muslims"];
         result["governments"][govKey]["districts"][distKey]["christians"] =
@@ -1610,12 +1616,12 @@ function mapAgesReport(rawData: any[]): any {
         dist["name"]
       );
       if (distKey) {
-        if (distKey == "qena") {
-          distKey = "qena1";
-        }
-        if (distKey == "aswan") {
-          distKey = "aswan1";
-        }
+        // if (distKey == "qena") {
+        //   distKey = "qena1";
+        // }
+        // if (distKey == "aswan") {
+        //   distKey = "aswan1";
+        // }
         result["governments"][govKey]["districts"][distKey]["ageRanges"][
           "20-35"
         ] = dist["ageRanges"]["20-35"] ?? 0;
@@ -1681,12 +1687,12 @@ function mapKnewReport(rawData: any[]): any {
         dist["name"]
       );
       if (distKey) {
-        if (distKey == "qena") {
-          distKey = "qena1";
-        }
-        if (distKey == "aswan") {
-          distKey = "aswan1";
-        }
+        // if (distKey == "qena") {
+        //   distKey = "qena1";
+        // }
+        // if (distKey == "aswan") {
+        //   distKey = "aswan1";
+        // }
         console.log(dist["knew"]);
         result["governments"][govKey]["districts"][distKey]["knew"] =
           dist["knew"];
@@ -1740,12 +1746,12 @@ function mapElectionReport(rawData: any[]): any {
         Neighborhoods[govKey],
         dist["name"]
       );
-      if (distKey == "qena") {
-        distKey = "qena1";
-      }
-      if (distKey == "aswan") {
-        distKey = "aswan1";
-      }
+      // if (distKey == "qena") {
+      //   distKey = "qena1";
+      // }
+      // if (distKey == "aswan") {
+      //   distKey = "aswan1";
+      // }
       if (distKey) {
         dist["electionCandidate"].forEach((election: any) => {
           result["governments"][govKey]["districts"][distKey]["elections"][
@@ -1774,12 +1780,12 @@ function mapUnionData(rawData: any[]): any {
         Neighborhoods[govKey],
         dist["name"]
       );
-      if (distKey == "qena") {
-        distKey = "qena1";
-      }
-      if (distKey == "aswan") {
-        distKey = "aswan1";
-      }
+      // if (distKey == "qena") {
+      //   distKey = "qena1";
+      // }
+      // if (distKey == "aswan") {
+      //   distKey = "aswan1";
+      // }
       if (distKey) {
         dist["union"].forEach((union: any) => {
           result["governments"][govKey]["districts"][distKey]["union"][
@@ -1814,12 +1820,12 @@ function mapDegreeReport(rawData: any): any {
         Neighborhoods[govKey],
         dist["name"]
       );
-      if (distKey == "qena") {
-        distKey = "qena1";
-      }
-      if (distKey == "aswan") {
-        distKey = "aswan1";
-      }
+      // if (distKey == "qena") {
+      //   distKey = "qena1";
+      // }
+      // if (distKey == "aswan") {
+      //   distKey = "aswan1";
+      // }
       if (distKey) {
         const degrees: any[] = dist["degrees"];
         degrees.forEach((degree) => {
@@ -1859,12 +1865,12 @@ function mapTop10Data(rawData: any[], governmentsData: any[]) {
         dist["name"]
       );
       if (distKey) {
-        if (distKey == "qena") {
-          distKey = "qena1";
-        }
-        if (distKey == "aswan") {
-          distKey = "aswan1";
-        }
+        // if (distKey == "qena") {
+        //   distKey = "qena1";
+        // }
+        // if (distKey == "aswan") {
+        //   distKey = "aswan1";
+        // }
         result["governments"][govKey]["districts"][distKey]["top10"] = [
           ...dist["top10"],
           { name: "اخرى", count: dist["others"].count }
@@ -1898,12 +1904,12 @@ function mapOutsiderData(top10TotalData: any[], othersTotalData: any[]) {
         dist["name"]
       );
 
-      if (distKey == "qena") {
-        distKey = "qena1";
-      }
-      if (distKey == "aswan") {
-        distKey = "aswan1";
-      }
+      // if (distKey == "qena") {
+      //   distKey = "qena1";
+      // }
+      // if (distKey == "aswan") {
+      //   distKey = "aswan1";
+      // }
       if (distKey) {
         dist["outsider"].forEach((outsider: any) => {
           result["governments"][govKey]["districts"][distKey]["top10"][
@@ -1927,12 +1933,12 @@ function mapOutsiderData(top10TotalData: any[], othersTotalData: any[]) {
         dist["name"]
       );
 
-      if (distKey == "qena") {
-        distKey = "qena1";
-      }
-      if (distKey == "aswan") {
-        distKey = "aswan1";
-      }
+      // if (distKey == "qena") {
+      //   distKey = "qena1";
+      // }
+      // if (distKey == "aswan") {
+      //   distKey = "aswan1";
+      // }
       if (distKey) {
         dist["outsider"].forEach((outsider: any) => {
           result["governments"][govKey]["districts"][distKey]["others"][
@@ -1981,6 +1987,12 @@ function mapWeeklyReport(rawData: any[]) {
 function findKeyByValue(object: any, value: any) {
   for (let key in object) {
     if (object[key] === value) {
+      if (key == "qena") {
+        key = "qena1";
+      }
+      if (key == "aswan") {
+        key = "aswan1";
+      }
       return key;
     }
   }
