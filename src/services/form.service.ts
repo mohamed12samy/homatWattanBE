@@ -797,9 +797,9 @@ if(startMemberId && endMemberId)
     department: { $regex: deptRegex },
     approvedAt,
     memberIdSuffix
-  });
+  },{username:1, profilePictureLink:1, id:1, government:1, memberId:1, _id:0});
 
-  if(members?.length === 0)
+  if(!members || members?.length === 0)
   {
     return {error:{message:"no members found"}}
   }
