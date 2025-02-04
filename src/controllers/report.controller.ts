@@ -1527,7 +1527,9 @@ export async function getRenewReport(req: Request, res: Response) {
       }
     }
     return res.status(200).send(result);
-  } catch (e: any) {}
+  } catch (e: any) {
+    console.log(e)
+  }
 }
 
 function mapGenderData(rawData: any[]): any {

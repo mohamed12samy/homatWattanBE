@@ -34582,6 +34582,10 @@ export const FormsRenewDto: any = {
         portsaid6: {
           renewed: 0,
           notRenewed: 0
+        },
+        portsaid7: {
+          renewed: 0,
+          notRenewed: 0
         }
       }
     },

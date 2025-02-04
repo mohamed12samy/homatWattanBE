@@ -206,14 +206,7 @@ export async function getNotFilledRequiredFieldsPercentage(
       department =
         Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name];
     }
-    console.log(
-      "1",
-      Neighborhoods[currentUser.name.split(/[0-9]/)[0]][currentUser.name],
-      "\n 2 ",
-      currentUser.name.split(/[0-9]/),
-      "\n 3 ",
-      currentUser.name
-    );
+   
     try {
       // Retrieve all documents
       const documents = await notReadyFormModel.find({
@@ -223,33 +216,33 @@ export async function getNotFilledRequiredFieldsPercentage(
       let totalCount: number = 0;
       let docCounts: number = 0;
       // Process each document to count missing required fields
-      const missingFieldsCount = documents.map((doc) => {
-        docCounts++;
-        totalCount = 0;
-        requiredFields.forEach((field) => {
-          if (
-            !doc[field as keyof typeof doc] ||
-            doc[field as keyof typeof doc].trim() === ""
-          ) {
-            totalCount++;
-          }
-        });
-
-        return totalCount;
-      });
-      const sum: number = missingFieldsCount.reduce(
-        (accumulator, currentValue) => accumulator + currentValue,
-        0
-      );
-      console.log(sum, docCounts);
-      let percentage = (sum / (9 * docCounts)) * 100;
+      for await (let doc of documents){
+        {
+          //docCounts++;
+          requiredFields.forEach((field) => {
+            if (
+              !doc[field as keyof typeof doc] ||
+              doc[field as keyof typeof doc].trim() === ""
+            ) {
+              totalCount++;
+            }
+          });
+  
+        }
+      }
+      // const sum: number = missingFieldsCount.reduce(
+      //   (accumulator, currentValue) => accumulator + currentValue,
+      //   0
+      // );
+      // console.log(totalCount, documents.length);
+      let percentage = (totalCount / (9 * documents.length)) * 100 ;
       // console.log('Missing fields count for each document:', missingFieldsCount,
       // sum, docCounts, percentage);
       return {
-        percentage,
-        totalFormsCount: docCounts,
-        missingFieldsCount,
-        sum
+        percentage:!percentage ? 0 : percentage
+        // totalFormsCount: docCounts,
+        // missingFieldsCount:totalCount,
+        // sum
       };
     } catch (err) {
       console.error("Error fetching documents:", err);
