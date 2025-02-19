@@ -776,7 +776,6 @@ export async function getMembersCards(query: any) {
       $lte: new Date(`${endDate.split('T')[0]}T23:59:59.999Z`)
     };
   }
-  console.log(approvedAt)
 if(startMemberId && endMemberId)
 {
   memberIdSuffix =  {

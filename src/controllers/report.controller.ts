@@ -1995,6 +1995,9 @@ function findKeyByValue(object: any, value: any) {
       if (key == "aswan") {
         key = "aswan1";
       }
+      if (key == "bani_suef") {
+        key = "bani_suef1";
+      }
       return key;
     }
   }

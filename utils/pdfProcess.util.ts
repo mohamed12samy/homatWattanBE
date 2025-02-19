@@ -4,9 +4,10 @@ import path from "path";
 import axios from "axios";
 import { Form } from "../src/models/form.model";
 import QRCode from "qrcode";
+import imageType from "image-type";
 
 const fontKit = require("@pdf-lib/fontkit");
-export const generatePdfForMembers = async (member : Form) => {
+export const generatePdfForMembers = async (member: Form) => {
   //تحميل ملف PDF
   const pdfPath = path.resolve(__dirname, "../src/assets/BC1.pdf");
   const fontPath = path.resolve(
@@ -38,26 +39,47 @@ export const generatePdfForMembers = async (member : Form) => {
   const memberId = member.memberId;
   const profilePic = member.profilePictureLink;
 
-  const fontSize : number = 8;
-  const rightMargin : number = 57.137;
-
-  const response = await axios.get<ArrayBuffer>(
-    profilePic,
-    { responseType: "arraybuffer" }
-  );
-
-  const imageBuffer: ArrayBuffer = response.data;
-  const embeddedImage: any = await pdfDoc.embedPng(imageBuffer);
-  const { width, height } = embeddedImage.scale(0.02);
-  page.drawImage(embeddedImage, {
-    x: 21.5 , 
-    y: 50, 
-    width : 54,
-    height:70,
+  const fontSize: number = 8;
+  const rightMargin: number = 57.137;
+  const response = await axios.get<ArrayBuffer>(profilePic, {
+    responseType: "arraybuffer"
   });
 
+  const imageBuffer: ArrayBuffer = response.data;
+  const uint8ArrayBuffer = new Uint8Array(imageBuffer);
+
+  // Await image type detection
+  const type = await imageType(uint8ArrayBuffer);
+  let embeddedImage: any = {};
+  if (!type) {
+    throw new Error("Unsupported image format or corrupted file");
+  }
+
+  switch (type.ext) {
+    case "png":
+      embeddedImage = await pdfDoc.embedPng(imageBuffer);
+      break;
+    case "jpg":
+      embeddedImage = await pdfDoc.embedJpg(imageBuffer);
+      break;
+    default:
+      throw new Error(`Unsupported image format: ${type.ext}`);
+      break;
+  }
+
+  // const embeddedImage: any = await pdfDoc.embedPng(imageBuffer);
+  console.log("first");
+  const { width, height } = embeddedImage.scale(0.02);
+  page.drawImage(embeddedImage, {
+    x: 21.5,
+    y: 50,
+    width: 54,
+    height: 70
+  });
+  console.log("sec");
+
   const imageBytes = fs.readFileSync(signature);
-  const image = await pdfDoc.embedJpg(imageBytes); 
+  const image = await pdfDoc.embedJpg(imageBytes);
   page.drawImage(image, {
     x: 0,
     y: 0,
@@ -66,7 +88,10 @@ export const generatePdfForMembers = async (member : Form) => {
   });
 
   page.drawText(name, {
-    x: page.getWidth() - arabicFont.widthOfTextAtSize(name, 8) - rightMargin /*165*/,
+    x:
+      page.getWidth() -
+      arabicFont.widthOfTextAtSize(name, 8) -
+      rightMargin /*165*/,
     y: 89,
     size: fontSize,
     font: arabicFont,
@@ -74,7 +99,10 @@ export const generatePdfForMembers = async (member : Form) => {
   });
 
   page.drawText(adj, {
-    x: page.getWidth() - arabicFont.widthOfTextAtSize(adj, 8) - rightMargin /*185*/,
+    x:
+      page.getWidth() -
+      arabicFont.widthOfTextAtSize(adj, 8) -
+      rightMargin /*185*/,
     y: 75,
     size: fontSize,
     font: arabicFont,
@@ -125,15 +153,12 @@ export const generatePdfForMembers = async (member : Form) => {
     color: rgb(0, 0, 0)
   });
 
-
-
-
   const qrCodeData = "https://www.membersofhumatalwatan.com/";
-  const qrCodeImageUrl = await QRCode.toDataURL(qrCodeData,{
+  const qrCodeImageUrl = await QRCode.toDataURL(qrCodeData, {
     color: {
       dark: "#FFFFFF", // White data
-      light: "#23539F", // Transparent background
-    },
+      light: "#23539F" // Transparent background
+    }
   });
   const qrCodeImageBytes = Buffer.from(
     qrCodeImageUrl.replace(/^data:image\/\w+;base64,/, ""),
@@ -147,24 +172,22 @@ export const generatePdfForMembers = async (member : Form) => {
   page2.drawImage(qrCodeImage, {
     x: 9,
     y: 4, // Adjust the position
-    width:sc.width,
-    height:sc.height,
+    width: sc.width,
+    height: sc.height
   });
 
   // حفظ الملف بعد التعديل
   const pdfBytes = await pdfDoc.save();
   //fs.writeFileSync(outputFilePath, pdfBytes);
-  return { fileName:memberId+".pdf", content: pdfBytes };
+  return { fileName: memberId + ".pdf", content: pdfBytes };
   //console.log("تم تعبئة البيانات داخل ملف PDF بنجاح");
 };
 
-
 const getEndOfYearDate = () => {
   const endOfYear = new Date(new Date().getFullYear(), 11, 31);
-  const day = String(endOfYear.getDate()).padStart(2, '0'); // Ensure two digits
-  const month = String(endOfYear.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(endOfYear.getDate()).padStart(2, "0"); // Ensure two digits
+  const month = String(endOfYear.getMonth() + 1).padStart(2, "0"); // Months are 0-based
   const year = endOfYear.getFullYear();
 
   return `${day}-${month}-${year}`;
 };
-

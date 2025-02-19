@@ -41,6 +41,7 @@
     "express": "^4.19.2",
     "fontkit": "^2.0.4",
     "fs": "^0.0.1-security",
+    "image-type": "^4.1.0",
     "jsonwebtoken": "^9.0.2",
     "jszip": "^3.10.1",
     "lodash": "^4.17.21",
